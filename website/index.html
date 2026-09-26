@@ -1,0 +1,463 @@
+<title>VIGOR</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --void:#0a0a0b;
+    --panel:#141317;
+    --panel-2:#1c1a20;
+    --ink:#f3f1ec;
+    --ink-dim:#a7a3ac;
+    --ink-faint:#716d78;
+    --line:rgba(255,255,255,.09);
+    --accent:#ff5a2b;
+    --accent-2:#ff3e7f;
+    --accent-3:#7c4dff;
+    --good:#3ecf8e;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--void);
+    color:var(--ink);
+    font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Archivo Black',Impact,'Arial Black',sans-serif;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance;margin:0;line-height:1.04;}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;}
+  p{margin:0;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--accent);color:#0a0a0b;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding-inline:24px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:16px;height:1px;background:var(--accent);}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+    background:rgba(10,10,11,.72);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-block:14px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{width:30px;height:30px;border-radius:8px;}
+  .brand span{font-family:'Archivo Black';font-size:18px;letter-spacing:.04em;}
+  nav.links{display:flex;gap:28px;font-size:14px;color:var(--ink-dim);}
+  nav.links a{text-decoration:none;transition:color .15s;}
+  nav.links a:hover{color:var(--ink);}
+  .nav-cta{
+    font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.06em;
+    padding:8px 14px;border:1px solid var(--line);border-radius:100px;
+    color:var(--ink-dim);white-space:nowrap;
+  }
+  @media (max-width:720px){ nav.links{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding-block:64px 40px;
+    overflow:hidden;
+  }
+  .hero-glow{
+    position:absolute;inset:-20% -10% auto -10%;height:640px;
+    background:radial-gradient(60% 60% at 30% 20%, rgba(255,62,127,.20), transparent 60%),
+               radial-gradient(50% 50% at 80% 10%, rgba(124,77,255,.16), transparent 60%),
+               radial-gradient(45% 45% at 55% 40%, rgba(255,90,43,.14), transparent 60%);
+    filter:blur(10px);
+    pointer-events:none;
+    z-index:0;
+  }
+  .hero-grid{
+    position:relative;z-index:1;
+    display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(40px,6.6vw,78px);
+    line-height:.96;
+    margin-top:14px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(95deg,var(--accent-2),var(--accent));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    margin-top:20px;max-width:46ch;color:var(--ink-dim);font-size:17px;
+  }
+  .hero-actions{display:flex;align-items:center;gap:16px;margin-top:30px;flex-wrap:wrap;}
+  .hero-meta{
+    display:flex;gap:22px;margin-top:40px;flex-wrap:wrap;
+  }
+  .hero-meta div{display:flex;flex-direction:column;gap:2px;}
+  .hero-meta .num{font-family:'IBM Plex Mono';font-size:20px;color:var(--ink);}
+  .hero-meta .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);}
+
+  .hero-phones{
+    position:relative;z-index:1;
+    display:flex;justify-content:center;align-items:center;height:620px;
+  }
+  .phone{
+    width:250px;border-radius:44px;
+    background:linear-gradient(160deg,#2c2a31,#131218);
+    padding:10px;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.05);
+  }
+  .phone__screen{border-radius:34px;overflow:hidden;background:#000;aspect-ratio:414/900;}
+  .phone__screen img{width:100%;height:100%;object-fit:cover;}
+  .phone--front{position:relative;z-index:2;}
+  .phone--back{
+    position:absolute;left:calc(50% + 92px);top:26px;
+    width:220px;opacity:.55;filter:saturate(.85) brightness(.8);
+    transform:rotate(6deg);
+  }
+  @media (max-width:940px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-phones{height:480px;margin-top:10px;}
+    .phone--back{left:calc(50% + 60px);}
+  }
+
+  /* ---------- CTA BUTTONS ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 22px;border-radius:100px;
+    font-weight:700;font-size:14px;letter-spacing:.01em;
+    text-decoration:none;border:1px solid transparent;
+  }
+  .btn--solid{background:var(--ink);color:var(--void);}
+  .btn--ghost{border-color:var(--line);color:var(--ink);}
+
+  /* App Store placeholder badge */
+  .store-badge{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#0f0f11;border:1px solid rgba(255,255,255,.14);
+    border-radius:12px;padding:9px 16px 9px 14px;
+    cursor:not-allowed;user-select:none;position:relative;opacity:.92;
+  }
+  .store-badge svg{width:22px;height:22px;flex:none;color:var(--ink-faint);}
+  .store-badge .txt{display:flex;flex-direction:column;line-height:1.15;}
+  .store-badge .txt .s1{font-size:10px;color:var(--ink-faint);letter-spacing:.02em;}
+  .store-badge .txt .s2{font-size:16px;font-weight:700;color:var(--ink-dim);font-family:'Manrope';}
+  .store-badge .soon{
+    position:absolute;top:-9px;right:-9px;
+    background:var(--accent);color:#0a0a0b;
+    font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.06em;
+    padding:3px 7px;border-radius:100px;font-weight:600;
+    box-shadow:0 4px 10px rgba(255,90,43,.35);
+  }
+  .store-note{font-size:12px;color:var(--ink-faint);margin-top:10px;font-family:'IBM Plex Mono';}
+
+  /* ---------- STAT STRIP ---------- */
+  .stat-strip{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:var(--panel);
+  }
+  .stat-row{
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .stat-cell{
+    padding:26px 20px;border-left:1px solid var(--line);
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .stat-cell:first-child{border-left:none;}
+  .stat-cell .num{font-family:'IBM Plex Mono';font-size:28px;color:var(--ink);}
+  .stat-cell .lbl{font-size:12px;color:var(--ink-faint);letter-spacing:.03em;}
+  @media (max-width:720px){
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .stat-cell:nth-child(3){border-left:none;}
+  }
+
+  /* ---------- FEATURES ---------- */
+  .feature{
+    padding-block:96px;
+  }
+  .feature-inner{
+    display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center;
+  }
+  .feature.reverse .feature-art{order:2;}
+  .feature.reverse .feature-copy{order:1;}
+  .feature-copy h2{font-size:clamp(28px,3.6vw,42px);margin-top:12px;line-height:1.04;}
+  .feature-copy p{margin-top:16px;color:var(--ink-dim);max-width:48ch;font-size:16px;}
+  .feature-list{margin-top:22px;display:flex;flex-direction:column;gap:10px;}
+  .feature-list li{
+    list-style:none;display:flex;gap:10px;align-items:flex-start;
+    font-size:14px;color:var(--ink-dim);
+  }
+  .feature-list li::before{
+    content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);
+    margin-top:7px;flex:none;
+  }
+  .feature-art{display:flex;justify-content:center;}
+  .feature-art .phone{width:236px;}
+  @media (max-width:860px){
+    .feature-inner{grid-template-columns:1fr;}
+    .feature{padding-block:64px;text-align:left;}
+    .feature.reverse .feature-art{order:1;}
+    .feature.reverse .feature-copy{order:2;}
+  }
+
+  hr.rule{border:none;border-top:1px solid var(--line);margin:0;}
+
+  /* ---------- GALLERY ---------- */
+  .gallery-section{padding-block:80px;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .gallery-head{margin-bottom:34px;}
+  .gallery-head h2{font-size:clamp(26px,3.4vw,40px);margin-top:12px;}
+  .gallery-scroll{
+    display:flex;gap:18px;overflow-x:auto;padding-bottom:18px;
+    scroll-snap-type:x proximity;
+    margin-inline:-24px;padding-inline:24px;
+  }
+  .gallery-scroll::-webkit-scrollbar{height:6px;}
+  .gallery-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px;}
+  .gcard{flex:none;width:196px;scroll-snap-align:start;}
+  .gcard .phone{width:196px;padding:8px;border-radius:36px;}
+  .gcard .phone__screen{border-radius:28px;}
+  .gcard .cap{margin-top:12px;font-size:12px;color:var(--ink-faint);text-align:center;letter-spacing:.02em;}
+
+  /* ---------- CONNECTED STRIP ---------- */
+  .connected{padding-block:90px;}
+  .connected-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;}
+  .conn-card{background:var(--panel);padding:28px 22px;display:flex;flex-direction:column;gap:10px;min-height:170px;}
+  .conn-card .ico{width:30px;height:30px;color:var(--accent);}
+  .conn-card h3{font-family:'Manrope';font-weight:800;text-transform:none;font-size:16px;letter-spacing:0;}
+  .conn-card p{font-size:13px;color:var(--ink-dim);}
+  @media (max-width:860px){.connected-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.connected-grid{grid-template-columns:1fr;}}
+
+  /* ---------- CTA / DOWNLOAD ---------- */
+  .cta{
+    position:relative;padding-block:110px;overflow:hidden;
+    background:radial-gradient(80% 100% at 50% 0%, rgba(255,90,43,.14), transparent 60%), var(--void);
+    border-top:1px solid var(--line);
+    text-align:center;
+  }
+  .cta h2{font-size:clamp(34px,6vw,64px);}
+  .cta p{max-width:50ch;margin:18px auto 0;color:var(--ink-dim);font-size:16px;}
+  .cta .badges{display:flex;justify-content:center;gap:14px;margin-top:34px;flex-wrap:wrap;}
+
+  footer{border-top:1px solid var(--line);padding-block:36px;}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;color:var(--ink-faint);font-size:13px;}
+  .foot-row .brand span{font-size:14px;}
+
+  @media (max-width:600px){
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+
+<div class="hero-glow"></div>
+
+<header class="nav">
+  <div class="wrap nav-row">
+    <div class="brand">
+      <img src="app_icon.png" alt="VIGOR icon">
+      <span>VIGOR</span>
+    </div>
+    <nav class="links">
+      <a href="#features">Features</a>
+      <a href="#screens">Screens</a>
+      <a href="#connected">Connected</a>
+      <a href="#download">Download</a>
+    </nav>
+    <div class="nav-cta mono">iOS 17+</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Strength training, logged properly</div>
+      <h1>Train heavy.<br>Track <em>everything.</em></h1>
+      <p class="lead">VIGOR is a native iPhone app for lifters who want more than a set counter &mdash; a custom keypad, rotating programs, live 1RM tracking, and a daily read on how recovered you actually are.</p>
+      <div class="hero-actions">
+        <div class="store-badge">
+          <span class="soon">Coming soon</span>
+          <svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141 8 184.8 8 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 37.5 59 129.3 107.2 127.8 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-84.2 102.6-121.8-65.2-30.7-65.7-90-65.7-91.9zm-56.6-164c26.6-31.5 24.3-60.1 23.5-70.4-23.6 1.4-51 16.4-66.6 34.8-16.6 19.2-26.2 42.9-24.4 69.2 24.9 1.9 47.7-10.7 67.5-33.6z"/></svg>
+          <span class="txt"><span class="s1">Coming soon to the</span><span class="s2">App Store</span></span>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <div><span class="num mono">6</span><span class="lbl">Day rotation</span></div>
+        <div><span class="num mono">0&ndash;5+</span><span class="lbl">RIR per set</span></div>
+        <div><span class="num mono">20</span><span class="lbl">Muscles tracked</span></div>
+        <div><span class="num mono">SwiftUI</span><span class="lbl">Native iPhone</span></div>
+      </div>
+    </div>
+    <div class="hero-phones">
+      <div class="phone phone--back"><div class="phone__screen"><img src="screens/workout_logging.png" alt="Logging a set in VIGOR"></div></div>
+      <div class="phone phone--front"><div class="phone__screen"><img src="screens/home.png" alt="VIGOR home screen"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="stat-strip">
+  <div class="wrap stat-row">
+    <div class="stat-cell"><span class="num">136.7<span style="font-size:15px;">kg</span></span><span class="lbl">e1RM auto-calculated from your top set</span></div>
+    <div class="stat-cell"><span class="num">82&ndash;100%</span><span class="lbl">Muscle freshness after every session</span></div>
+    <div class="stat-cell"><span class="num">4</span><span class="lbl">Starter rotations, or build your own</span></div>
+    <div class="stat-cell"><span class="num">3</span><span class="lbl">Home Screen widgets</span></div>
+  </div>
+</section>
+
+<section class="feature" id="features">
+  <div class="wrap feature-inner">
+    <div class="feature-copy">
+      <div class="eyebrow">Logging</div>
+      <h2>A keypad built for barbells.</h2>
+      <p>No system keyboard, no fumbling. Weight and reps get their own number pad, with RIR built into the same tap and a rest timer running underneath.</p>
+      <ul class="feature-list">
+        <li>Plate math for barbell and functional-trainer lifts</li>
+        <li>Edit a logged set's weight, reps, or RIR without adding a new one</li>
+        <li>New estimated 1RM flagged the moment you beat it</li>
+      </ul>
+    </div>
+    <div class="feature-art">
+      <div class="phone"><div class="phone__screen"><img src="screens/workout_logging.png" alt="Custom keypad and PR badges"></div></div>
+    </div>
+  </div>
+</section>
+<div class="wrap"><hr class="rule"></div>
+
+<section class="feature reverse">
+  <div class="wrap feature-inner">
+    <div class="feature-copy">
+      <div class="eyebrow">Programs</div>
+      <h2>Rotations that run themselves.</h2>
+      <p>Start from Push/Pull/Legs, Upper/Lower, a 4-day split, or a blank slate. VIGOR remembers where you left off and hands you the next day on Home.</p>
+      <ul class="feature-list">
+        <li>Sets, exercises, and estimated duration per day</li>
+        <li>Muscle-volume breakdown before you commit to a program</li>
+        <li>Superset support for supersetted exercises</li>
+      </ul>
+    </div>
+    <div class="feature-art">
+      <div class="phone"><div class="phone__screen"><img src="screens/programs.png" alt="Push Pull Legs program screen"></div></div>
+    </div>
+  </div>
+</section>
+<div class="wrap"><hr class="rule"></div>
+
+<section class="feature">
+  <div class="wrap feature-inner">
+    <div class="feature-copy">
+      <div class="eyebrow">Recovery</div>
+      <h2>Know what's actually fresh.</h2>
+      <p>A daily stress score blends lift and cardio load into one 0&ndash;100 read, while per-muscle freshness tells you whether today is a squat day or a walk day.</p>
+      <ul class="feature-list">
+        <li>7-day stress trend, split by lift vs. cardio</li>
+        <li>Per-muscle recovery percentage, updated after every session</li>
+        <li>Personal records and e1RM history for every main lift</li>
+      </ul>
+    </div>
+    <div class="feature-art">
+      <div class="phone"><div class="phone__screen"><img src="screens/stress_analytics.png" alt="Stress and recovery analytics"></div></div>
+    </div>
+  </div>
+</section>
+<div class="wrap"><hr class="rule"></div>
+
+<section class="feature reverse">
+  <div class="wrap feature-inner">
+    <div class="feature-copy">
+      <div class="eyebrow">Library</div>
+      <h2>Every lift, tagged and searchable.</h2>
+      <p>Barbell, dumbbell, machine, or bodyweight &mdash; the catalog is filterable by category, equipment, and muscle, so building a day never means guessing at names.</p>
+      <ul class="feature-list">
+        <li>Filter by category, equipment, or target muscle</li>
+        <li>Add your own custom exercises alongside the catalog</li>
+        <li>Illustrated form reference on every entry</li>
+      </ul>
+    </div>
+    <div class="feature-art">
+      <div class="phone"><div class="phone__screen"><img src="screens/exercise_catalog.png" alt="Exercise catalog with filters"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="connected" id="connected">
+  <div class="wrap">
+    <div class="eyebrow">Connected</div>
+    <h2 style="font-size:clamp(28px,3.6vw,42px);margin-top:12px;max-width:20ch;">Built around Apple Health, not next to it.</h2>
+    <div class="connected-grid" style="margin-top:36px;">
+      <div class="conn-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7.5-4.7-10-9.3C.4 8.2 2 4.5 5.6 4a5 5 0 0 1 6.4 2.6A5 5 0 0 1 18.4 4c3.6.5 5.2 4.2 3.6 7.7C19.5 16.3 12 21 12 21z"/></svg>
+        <h3>Apple Health</h3>
+        <p>Reads running, walking, hiking and cycling; writes finished strength sessions and body weight back, if you turn it on.</p>
+      </div>
+      <div class="conn-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        <h3>Apple Watch</h3>
+        <p>A companion app logs sets live from your wrist, in step with the session running on your phone.</p>
+      </div>
+      <div class="conn-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><rect x="14" y="14" width="7" height="7" rx="1.4"/></svg>
+        <h3>Widgets</h3>
+        <p>Year-in-pixels, today's stress, and your next workout &mdash; small, medium, or large, right on the Home Screen.</p>
+      </div>
+      <div class="conn-card">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <h3>Make it yours</h3>
+        <p>Five accent colors, light, dark, or system appearance, and a choice of kg/lb and km/mi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section" id="screens">
+  <div class="wrap">
+    <div class="gallery-head">
+      <div class="eyebrow">Every screen</div>
+      <h2>The whole app, at a glance.</h2>
+    </div>
+    <div class="gallery-scroll">
+      <div class="gcard"><div class="phone"><div class="phone__screen"><img src="screens/home.png" alt="Home"></div></div><div class="cap">Home</div></div>
+      <div class="gcard"><div class="phone"><div class="phone__screen"><img src="screens/programs.png" alt="Programs"></div></div><div class="cap">Programs</div></div>
+      <div class="gcard"><div class="phone"><div class="phone__screen"><img src="screens/workout_logging.png" alt="Logging"></div></div><div class="cap">Logging</div></div>
+      <div class="gcard"><div class="phone"><div class="phone__screen"><img src="screens/workout_complete.png" alt="Workout complete"></div></div><div class="cap">Summary</div></div>
+      <div class="gcard"><div class="phone"><div class="phone__screen"><img src="screens/stress_analytics.png" alt="Stress analytics"></div></div><div class="cap">Recovery</div></div>
+      <div class="gcard"><div class="phone"><div class="phone__screen"><img src="screens/exercise_catalog.png" alt="Exercise catalog"></div></div><div class="cap">Catalog</div></div>
+      <div class="gcard"><div class="phone"><div class="phone__screen"><img src="screens/customization.png" alt="Customization"></div></div><div class="cap">Customize</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="download">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;">Launching soon</div>
+    <h2 style="margin-top:14px;">Get VIGOR<br>on day one.</h2>
+    <p>The App Store listing isn't live yet. This is where the link lands the moment it is.</p>
+    <div class="badges">
+      <div class="store-badge">
+        <span class="soon">Coming soon</span>
+        <svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141 8 184.8 8 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 37.5 59 129.3 107.2 127.8 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-84.2 102.6-121.8-65.2-30.7-65.7-90-65.7-91.9zm-56.6-164c26.6-31.5 24.3-60.1 23.5-70.4-23.6 1.4-51 16.4-66.6 34.8-16.6 19.2-26.2 42.9-24.4 69.2 24.9 1.9 47.7-10.7 67.5-33.6z"/></svg>
+        <span class="txt"><span class="s1">Coming soon to the</span><span class="s2">App Store</span></span>
+      </div>
+    </div>
+    <p class="store-note">[ app store url placeholder &mdash; wire up on release ]</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="brand"><img src="app_icon.png" alt="VIGOR icon" style="width:22px;height:22px;border-radius:6px;"><span>VIGOR</span></div>
+    <div>Requires iOS 17 or later · Built with SwiftUI, SwiftData &amp; HealthKit</div>
+    <div>&copy; 2026 VIGOR</div>
+  </div>
+</footer>
