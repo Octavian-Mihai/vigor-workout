@@ -15,13 +15,17 @@ This repo has two parts:
 
 ## Screenshots
 
-| Home | Live workout |Workout |
+| Home | Logging | Programs |
 |:---:|:---:|:---:|
-| ![Home screen](docs/screenshots/home.png) | ![Live workout session](docs/screenshots/live-workout.png) |![Workout tab](docs/screenshots/workout.png) |
+| ![Home screen](website/screens/home.png) | ![Custom keypad with RIR](website/screens/workout_logging.png) | ![Programs tab](website/screens/programs.png) |
 
-| Running |Info | Settings |
+| Workout summary | Recovery | Exercise catalog |
 |:---:|:---:|:---:|
-| ![Running tab](docs/screenshots/running.png) |![Info tab](docs/screenshots/info.png) | ![Settings](docs/screenshots/settings.png) |
+| ![Workout complete summary](website/screens/workout_complete.png) | ![Stress and muscle-freshness analytics](website/screens/stress_analytics.png) | ![Exercise catalog](website/screens/exercise_catalog.png) |
+
+| Running | Customization |
+|:---:|:---:|
+| ![Running tab](docs/screenshots/running.png) | ![Accent and appearance customization](website/screens/customization.png) |
 
 ---
 
