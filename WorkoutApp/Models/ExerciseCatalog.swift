@@ -637,6 +637,15 @@ enum ExerciseCatalog {
             equipment: .dumbbell
         ),
         CatalogExercise(
+            id: "single-leg-romanian-deadlift",
+            name: "Single Leg Romanian Deadlift",
+            category: .legs,
+            primary: [.hamstrings, .glutes],
+            secondary: [.erectors, .coreAndAbs],
+            cues: "Hinge at the hip over one leg, trailing leg reaching back for balance. Keep the hips square and the weight close.",
+            equipment: .dumbbell
+        ),
+        CatalogExercise(
             id: "deadlift",
             name: "Deadlift",
             category: .legs,
@@ -921,6 +930,15 @@ enum ExerciseCatalog {
             equipment: .barbell
         ),
         CatalogExercise(
+            id: "decline-bench-press",
+            name: "Decline Bench Press",
+            category: .push,
+            primary: [.chest],
+            secondary: [.triceps, .anteriorDelts],
+            cues: "Lock the legs under the pads and lower to the lower chest. Press up and slightly back toward the rack.",
+            equipment: .barbell
+        ),
+        CatalogExercise(
             id: "incline-barbell-bench-press",
             name: "Incline Barbell Bench Press",
             category: .push,
@@ -1173,6 +1191,15 @@ enum ExerciseCatalog {
             secondary: [.biceps, .posteriorDelts],
             cues: "Start from a long arm. Pull elbows back, pause, then reach forward without rounding hard.",
             equipment: .functionalTrainer
+        ),
+        CatalogExercise(
+            id: "inverted-row",
+            name: "Inverted Row",
+            category: .pull,
+            primary: [.lats, .rhomboids],
+            secondary: [.biceps, .posteriorDelts],
+            cues: "Body straight from a bar or rings, chest to the bar. Keep the hips up; don’t let them sag.",
+            equipment: .bodyweight
         ),
         CatalogExercise(
             id: "lat-pulldown",
@@ -1443,6 +1470,16 @@ enum ExerciseCatalog {
             equipment: .dumbbell
         ),
         CatalogExercise(
+            id: "turkish-get-up",
+            name: "Turkish Get-Up",
+            category: .core,
+            primary: [.coreAndAbs],
+            secondary: [.anteriorDelts, .glutes, .quadriceps],
+            cues: "Press the bell up and keep your eyes on it through every step from floor to standing. Move slow and deliberate, not rushed.",
+            equipment: .kettlebell,
+            pattern: .carry
+        ),
+        CatalogExercise(
             id: "hanging-leg-raise",
             name: "Hanging Leg Raise",
             category: .core,
@@ -1486,6 +1523,16 @@ enum ExerciseCatalog {
             secondary: [],
             cues: "Brace and rotate the bar through the torso, not the arms. Control both directions; don’t twist from the knees.",
             equipment: .barbell
+        ),
+        CatalogExercise(
+            id: "russian-twist",
+            name: "Russian Twist",
+            category: .core,
+            primary: [.coreAndAbs],
+            secondary: [],
+            cues: "Lean back with feet up or grounded, rotate the torso side to side. Move slow; don’t just swing the arms.",
+            equipment: .bodyweight,
+            pattern: .rotation
         ),
         CatalogExercise(
             id: "ab-wheel",
