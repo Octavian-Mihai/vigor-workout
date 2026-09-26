@@ -178,7 +178,7 @@
     display:flex;flex-direction:column;gap:6px;
   }
   .stat-cell:first-child{border-left:none;}
-  .stat-cell .num{font-family:'IBM Plex Mono';font-size:28px;color:var(--ink);}
+  .stat-cell .num{font-family:'IBM Plex Mono';font-size:clamp(20px,3.4vw,28px);color:var(--ink);word-break:break-word;}
   .stat-cell .lbl{font-size:12px;color:var(--ink-faint);letter-spacing:.03em;}
   @media (max-width:720px){
     .stat-row{grid-template-columns:repeat(2,1fr);}
@@ -294,7 +294,6 @@
         </div>
       </div>
       <div class="hero-meta">
-        <div><span class="num mono">6</span><span class="lbl">Day rotation</span></div>
         <div><span class="num mono">0&ndash;5+</span><span class="lbl">RIR per set</span></div>
         <div><span class="num mono">20</span><span class="lbl">Muscles tracked</span></div>
         <div><span class="num mono">SwiftUI</span><span class="lbl">Native iPhone</span></div>
@@ -309,8 +308,8 @@
 
 <section class="stat-strip">
   <div class="wrap stat-row">
-    <div class="stat-cell"><span class="num">136.7<span style="font-size:15px;">kg</span></span><span class="lbl">e1RM auto-calculated from your top set</span></div>
-    <div class="stat-cell"><span class="num">82&ndash;100%</span><span class="lbl">Muscle freshness after every session</span></div>
+    <div class="stat-cell"><span class="num">1RM</span><span class="lbl">Estimated automatically from your top set, every time</span></div>
+    <div class="stat-cell"><span class="num">Freshness</span><span class="lbl">Recalculated per muscle after every workout</span></div>
     <div class="stat-cell"><span class="num">4</span><span class="lbl">Starter rotations, or build your own</span></div>
     <div class="stat-cell"><span class="num">3</span><span class="lbl">Home Screen widgets</span></div>
   </div>
