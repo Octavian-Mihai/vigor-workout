@@ -24,8 +24,8 @@
   }
 
   *{box-sizing:border-box;}
-  html{background:var(--void);}
-  html,body{margin:0;padding:0;width:100%;}
+  html{background:var(--void);overflow-x:hidden;}
+  html,body{margin:0;padding:0;width:100%;max-width:100%;}
   body{
     background:var(--void);
     color:var(--ink);
@@ -33,6 +33,7 @@
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    position:relative;
   }
   h1,h2,h3{font-family:'Archivo Black',Impact,'Arial Black',sans-serif;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance;margin:0;line-height:1.04;}
   .mono{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;}
@@ -84,7 +85,7 @@
     overflow:hidden;
   }
   .hero-glow{
-    position:absolute;inset:-20% -10% auto -10%;height:640px;
+    position:absolute;top:-15%;left:0;right:0;height:640px;
     background:radial-gradient(60% 60% at 30% 20%, rgba(255,62,127,.20), transparent 60%),
                radial-gradient(50% 50% at 80% 10%, rgba(124,77,255,.16), transparent 60%),
                radial-gradient(45% 45% at 55% 40%, rgba(255,90,43,.14), transparent 60%);
