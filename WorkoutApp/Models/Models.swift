@@ -73,6 +73,7 @@ final class DayExercise {
     var sortIndex: Int
     var equipmentRaw: String = ""
     var restSeconds: Int? = nil
+    var supersetGroupID: UUID? = nil
     var day: ProgramDay?
 
     init(
@@ -82,7 +83,8 @@ final class DayExercise {
         targetSets: Int,
         targetReps: Int,
         sortIndex: Int,
-        equipment: ExerciseEquipment? = nil
+        equipment: ExerciseEquipment? = nil,
+        supersetGroupID: UUID? = nil
     ) {
         self.name = name
         self.primaryMusclesCSV = MuscleCSV.encode(primaryMuscles)
@@ -91,6 +93,7 @@ final class DayExercise {
         self.targetReps = targetReps
         self.sortIndex = sortIndex
         self.equipmentRaw = equipment?.rawValue ?? ExerciseEquipment.infer(from: name).rawValue
+        self.supersetGroupID = supersetGroupID
     }
 
     var equipment: ExerciseEquipment {
@@ -160,6 +163,7 @@ final class SetLog {
     var rir: Int
     var targetReps: Int?
     var timestamp: Date
+    var supersetGroupID: UUID? = nil
     var session: WorkoutSession?
 
     init(
@@ -170,7 +174,8 @@ final class SetLog {
         reps: Int,
         rir: Int,
         targetReps: Int? = nil,
-        timestamp: Date = Date()
+        timestamp: Date = Date(),
+        supersetGroupID: UUID? = nil
     ) {
         self.exerciseName = exerciseName
         self.primaryMusclesCSV = MuscleCSV.encode(primaryMuscles)
@@ -180,6 +185,7 @@ final class SetLog {
         self.rir = rir
         self.targetReps = targetReps
         self.timestamp = timestamp
+        self.supersetGroupID = supersetGroupID
     }
 
     var primaryMuscles: [String] {

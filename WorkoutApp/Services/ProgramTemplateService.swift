@@ -75,8 +75,10 @@ enum ProgramTemplateService {
                     targetSets: item.targetSets,
                     targetReps: item.targetReps,
                     sortIndex: item.sortIndex,
-                    equipment: equipment
+                    equipment: equipment,
+                    supersetGroupID: item.supersetGroupID
                 )
+                exercise.restSeconds = item.restSeconds
                 exercise.day = dayModel
                 context.insert(exercise)
             }

@@ -12,6 +12,7 @@ struct DraftExercise: Identifiable {
     var targetSets: Int
     var targetReps: Int?
     var restSeconds: Int?
+    var supersetGroupID: UUID?
     var logged: [DraftSet]
 
     init(
@@ -23,6 +24,7 @@ struct DraftExercise: Identifiable {
         targetSets: Int = 0,
         targetReps: Int? = nil,
         restSeconds: Int? = nil,
+        supersetGroupID: UUID? = nil,
         logged: [DraftSet] = []
     ) {
         self.id = id
@@ -33,6 +35,7 @@ struct DraftExercise: Identifiable {
         self.targetSets = targetSets
         self.targetReps = targetReps
         self.restSeconds = restSeconds
+        self.supersetGroupID = supersetGroupID
         self.logged = logged
     }
 }
@@ -95,6 +98,7 @@ final class SessionController: ObservableObject {
     @Published var restRemaining: Int
     @Published var timerRunning = false
     @Published var restCompletedPulse = 0
+    @Published var supersetCueMessage: String?
     @Published var startedAt: Date
     @Published var focusedField: SessionField? {
         didSet {
@@ -146,7 +150,8 @@ final class SessionController: ObservableObject {
                     equipment: item.equipment,
                     targetSets: item.targetSets,
                     targetReps: item.targetReps > 0 ? item.targetReps : nil,
-                    restSeconds: item.restSeconds
+                    restSeconds: item.restSeconds,
+                    supersetGroupID: item.supersetGroupID
                 )
             }
             self.exercises = list
@@ -279,7 +284,22 @@ final class SessionController: ObservableObject {
             latestPRExerciseID = exerciseID
             latestPREstimateKg = OneRM.estimate(weight: weightKg, reps: reps, rir: rir)
         }
-        startRest(for: exerciseID)
+        if let partner = nextSupersetPartner(after: exerciseID) {
+            supersetCueMessage = "No rest — up next: \(partner.name)"
+        } else {
+            supersetCueMessage = nil
+            startRest(for: exerciseID)
+        }
+    }
+
+    /// The next exercise sharing this one's superset group, later in the list order.
+    /// Returns nil for standalone exercises or when this is the last member of its group,
+    /// which means "log this set as normal, then rest."
+    func nextSupersetPartner(after exerciseID: UUID) -> DraftExercise? {
+        guard let index = exercises.firstIndex(where: { $0.id == exerciseID }),
+              let groupID = exercises[index].supersetGroupID
+        else { return nil }
+        return exercises[(index + 1)...].first { $0.supersetGroupID == groupID }
     }
 
     func updateSet(exerciseID: UUID, setID: UUID, weightKg: Double, reps: Int, rir: Int) {
@@ -536,6 +556,16 @@ struct LiveSessionView: View {
                             .padding(16)
                             .opaqueCard()
                     }
+                    if let cue = controller.supersetCueMessage {
+                        Text(cue)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(accent)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(accent.opacity(0.12))
+                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    }
                     ForEach(controller.exercises) { exercise in
                         SessionExerciseCard(
                             controller: controller,
@@ -686,6 +716,11 @@ struct LiveSessionView: View {
             if pulse > 0 {
                 RestTimerSound.play()
             }
+        }
+        .task(id: controller.supersetCueMessage) {
+            guard controller.supersetCueMessage != nil else { return }
+            try? await Task.sleep(nanoseconds: 3_000_000_000)
+            if !Task.isCancelled { controller.supersetCueMessage = nil }
         }
         .onAppear {
             controller.pastSessions = pastSessions
@@ -919,7 +954,8 @@ struct LiveSessionView: View {
                 targetSets: exercise.targetSets,
                 targetReps: exercise.targetReps ?? 0,
                 sortIndex: index,
-                equipment: exercise.equipment
+                equipment: exercise.equipment,
+                supersetGroupID: exercise.supersetGroupID
             )
             item.restSeconds = exercise.restSeconds
             item.day = day
@@ -983,6 +1019,15 @@ struct SessionExerciseCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
+            if live.supersetGroupID != nil {
+                Text("SUPERSET")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(accent)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(accent.opacity(0.14))
+                    .clipShape(Capsule())
+            }
             if controller.latestPRExerciseID == exercise.id,
                let estimate = controller.latestPREstimateKg {
                 Text("New estimated 1RM PR — \(unit.format(estimate))")
@@ -1188,6 +1233,14 @@ struct SessionExerciseCard: View {
         }
         .padding(16)
         .opaqueCard()
+        .overlay(alignment: .leading) {
+            if live.supersetGroupID != nil {
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(accent)
+                    .frame(width: 3)
+                    .padding(.vertical, 6)
+            }
+        }
         .onAppear {
             controller.ensureDraft(for: exercise.id, unit: unit, previousSets: previousSets)
         }

@@ -45,6 +45,7 @@ struct ExerciseBackup: Codable, Equatable {
     var sortIndex: Int
     var equipment: String?
     var restSeconds: Int? = nil
+    var supersetGroupID: UUID? = nil
 }
 
 struct SessionBackup: Codable, Equatable {
@@ -117,7 +118,8 @@ enum WorkoutBackupService {
                             targetReps: item.targetReps,
                             sortIndex: item.sortIndex,
                             equipment: item.equipmentRaw,
-                            restSeconds: item.restSeconds
+                            restSeconds: item.restSeconds,
+                            supersetGroupID: item.supersetGroupID
                         )
                     }
                 )
@@ -259,6 +261,7 @@ enum WorkoutBackupService {
                         equipment: equipment
                     )
                     exercise.restSeconds = item.restSeconds
+                    exercise.supersetGroupID = item.supersetGroupID
                     exercise.day = dayModel
                     context.insert(exercise)
                 }

@@ -147,8 +147,16 @@ struct DayEditorView: View {
                 TextField("Name", text: $day.name)
             }
             Section {
-                ForEach(day.orderedExercises) { exercise in
-                    DayExerciseEditorRow(exercise: exercise) {
+                let ordered = day.orderedExercises
+                ForEach(Array(ordered.enumerated()), id: \.element.persistentModelID) { index, exercise in
+                    DayExerciseEditorRow(
+                        exercise: exercise,
+                        isLinkedWithNext: index + 1 < ordered.count
+                            && exercise.supersetGroupID != nil
+                            && exercise.supersetGroupID == ordered[index + 1].supersetGroupID,
+                        showLinkToggle: index + 1 < ordered.count,
+                        onToggleLinkWithNext: { toggleSuperset(after: exercise) }
+                    ) {
                         durationTick += 1
                     }
                 }
@@ -234,6 +242,21 @@ struct DayEditorView: View {
         try? modelContext.save()
     }
 
+    private func toggleSuperset(after exercise: DayExercise) {
+        let ordered = day.orderedExercises
+        guard let index = ordered.firstIndex(where: { $0 === exercise }), index + 1 < ordered.count else { return }
+        let next = ordered[index + 1]
+        if let groupID = exercise.supersetGroupID, groupID == next.supersetGroupID {
+            exercise.supersetGroupID = nil
+            next.supersetGroupID = nil
+        } else {
+            let groupID = UUID()
+            exercise.supersetGroupID = groupID
+            next.supersetGroupID = groupID
+        }
+        try? modelContext.save()
+    }
+
     private func removeExercise(matching catalog: CatalogExercise) {
         guard let item = day.orderedExercises.last(where: { $0.name == catalog.name }) else { return }
         modelContext.delete(item)
@@ -268,6 +291,9 @@ struct DayEditorView: View {
 
 struct DayExerciseEditorRow: View {
     @Bindable var exercise: DayExercise
+    var isLinkedWithNext: Bool = false
+    var showLinkToggle: Bool = false
+    var onToggleLinkWithNext: () -> Void = {}
     var onSetsChanged: () -> Void = {}
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Program.createdAt) private var programs: [Program]
@@ -281,6 +307,15 @@ struct DayExerciseEditorRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
+            if exercise.supersetGroupID != nil {
+                Text("SUPERSET")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(.tint)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Color.accentColor.opacity(0.14))
+                    .clipShape(Capsule())
+            }
             HStack(alignment: .center, spacing: 8) {
                 Text(exercise.name)
                     .font(.headline)
@@ -336,6 +371,17 @@ struct DayExerciseEditorRow: View {
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(.secondary)
                 }
+            }
+            if showLinkToggle {
+                Button(action: onToggleLinkWithNext) {
+                    Label(
+                        isLinkedWithNext ? "Unlink from next exercise" : "Link with next exercise as superset",
+                        systemImage: isLinkedWithNext ? "link.badge.plus" : "link"
+                    )
+                    .font(.caption)
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(isLinkedWithNext ? Color.accentColor : .secondary)
             }
         }
         .padding(.vertical, 4)
