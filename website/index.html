@@ -1,6 +1,10 @@
-<title>VIGOR</title>
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
+<title>VIGOR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="VIGOR is a native iPhone app for strength training: a custom keypad with RIR, rotating programs, automatic 1RM tracking, and per-muscle recovery.">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
@@ -20,6 +24,8 @@
   }
 
   *{box-sizing:border-box;}
+  html{background:var(--void);}
+  html,body{margin:0;padding:0;width:100%;}
   body{
     background:var(--void);
     color:var(--ink);
@@ -131,8 +137,8 @@
   }
   @media (max-width:940px){
     .hero-grid{grid-template-columns:1fr;}
-    .hero-phones{height:480px;margin-top:10px;}
-    .phone--back{left:calc(50% + 60px);}
+    .hero-phones{height:auto;margin-top:20px;}
+    .phone--back{display:none;}
   }
 
   /* ---------- CTA BUTTONS ---------- */
@@ -261,6 +267,8 @@
     .stat-row{grid-template-columns:repeat(2,1fr);}
   }
 </style>
+</head>
+<body>
 
 <div class="hero-glow"></div>
 
@@ -460,3 +468,6 @@
     <div>&copy; 2026 VIGOR</div>
   </div>
 </footer>
+
+</body>
+</html>
