@@ -34,6 +34,7 @@
 		35ED2CA09DDDD5B5677C482A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92E529C838DBC34454DC60A /* SettingsView.swift */; };
 		3718926A40ED4604A90976ED /* OneRMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2237F5E5F8FD3F07DAB02CE9 /* OneRMTests.swift */; };
 		3931B0615727B114C0B83BD8 /* ExercisePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345E7F362E9745AB51F78A99 /* ExercisePickerView.swift */; };
+		3BFAF24B30681F0500A88751 /* VIGOR Watch App Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3BFAF24130681F0300A88751 /* VIGOR Watch App Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		417D4F6FA9671B3F14BAD5E2 /* ProgramTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671C9586EB2802CB3FA89128 /* ProgramTemplateService.swift */; };
 		445CC27D599AD582890650BD /* MuscleFreshnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65EA1C18719801F5266F588 /* MuscleFreshnessView.swift */; };
 		477B83E0FA8B462A02D6B27D /* WorkoutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E683E77D158F57A447DF81 /* WorkoutApp.swift */; };
@@ -74,6 +75,7 @@
 		C26EA5E1C3C7DA33E255E660 /* ExercisePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F6AFE2CF75D4119FA5B07C /* ExercisePhotoView.swift */; };
 		C7829BB892EB366849ADBFFD /* WorkoutSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4798E19A6EED7C1A79E2FA7D /* WorkoutSummaryView.swift */; };
 		CC447520952DB2F25FCDEB4F /* WidgetSnapshotSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D854B6E5E142ADF29F9B1C4 /* WidgetSnapshotSync.swift */; };
+		5D94E26C61FD2206E18426E8 /* WatchSessionSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D979710B9322F2381EA35B /* WatchSessionSync.swift */; };
 		D1F8FA0371166F1BD51CEF27 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38CDA0471BEA3C57336CD4A9 /* AudioToolbox.framework */; };
 		D344CB9BB61D6CC6212B4A94 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C729BCFE81109650DA6485 /* ScreenshotTests.swift */; };
 		D586AB00861CD97055DD9EE0 /* WorkoutSummarySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BB6A1FD408261E14B096D9 /* WorkoutSummarySheet.swift */; };
@@ -104,6 +106,13 @@
 			remoteGlobalIDString = F188A5381D91802A1CFB359E;
 			remoteInfo = WorkoutApp;
 		};
+		3BFAF24930681F0500A88751 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60EA2621795256BF0325FBC9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3BFAF24030681F0300A88751;
+			remoteInfo = "VIGOR Watch App Watch App";
+		};
 		7BB15C7102D0BC5B5B71FC52 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 60EA2621795256BF0325FBC9 /* Project object */;
@@ -121,6 +130,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3BFAF24F30681F0500A88751 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				3BFAF24B30681F0500A88751 /* VIGOR Watch App Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC2B4E7F0F5E32E58D0148A5 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -154,8 +174,10 @@
 		35C729BCFE81109650DA6485 /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 		37446E4DDD7163176DFFAFC8 /* RunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningView.swift; sourceTree = "<group>"; };
 		38CDA0471BEA3C57336CD4A9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		3BFAF24130681F0300A88751 /* VIGOR Watch App Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VIGOR Watch App Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BFAF25130681FB600A88751 /* VIGOR-Watch-App-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VIGOR-Watch-App-Watch-App-Info.plist"; sourceTree = "<group>"; };
 		3C87D45169F9CA2A5403147B /* WorkoutWidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutWidgetViews.swift; sourceTree = "<group>"; };
-		422D09EB801CE5BA0EDFBA28 /* WorkoutApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WorkoutApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		422D09EB801CE5BA0EDFBA28 /* VIGOR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VIGOR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45807FC427FAE0EEE6D1465B /* LiveSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionView.swift; sourceTree = "<group>"; };
 		46346A9EC9D5FC95DB2EB324 /* FilterInputKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterInputKeyboard.swift; sourceTree = "<group>"; };
 		4798E19A6EED7C1A79E2FA7D /* WorkoutSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummaryView.swift; sourceTree = "<group>"; };
@@ -163,7 +185,7 @@
 		4E364DEA9C3D4D704BA27156 /* WorkoutSummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummaryModel.swift; sourceTree = "<group>"; };
 		51BB6A1FD408261E14B096D9 /* WorkoutSummarySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummarySheet.swift; sourceTree = "<group>"; };
 		54C5CFA3766519661BC6A3A5 /* VolumeAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeAnalytics.swift; sourceTree = "<group>"; };
-		59D9874F60BE35004930E655 /* WorkoutAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WorkoutAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		59D9874F60BE35004930E655 /* VIGORTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VIGORTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C37C6C5FBF63B8F94F30347 /* AnalyticsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsModels.swift; sourceTree = "<group>"; };
 		5D20C5D59A01F6E785F367D3 /* RestTimerSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTimerSound.swift; sourceTree = "<group>"; };
 		5F30B8357EF05B60F41BAD10 /* SwiftDataIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataIntegrationTests.swift; sourceTree = "<group>"; };
@@ -180,6 +202,7 @@
 		867005C15A12EF3AA21F7675 /* SessionExerciseReorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExerciseReorderView.swift; sourceTree = "<group>"; };
 		86FC7B88BDDF3C24E9D0C08C /* ExerciseHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHistoryView.swift; sourceTree = "<group>"; };
 		8D854B6E5E142ADF29F9B1C4 /* WidgetSnapshotSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSnapshotSync.swift; sourceTree = "<group>"; };
+		76D979710B9322F2381EA35B /* WatchSessionSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionSync.swift; sourceTree = "<group>"; };
 		969786FECA93B12FF622670D /* AppTour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTour.swift; sourceTree = "<group>"; };
 		977A9855BEF0CF06BB617C7C /* AddMeasurementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeasurementView.swift; sourceTree = "<group>"; };
 		9DF1935B97A864F04647A291 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -203,14 +226,14 @@
 		D2A70CEAD22F0780B6C8A6B0 /* WorkoutTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTabView.swift; sourceTree = "<group>"; };
 		D65EA1C18719801F5266F588 /* MuscleFreshnessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuscleFreshnessView.swift; sourceTree = "<group>"; };
 		D87624FC90F46C937AAF8573 /* ProgressPhotoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPhotoStorage.swift; sourceTree = "<group>"; };
-		D8D186FCB83C27ABE5B36777 /* WorkoutAppUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WorkoutAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8D186FCB83C27ABE5B36777 /* VIGORUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VIGORUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8F6AFE2CF75D4119FA5B07C /* ExercisePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePhotoView.swift; sourceTree = "<group>"; };
 		D9208685A9D4DE80C7DA4080 /* TrainingLoadEvolutionChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingLoadEvolutionChart.swift; sourceTree = "<group>"; };
 		DC9F0772CA154A2089BC2FC8 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		DDA333509A60D5609F63DFD9 /* workout-backup-fixture.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "workout-backup-fixture.json"; sourceTree = "<group>"; };
 		DF49216171AF6982EF66131E /* BackgroundPickerDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundPickerDashboard.swift; sourceTree = "<group>"; };
 		E0569FEC76ACCA66405A63D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E15DBC616B1DC8F5B576EF4A /* WorkoutWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = WorkoutWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15DBC616B1DC8F5B576EF4A /* WorkoutWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WorkoutWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E28E37477937D37BFD762CD8 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		E63E3739AA33506CD6ACC198 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E675DAC054C94F4C6C7B6BD4 /* StressLegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressLegendView.swift; sourceTree = "<group>"; };
@@ -227,6 +250,14 @@
 		FDA53125E3A467133F20780B /* ExerciseSubmissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSubmissionService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3BFAF24230681F0400A88751 /* VIGOR Watch App Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "VIGOR Watch App Watch App";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		3839CEB9198BB5A3BA92F642 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -237,6 +268,13 @@
 				BA32FB8F306D86088103BE44 /* CoreLocation.framework in Frameworks */,
 				D1F8FA0371166F1BD51CEF27 /* AudioToolbox.framework in Frameworks */,
 				A5EC5FA89BA60A158334805A /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BFAF23E30681F0300A88751 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +305,7 @@
 				D87624FC90F46C937AAF8573 /* ProgressPhotoStorage.swift */,
 				CF8094EB759E5D906493DE78 /* RestTimerService.swift */,
 				FA6BBBB891955C99D0710309 /* StressCalculator.swift */,
+				76D979710B9322F2381EA35B /* WatchSessionSync.swift */,
 				8D854B6E5E142ADF29F9B1C4 /* WidgetSnapshotSync.swift */,
 				7BA34CFD9F56446CE052A02E /* WorkoutBackup.swift */,
 			);
@@ -291,10 +330,11 @@
 		1A4FDE67EAE450623CB0160D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				422D09EB801CE5BA0EDFBA28 /* WorkoutApp.app */,
-				59D9874F60BE35004930E655 /* WorkoutAppTests.xctest */,
-				D8D186FCB83C27ABE5B36777 /* WorkoutAppUITests.xctest */,
+				422D09EB801CE5BA0EDFBA28 /* VIGOR.app */,
+				59D9874F60BE35004930E655 /* VIGORTests.xctest */,
+				D8D186FCB83C27ABE5B36777 /* VIGORUITests.xctest */,
 				E15DBC616B1DC8F5B576EF4A /* WorkoutWidgets.appex */,
+				3BFAF24130681F0300A88751 /* VIGOR Watch App Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -435,11 +475,13 @@
 		A5925ECA8B57F62781141899 = {
 			isa = PBXGroup;
 			children = (
+				3BFAF25130681FB600A88751 /* VIGOR-Watch-App-Watch-App-Info.plist */,
 				8FD5C137CF957DBB6F5FB420 /* Contract */,
 				2A0855B4E2B9D687EEBDF6C0 /* WorkoutApp */,
 				07D879C7EB19D670762A3458 /* WorkoutAppTests */,
 				E88556D062811818B31AEC36 /* WorkoutAppUITests */,
 				FC4DCD3476C6BB944E6CB930 /* WorkoutWidgets */,
+				3BFAF24230681F0400A88751 /* VIGOR Watch App Watch App */,
 				D3F882F02AD0788B14306193 /* Frameworks */,
 				1A4FDE67EAE450623CB0160D /* Products */,
 			);
@@ -567,9 +609,31 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ABF2373167B7B0B56902CCF7 /* WorkoutWidgets */ = {
+		3BFAF24030681F0300A88751 /* VIGOR Watch App Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD0F6388DD282AB1C783F64C /* Build configuration list for PBXNativeTarget "WorkoutWidgets" */;
+			buildConfigurationList = 3BFAF24C30681F0500A88751 /* Build configuration list for PBXNativeTarget "VIGOR Watch App Watch App" */;
+			buildPhases = (
+				3BFAF23D30681F0300A88751 /* Sources */,
+				3BFAF23E30681F0300A88751 /* Frameworks */,
+				3BFAF23F30681F0300A88751 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3BFAF24230681F0400A88751 /* VIGOR Watch App Watch App */,
+			);
+			name = "VIGOR Watch App Watch App";
+			packageProductDependencies = (
+			);
+			productName = "VIGOR Watch App Watch App";
+			productReference = 3BFAF24130681F0300A88751 /* VIGOR Watch App Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ABF2373167B7B0B56902CCF7 /* VIGORWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD0F6388DD282AB1C783F64C /* Build configuration list for PBXNativeTarget "VIGORWidgets" */;
 			buildPhases = (
 				7BA61A6F27CDF7E0F47BA2BA /* Sources */,
 				12F845CC00FD525D72AB82D2 /* Resources */,
@@ -578,16 +642,16 @@
 			);
 			dependencies = (
 			);
-			name = WorkoutWidgets;
+			name = VIGORWidgets;
 			packageProductDependencies = (
 			);
 			productName = WorkoutWidgets;
 			productReference = E15DBC616B1DC8F5B576EF4A /* WorkoutWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		F029B2FA34DC1EB5DD3E4624 /* WorkoutAppUITests */ = {
+		F029B2FA34DC1EB5DD3E4624 /* VIGORUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 67293C6A4CA01E8A16636CE7 /* Build configuration list for PBXNativeTarget "WorkoutAppUITests" */;
+			buildConfigurationList = 67293C6A4CA01E8A16636CE7 /* Build configuration list for PBXNativeTarget "VIGORUITests" */;
 			buildPhases = (
 				2815D2C73F4DDA2808076D4C /* Sources */,
 			);
@@ -596,37 +660,39 @@
 			dependencies = (
 				841C874D953B4CF9DEC23FA9 /* PBXTargetDependency */,
 			);
-			name = WorkoutAppUITests;
+			name = VIGORUITests;
 			packageProductDependencies = (
 			);
 			productName = WorkoutAppUITests;
-			productReference = D8D186FCB83C27ABE5B36777 /* WorkoutAppUITests.xctest */;
+			productReference = D8D186FCB83C27ABE5B36777 /* VIGORUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		F188A5381D91802A1CFB359E /* WorkoutApp */ = {
+		F188A5381D91802A1CFB359E /* VIGOR */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3804A6874859320A16FCC96C /* Build configuration list for PBXNativeTarget "WorkoutApp" */;
+			buildConfigurationList = 3804A6874859320A16FCC96C /* Build configuration list for PBXNativeTarget "VIGOR" */;
 			buildPhases = (
 				5EBF8347CA2961C598328ED0 /* Sources */,
 				2B0BF34858310B63658C0919 /* Resources */,
 				3839CEB9198BB5A3BA92F642 /* Frameworks */,
 				DC2B4E7F0F5E32E58D0148A5 /* Embed Foundation Extensions */,
+				3BFAF24F30681F0500A88751 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				4A32EF16C37C4EE4AC748E28 /* PBXTargetDependency */,
+				3BFAF24A30681F0500A88751 /* PBXTargetDependency */,
 			);
-			name = WorkoutApp;
+			name = VIGOR;
 			packageProductDependencies = (
 			);
 			productName = WorkoutApp;
-			productReference = 422D09EB801CE5BA0EDFBA28 /* WorkoutApp.app */;
+			productReference = 422D09EB801CE5BA0EDFBA28 /* VIGOR.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F591D5D1214322DB8C36E35A /* WorkoutAppTests */ = {
+		F591D5D1214322DB8C36E35A /* VIGORTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B0482AE7B9513E84E4000503 /* Build configuration list for PBXNativeTarget "WorkoutAppTests" */;
+			buildConfigurationList = B0482AE7B9513E84E4000503 /* Build configuration list for PBXNativeTarget "VIGORTests" */;
 			buildPhases = (
 				BFA1A1B5A219BDF648EA01F8 /* Sources */,
 				8D07D04DE47B4B19333CA903 /* Resources */,
@@ -636,11 +702,11 @@
 			dependencies = (
 				C6532B1B20DC31E1B03282C5 /* PBXTargetDependency */,
 			);
-			name = WorkoutAppTests;
+			name = VIGORTests;
 			packageProductDependencies = (
 			);
 			productName = WorkoutAppTests;
-			productReference = 59D9874F60BE35004930E655 /* WorkoutAppTests.xctest */;
+			productReference = 59D9874F60BE35004930E655 /* VIGORTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -650,8 +716,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
+					3BFAF24030681F0300A88751 = {
+						CreatedOnToolsVersion = 27.0;
+					};
 					ABF2373167B7B0B56902CCF7 = {
 						ProvisioningStyle = Automatic;
 					};
@@ -680,10 +750,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F188A5381D91802A1CFB359E /* WorkoutApp */,
-				F591D5D1214322DB8C36E35A /* WorkoutAppTests */,
-				F029B2FA34DC1EB5DD3E4624 /* WorkoutAppUITests */,
-				ABF2373167B7B0B56902CCF7 /* WorkoutWidgets */,
+				F188A5381D91802A1CFB359E /* VIGOR */,
+				F591D5D1214322DB8C36E35A /* VIGORTests */,
+				F029B2FA34DC1EB5DD3E4624 /* VIGORUITests */,
+				ABF2373167B7B0B56902CCF7 /* VIGORWidgets */,
+				3BFAF24030681F0300A88751 /* VIGOR Watch App Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -702,6 +773,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CD05DF0BE34C4716D2B344B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BFAF23F30681F0300A88751 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -724,6 +802,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D344CB9BB61D6CC6212B4A94 /* ScreenshotTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BFAF23D30681F0300A88751 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,6 +869,7 @@
 				5C54924803950DC31497340B /* VolumeAnalytics.swift in Sources */,
 				326D0CFFD9FEEC15DF540947 /* WidgetSnapshot.swift in Sources */,
 				CC447520952DB2F25FCDEB4F /* WidgetSnapshotSync.swift in Sources */,
+				5D94E26C61FD2206E18426E8 /* WatchSessionSync.swift in Sources */,
 				477B83E0FA8B462A02D6B27D /* WorkoutApp.swift in Sources */,
 				2AC541EED8F83771C7C13E19 /* WorkoutBackup.swift in Sources */,
 				E2C78278771E5BE96FAB97B3 /* WorkoutHistoryView.swift in Sources */,
@@ -825,19 +911,24 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3BFAF24A30681F0500A88751 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3BFAF24030681F0300A88751 /* VIGOR Watch App Watch App */;
+			targetProxy = 3BFAF24930681F0500A88751 /* PBXContainerItemProxy */;
+		};
 		4A32EF16C37C4EE4AC748E28 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ABF2373167B7B0B56902CCF7 /* WorkoutWidgets */;
+			target = ABF2373167B7B0B56902CCF7 /* VIGORWidgets */;
 			targetProxy = 7BB15C7102D0BC5B5B71FC52 /* PBXContainerItemProxy */;
 		};
 		841C874D953B4CF9DEC23FA9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F188A5381D91802A1CFB359E /* WorkoutApp */;
+			target = F188A5381D91802A1CFB359E /* VIGOR */;
 			targetProxy = 206370E242511B86B7E11336 /* PBXContainerItemProxy */;
 		};
 		C6532B1B20DC31E1B03282C5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F188A5381D91802A1CFB359E /* WorkoutApp */;
+			target = F188A5381D91802A1CFB359E /* VIGOR */;
 			targetProxy = A2A16D983C3ABF8A06271109 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -880,6 +971,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -893,6 +985,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = minimal;
@@ -906,8 +999,10 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WorkoutWidgets/WorkoutWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WorkoutWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VIGOR;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -941,6 +1036,92 @@
 			};
 			name = Debug;
 		};
+		3BFAF24D30681F0500A88751 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "VIGOR Watch App Watch App/VIGOR Watch App Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LFUJ5F964X;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VIGOR-Watch-App-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "VIGOR Watch App";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.local.WorkoutApp;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.WorkoutApp.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Debug;
+		};
+		3BFAF24E30681F0500A88751 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "VIGOR Watch App Watch App/VIGOR Watch App Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LFUJ5F964X;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "VIGOR-Watch-App-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "VIGOR Watch App";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.local.WorkoutApp;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.WorkoutApp.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Release;
+		};
 		4209FFBD4267CD291475C47E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -950,8 +1131,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VIGOR;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -960,7 +1144,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.local.WorkoutApp;
 				PRODUCT_MODULE_NAME = WorkoutApp;
-				PRODUCT_NAME = Workout;
+				PRODUCT_NAME = VIGOR;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -978,8 +1162,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VIGOR;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -988,7 +1175,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.local.WorkoutApp;
 				PRODUCT_MODULE_NAME = WorkoutApp;
-				PRODUCT_NAME = Workout;
+				PRODUCT_NAME = VIGOR;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1012,7 +1199,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.local.WorkoutAppTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Workout.app/Workout";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VIGOR.app/VIGOR";
 				TEST_TARGET_NAME = WorkoutApp;
 			};
 			name = Release;
@@ -1032,7 +1219,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.local.WorkoutAppTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Workout.app/Workout";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VIGOR.app/VIGOR";
 				TEST_TARGET_NAME = WorkoutApp;
 			};
 			name = Debug;
@@ -1061,8 +1248,10 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WorkoutWidgets/WorkoutWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WorkoutWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VIGOR;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1114,6 +1303,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1134,6 +1324,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = minimal;
@@ -1145,11 +1336,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3804A6874859320A16FCC96C /* Build configuration list for PBXNativeTarget "WorkoutApp" */ = {
+		3804A6874859320A16FCC96C /* Build configuration list for PBXNativeTarget "VIGOR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6421833CC202026A9017E343 /* Debug */,
 				4209FFBD4267CD291475C47E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3BFAF24C30681F0500A88751 /* Build configuration list for PBXNativeTarget "VIGOR Watch App Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BFAF24D30681F0500A88751 /* Debug */,
+				3BFAF24E30681F0500A88751 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1163,7 +1363,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		67293C6A4CA01E8A16636CE7 /* Build configuration list for PBXNativeTarget "WorkoutAppUITests" */ = {
+		67293C6A4CA01E8A16636CE7 /* Build configuration list for PBXNativeTarget "VIGORUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				31CD1E9915D4BBC1BB0EC36A /* Debug */,
@@ -1172,7 +1372,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		B0482AE7B9513E84E4000503 /* Build configuration list for PBXNativeTarget "WorkoutAppTests" */ = {
+		B0482AE7B9513E84E4000503 /* Build configuration list for PBXNativeTarget "VIGORTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D894EAC03261C83238E37C1 /* Debug */,
@@ -1181,7 +1381,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		DD0F6388DD282AB1C783F64C /* Build configuration list for PBXNativeTarget "WorkoutWidgets" */ = {
+		DD0F6388DD282AB1C783F64C /* Build configuration list for PBXNativeTarget "VIGORWidgets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D733AB84BA1080A5DD027332 /* Debug */,

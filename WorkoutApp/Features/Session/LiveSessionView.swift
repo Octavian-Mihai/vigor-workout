@@ -236,6 +236,7 @@ final class SessionController: ObservableObject {
             targetSets: exercise?.targetSets ?? 0
         )
         ensureTimer()
+        WatchSessionSync.shared.pushSnapshot(from: self)
     }
 
     func resetRest() {
@@ -243,6 +244,7 @@ final class SessionController: ObservableObject {
         timerRunning = false
         restTimer.resetRest()
         stopTimer()
+        WatchSessionSync.shared.pushSnapshot(from: self)
     }
 
     func stopTimer() {
@@ -286,6 +288,7 @@ final class SessionController: ObservableObject {
         }
         if let partner = nextSupersetPartner(after: exerciseID) {
             supersetCueMessage = "No rest — up next: \(partner.name)"
+            WatchSessionSync.shared.pushSnapshot(from: self)
         } else {
             supersetCueMessage = nil
             startRest(for: exerciseID)
@@ -385,6 +388,7 @@ final class SessionController: ObservableObject {
         )
         exercises.append(exercise)
         drafts[exercise.id] = ExerciseDraft()
+        WatchSessionSync.shared.pushSnapshot(from: self)
     }
 
     func addCustom(name: String, equipment: ExerciseEquipment, primary: [String], secondary: [String]) {
@@ -396,6 +400,7 @@ final class SessionController: ObservableObject {
         )
         exercises.append(exercise)
         drafts[exercise.id] = ExerciseDraft()
+        WatchSessionSync.shared.pushSnapshot(from: self)
     }
 
     func removeExercise(id: UUID) {
@@ -409,6 +414,7 @@ final class SessionController: ObservableObject {
         for set in removed.logged {
             loggedEdits.removeValue(forKey: set.id)
         }
+        WatchSessionSync.shared.pushSnapshot(from: self)
     }
 
     func removeExercise(matching catalog: CatalogExercise) {
@@ -418,6 +424,7 @@ final class SessionController: ObservableObject {
 
     func moveExercises(from source: IndexSet, to destination: Int) {
         exercises.move(fromOffsets: source, toOffset: destination)
+        WatchSessionSync.shared.pushSnapshot(from: self)
     }
 
     func swapExercise(id: UUID, with catalog: CatalogExercise) {
@@ -724,6 +731,10 @@ struct LiveSessionView: View {
         }
         .onAppear {
             controller.pastSessions = pastSessions
+            WatchSessionSync.shared.attach(controller)
+        }
+        .onDisappear {
+            WatchSessionSync.shared.detach()
         }
         .onChange(of: pastSessions.count) { _, _ in
             controller.pastSessions = pastSessions
