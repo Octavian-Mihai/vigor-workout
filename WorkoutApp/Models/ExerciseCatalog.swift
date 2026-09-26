@@ -395,7 +395,7 @@ enum ExerciseCatalog {
             primary: [.quadriceps, .glutes],
             secondary: [],
             cues: "Brace and sit between the hips. Keep mid-foot pressure; don’t collapse the chest or ride the bar forward.",
-            equipment: .barbell
+            equipment: .machine
         ),
         CatalogExercise(
             id: "belt-squat",
@@ -939,6 +939,15 @@ enum ExerciseCatalog {
             equipment: .barbell
         ),
         CatalogExercise(
+            id: "smith-machine-bench-press",
+            name: "Smith Machine Bench Press",
+            category: .push,
+            primary: [.chest],
+            secondary: [.triceps, .anteriorDelts],
+            cues: "Set the bar path over the nipple line. Lower under control and press without bouncing off the safety catches.",
+            equipment: .machine
+        ),
+        CatalogExercise(
             id: "incline-barbell-bench-press",
             name: "Incline Barbell Bench Press",
             category: .push,
@@ -1001,6 +1010,15 @@ enum ExerciseCatalog {
             primary: [.chest, .triceps],
             secondary: [.anteriorDelts],
             cues: "Shoulders down. Lean forward for more chest; stay more upright for triceps. Don’t dump into the joints.",
+            equipment: .machine
+        ),
+        CatalogExercise(
+            id: "dip-machine",
+            name: "Dip Machine",
+            category: .push,
+            primary: [.chest, .triceps],
+            secondary: [.anteriorDelts],
+            cues: "Set the seat so the handles line up under the shoulders. Lean forward for more chest; stay upright for triceps.",
             equipment: .machine
         ),
         CatalogExercise(
@@ -1238,6 +1256,15 @@ enum ExerciseCatalog {
             equipment: .machine
         ),
         CatalogExercise(
+            id: "assisted-pull-up",
+            name: "Assisted Pull-Up",
+            category: .pull,
+            primary: [.lats],
+            secondary: [.biceps, .rhomboids],
+            cues: "Set the counterweight so the last rep or two is hard, not free. Dead hang to chin over the bar.",
+            equipment: .machine
+        ),
+        CatalogExercise(
             id: "chin-up",
             name: "Chin-Up",
             category: .pull,
@@ -1366,6 +1393,15 @@ enum ExerciseCatalog {
             secondary: [],
             cues: "Upper arms pinned to the pad. Curl through a full range and lower slowly; don’t hyperextend the elbows.",
             equipment: .dumbbell
+        ),
+        CatalogExercise(
+            id: "preacher-curl-machine",
+            name: "Preacher Curl Machine",
+            category: .pull,
+            primary: [.biceps],
+            secondary: [],
+            cues: "Upper arms pinned to the pad. Curl through a full range and lower slowly; don’t hyperextend the elbows.",
+            equipment: .machine
         ),
         CatalogExercise(
             id: "incline-dumbbell-curl",
@@ -1505,6 +1541,15 @@ enum ExerciseCatalog {
             secondary: [],
             cues: "Round the spine to shorten the abs. Hips stay relatively still.",
             equipment: .functionalTrainer
+        ),
+        CatalogExercise(
+            id: "ab-crunch-machine",
+            name: "Ab Crunch Machine",
+            category: .core,
+            primary: [.coreAndAbs],
+            secondary: [],
+            cues: "Round the spine to shorten the abs rather than just pulling the handles down. Control the return.",
+            equipment: .machine
         ),
         CatalogExercise(
             id: "cable-woodchop",
