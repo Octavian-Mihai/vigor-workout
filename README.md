@@ -22,9 +22,9 @@ A native iPhone strength-training app, a desktop **Program Builder**, and a **Co
 |:---:|:---:|:---:|
 | ![Workout complete summary](website/screens/workout_complete.png) | ![Stress and muscle-freshness analytics](website/screens/stress_analytics.png) | ![Exercise catalog](website/screens/exercise_catalog.png) |
 
-| Running | Customization |
+| Cardio | Customization |
 |:---:|:---:|
-| ![Running tab](docs/screenshots/running.png) | ![Accent and appearance customization](website/screens/customization.png) |
+| ![Cardio tab](docs/screenshots/running.png) | ![Accent and appearance customization](website/screens/customization.png) |
 
 ### Features
 
