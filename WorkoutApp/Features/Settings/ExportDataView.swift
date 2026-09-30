@@ -1,4 +1,19 @@
 import SwiftUI
+import CoreTransferable
+
+/// Backup plus the filename it should be shared under.
+struct NamedBackup: Transferable {
+    let file: WorkoutBackupFile
+    let filename: String
+
+    static var transferRepresentation: some TransferRepresentation {
+        FileRepresentation(exportedContentType: .json) { named in
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent(named.filename)
+            try WorkoutBackupService.encode(named.file).write(to: url, options: .atomic)
+            return SentTransferredFile(url)
+        }
+    }
+}
 
 struct ExportDataView: View {
     @Environment(\.dismiss) private var dismiss
@@ -62,6 +77,24 @@ struct ExportDataView: View {
         return file
     }
 
+    private var filename: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        let today = formatter.string(from: Date())
+        let period: String
+        switch timeline {
+        case .all: period = "all-time-\(today)"
+        case .days30: period = "last-30-days-\(today)"
+        case .days90: period = "last-90-days-\(today)"
+        case .year: period = "last-year-\(today)"
+        case .custom:
+            let r = range
+            period = "\(formatter.string(from: r?.lowerBound ?? customStart))-to-\(formatter.string(from: r?.upperBound ?? customEnd))"
+        }
+        return "workout-data-\(period).json"
+    }
+
     var body: some View {
         NavigationStack {
             Form {
@@ -89,7 +122,7 @@ struct ExportDataView: View {
                                 .foregroundStyle(.secondary)
                         }
                     } else {
-                        ShareLink(item: backup, preview: SharePreview("Workout data")) {
+                        ShareLink(item: NamedBackup(file: backup, filename: filename), preview: SharePreview("Workout data")) {
                             Label("Export", systemImage: "square.and.arrow.up")
                         }
                         .disabled(nothingSelected)
