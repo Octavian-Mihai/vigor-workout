@@ -97,7 +97,7 @@ const Pages = (() => {
     const vals = w.map(x => x.kg * W(ctx));
     return { type: 'line', data: { labels: w.map(x => shortDate(x.date)), datasets: [
       { label: 'Weigh-in', data: vals, borderColor: C.pink, backgroundColor: C.pink, pointRadius: 3, tension: .25 },
-      { label: '7-entry average', data: A.movingAverage(vals, 7), borderColor: '#fff', borderDash: [5, 4], pointRadius: 0, tension: .35, borderWidth: 1.5 }] },
+      { label: '7-entry average', data: A.movingAverage(vals, 7), borderColor: Chart.defaults.color, borderDash: [5, 4], pointRadius: 0, tension: .35, borderWidth: 1.5 }] },
       options: lineOpts({ plugins: { legend: { display: true } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } }, y: { grace: '5%' } } }) };
   }
 

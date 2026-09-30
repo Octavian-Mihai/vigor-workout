@@ -28227,9 +28227,9 @@
   ],
   "theme": {
     "accentHex": "FA6B2E",
-    "backgroundHex": "332E29",
-    "cardHex": "47433E",
-    "isDark": true
+    "backgroundHex": "F2F2F7",
+    "cardHex": "FFFFFF",
+    "isDark": false
   },
   "timeZone": "Europe/London",
   "version": 2

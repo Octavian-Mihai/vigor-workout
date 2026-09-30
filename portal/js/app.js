@@ -116,7 +116,7 @@
   function renderClients() {
     view.innerHTML = `<h1>Clients &amp; import</h1><p class="sub">Import the .json file exported from the VIGOR app. Each import is stored as a client in this browser only.</p>
       <div class="card" style="margin-bottom:16px">
-        <div class="drop" id="drop"><p><strong>Drop a VIGOR export here</strong></p><p>or</p><p style="margin-top:10px"><button class="primary" id="pick">Choose file…</button></p><input type="file" id="file" accept=".json,application/json" multiple hidden></div>
+        <div class="drop" id="drop"><p><strong>Drop a VIGOR export here</strong></p><p>or</p><p style="margin-top:10px"><button class="primary" id="pick">Choose file…</button> <button id="demo">Try demo data</button></p><input type="file" id="file" accept=".json,application/json" multiple hidden></div>
         <p class="foot" id="msg"></p>
       </div>
       <div class="card"><h2>Stored clients</h2>${state.clients.length ? state.clients.map(c => `
@@ -125,6 +125,7 @@
         <p class="foot">Importing the same client again? Give it the same name to replace their previous data.</p></div>`;
     const drop = $('#drop'), file = $('#file'), msg = $('#msg');
     $('#pick').onclick = () => file.click();
+    $('#demo').onclick = () => loadDemo(msg);
     file.onchange = () => importFiles([...file.files], msg);
     ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
     ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
@@ -183,6 +184,25 @@
     };
   }
 
+  async function loadDemo(msg) {
+    try {
+      const res = await fetch('sample/demo-client.json');
+      if (!res.ok) throw new Error('demo file not found');
+      const backup = await res.json();
+      const existing = state.clients.find(c => c.id === 'demo-client');
+      const client = existing || { id: 'demo-client', name: 'Demo Client' };
+      client.backup = backup; client.importedAt = Date.now();
+      const m = A.parse(backup);
+      client.summary = `${m.sessions.length} sessions · ${m.cardio.length} cardio · ${m.weights.length} weigh-ins · exported ${P.dateStr(m.exportedAt)}`;
+      await Store.save(client);
+      state.clientId = client.id; ls.set('clientId', client.id);
+      await reload();
+      location.hash = '#/overview'; render();
+    } catch (e) {
+      if (msg) msg.textContent = 'Could not load demo data (open the portal over http, not file://).';
+    }
+  }
+
   async function reload() {
     state.clients = (await Store.list()).sort((a, z) => a.name.localeCompare(z.name));
     if (!currentClient()) state.clientId = state.clients[0] ? state.clients[0].id : null;
@@ -190,5 +210,9 @@
   }
 
   window.addEventListener('hashchange', render);
-  reload().then(() => { if (!state.model && !location.hash) location.hash = '#/clients'; render(); });
+  reload().then(async () => {
+    if (new URLSearchParams(location.search).has('demo') && !state.clients.some(c => c.id === 'demo-client')) { await loadDemo(); return; }
+    if (!state.model && !location.hash) location.hash = '#/clients';
+    render();
+  });
 })();

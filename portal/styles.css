@@ -116,3 +116,5 @@ table.prog th:nth-child(2){width:16%}
 table.prog th:nth-child(3){width:12%}
 table.prog th:nth-child(4){width:34%}
 table.prog td:nth-child(4){white-space:normal}
+
+td .note.sm{font-size:12px;color:var(--ink-faint);margin-top:1px}

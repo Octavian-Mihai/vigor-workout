@@ -54,6 +54,14 @@ const Analytics = (() => {
     } catch { return iso(d); }
   }
 
+  const hourFmt = {};
+  /** Hour of day (0-23) and weekday (0=Mon..6=Sun) of an instant in the exporter's time zone. */
+  function hourIn(d, tz) {
+    try { const f = hourFmt[tz] || (hourFmt[tz] = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', hourCycle: 'h23' })); return Number(f.format(d)) % 24; }
+    catch { return d.getHours(); }
+  }
+  function dowIn(d, tz) { return (new Date(dayKey(d, tz) + 'T00:00:00Z').getUTCDay() + 6) % 7; }
+
   function parse(b) {
     const sessions = (b.sessions || []).map(s => {
       const start = new Date(s.startDate);
@@ -190,5 +198,5 @@ const Analytics = (() => {
     return values.map((_, i) => avg(values.slice(Math.max(0, i - window + 1), i + 1)));
   }
 
-  return { iso, startOfDay, weekStart, addDays, sum, avg, e1rm, parse, slice, bounds, weekly, muscleVolume, muscleSetsByWeek, stressSeries, stressBand, movingAverage };
+  return { hourIn, dowIn, dayKey, iso, startOfDay, weekStart, addDays, sum, avg, e1rm, parse, slice, bounds, weekly, muscleVolume, muscleSetsByWeek, stressSeries, stressBand, movingAverage };
 })();

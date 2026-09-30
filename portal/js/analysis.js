@@ -143,7 +143,7 @@
       ['Upper : Lower', `${fmt(upper, 1)} : ${fmt(legs, 1)}`, ratio(upper, legs), 'about 1–1.5 : 1 for a general client', 0.8, 1.8],
       ['Anterior : Posterior delts', `${fmt(wk('Anterior Delts'), 1)} : ${fmt(wk('Posterior Delts'), 1)}`, ratio(wk('Anterior Delts'), wk('Posterior Delts')), 'posterior delts are often undertrained', 0.5, 1.5],
       ['Biceps : Triceps', `${fmt(wk('Biceps'), 1)} : ${fmt(wk('Triceps'), 1)}`, ratio(wk('Biceps'), wk('Triceps')), 'about 1 : 1', 0.6, 1.6],
-    ].map(r => [r[0], r[1], r[2] == null ? '—' : fmt(r[2], 2), status(r[2], r[4], r[5]), `<span class="note">${r[3]}</span>`]);
+    ].map(r => [`${r[0]}<div class="note sm">${r[3]}</div>`, r[1], r[2] == null ? '—' : fmt(r[2], 2), status(r[2], r[4], r[5])]);
 
     // Recency
     const last = {}, recent7 = {};
@@ -166,7 +166,7 @@
 
     const html = header('Balance & intensity', 'Where the work goes, what is neglected, and how hard it is. Values are weekly hard sets averaged over the selected period.') +
       `<div class="grid g4">${kpi('Push : Pull', ratio(push, pull) ? fmt(ratio(push, pull), 2) : '—', `${fmt(push, 1)} vs ${fmt(pull, 1)} sets/wk`)}${kpi('Upper : Lower', ratio(upper, legs) ? fmt(ratio(upper, legs), 2) : '—')}${kpi('Sets to failure', fmt(fail) + '%', 'RIR 0', fail > 25 ? 'down' : 'flat')}${kpi('Avg RIR', fmt(A.avg(sets.map(s => s.rir)), 1))}</div>
-       <div class="grid g2">${card('Muscle balance ratios', table(['Ratio', 'Sets / week', 'Value', 'Reading', 'Guide'], rows))}${card('Training split (share of weekly sets)', canvas('bSplit'))}</div>
+       <div class="grid g2">${card('Muscle balance ratios', table(['Ratio', 'Sets / week', 'Value', 'Reading'], rows))}${card('Training split (share of weekly sets)', canvas('bSplit'))}</div>
        <div style="height:16px"></div>
        ${card('Body-part recency (time since last direct training)', `<div class="tiles">${tiles}</div><div class="legend"><span><i style="background:var(--bad)"></i>0–2 days (recovering)</span><span><i style="background:var(--good)"></i>3–7 days</span><span><i style="background:var(--warn)"></i>8–14 days</span><span><i style="background:var(--ink-faint)"></i>15+ days</span></div>`)}
        <div style="height:16px"></div>
@@ -188,7 +188,7 @@
     const firstAct = A.startOfDay(new Date(Math.min(...model.sessions.map(x => x.start), ...model.cardio.map(x => x.start), end)));
     const start = A.weekStart(new Date(Math.max(A.addDays(end, -7 * 52), firstAct)));
     const days = new Map();
-    const d = x => { const k = A.iso(x); if (!days.has(k)) days.set(k, { lift: 0, sets: 0, cardio: 0, mins: 0 }); return days.get(k); };
+    const d = x => { const k = A.dayKey(x, model.tz); if (!days.has(k)) days.set(k, { lift: 0, sets: 0, cardio: 0, mins: 0 }); return days.get(k); };
     model.sessions.forEach(s => { const x = d(s.start); x.lift++; x.sets += s.sets.length; });
     model.cardio.forEach(c => { const x = d(c.start); x.cardio++; x.mins += c.durationSeconds / 60; });
     const cells = [], monthLabels = [];
@@ -215,16 +215,16 @@
     const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((n, i) => `<span class="cal-d" style="grid-column:1;grid-row:${i + 2}">${n}</span>`).join('');
     const calHtml = `<div class="calscroll"><div class="cal">${monthLabels.join('')}${dayLabels}${cells.join('')}</div></div>`;
     // Consistency stats within the selected period
-    const active = [...new Set([...m.sessions.map(s => A.iso(s.start)), ...m.cardio.map(c => A.iso(c.start))])].sort();
+    const active = [...new Set([...m.sessions.map(s => A.dayKey(s.start, model.tz)), ...m.cardio.map(c => A.dayKey(c.start, model.tz))])].sort();
     let longest = 0, streak = 0, gap = 0, prevD = null;
     active.forEach(k => { const t = new Date(k + 'T00:00:00'); if (prevD) { const g = Math.round((t - prevD) / DAY) - 1; gap = Math.max(gap, g); } prevD = t; });
     const wk = A.weekly([...m.sessions.map(s => s.start), ...m.cardio.map(c => c.start)], x => x);
     wk.forEach(w => { if (w.items.length) { streak++; longest = Math.max(longest, streak); } else streak = 0; });
     const dow = [0, 0, 0, 0, 0, 0, 0], hours = Array(24).fill(0);
-    m.sessions.forEach(s => { dow[(s.start.getDay() + 6) % 7]++; hours[s.start.getHours()]++; });
+    m.sessions.forEach(s => { dow[A.dowIn(s.start, model.tz)]++; hours[A.hourIn(s.start, model.tz)]++; });
     const months = new Map();
     [...m.sessions.map(s => ({ t: 'l', d: s.start, v: s.volume })), ...m.cardio.map(c => ({ t: 'c', d: c.start, v: c.distanceKm }))].forEach(x => {
-      const k = `${x.d.getFullYear()}-${String(x.d.getMonth() + 1).padStart(2, '0')}`;
+      const k = A.dayKey(x.d, model.tz).slice(0, 7);
       const r = months.get(k) || { l: 0, vol: 0, c: 0, km: 0 }; if (x.t === 'l') { r.l++; r.vol += x.v; } else { r.c++; r.km += x.v; } months.set(k, r);
     });
     const mrows = [...months.entries()].sort().reverse().map(([k, r]) => [k, r.l, `${fmt(r.vol * W(ctx))} ${wu(ctx)}`, r.c, `${fmt(r.km, 1)} km`]);
