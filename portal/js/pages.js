@@ -295,7 +295,7 @@ const Pages = (() => {
     const html = header('Programs', 'Program structure as set up in the app (not filtered by period).') + ps.map(p =>
       card(`${esc(p.name)} ${p.isActive ? '<span class="pill recovery">Active</span>' : ''}`,
         (p.days || []).sort((a, z) => a.sortIndex - z.sortIndex).map(d => `<div class="prog-day"><strong>${esc(d.name)}</strong>${
-          table(['Exercise', 'Sets × reps', 'Rest', 'Muscles'], (d.exercises || []).sort((a, z) => a.sortIndex - z.sortIndex).map(e => [esc(e.name), `${e.targetSets} × ${e.targetReps}`, e.restSeconds ? e.restSeconds + 's' : '—', esc((e.primaryMuscles || []).join(', '))]), [1, 2]).replace('<table>', '<table class="fixed prog">')}</div>`).join(''), '')).join('<div style="height:16px"></div>');
+          table(['Exercise', 'Sets × reps', 'Rest', 'Muscles'], (d.exercises || []).sort((a, z) => a.sortIndex - z.sortIndex).map(e => [esc(e.name), `${e.targetSets} × ${e.targetReps}`, e.restSeconds ? e.restSeconds + 's' : '—', esc((e.primaryMuscles || []).join(', '))]), [1, 2]).replace('<table>', '<table class="fixed prog" style="table-layout:fixed;width:100%"><colgroup><col style="width:40%"><col style="width:15%"><col style="width:10%"><col style="width:35%"></colgroup>')}</div>`).join(''), '')).join('<div style="height:16px"></div>');
     return { html };
   }
 
