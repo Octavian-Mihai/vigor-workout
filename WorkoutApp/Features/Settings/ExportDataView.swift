@@ -80,10 +80,13 @@ struct ExportDataView: View {
             measurements: includeWeight ? measurements.filter { inRange($0.date) } : []
         )
         file.theme = themeBackup
+        file.timeZone = TimeZone.current.identifier
+        file.restingHeartRate = health.restingHeartRate
+        file.maxHeartRate = health.maxHeartRate
         if includeCardio {
             file.cardio = health.cardioSessions
                 .filter { inRange($0.start) }
-                .map { WorkoutBackupService.cardioBackup(from: $0) }
+                .map { WorkoutBackupService.cardioBackup(from: $0, restingHeartRate: health.restingHeartRate, maxHeartRate: health.maxHeartRate) }
         }
         return file
     }

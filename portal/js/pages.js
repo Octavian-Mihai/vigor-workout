@@ -74,13 +74,13 @@ const Pages = (() => {
         ${kpi('Total volume', `${fmt(vol * W(ctx))} <small>${wu(ctx)}</small>`, `${fmt(m.sets.length)} sets · ${fmt(A.sum(m.sets.map(s => s.reps)))} reps`)}
         ${kpi('Cardio distance', `${fmt(km, 1)} <small>km</small>`, `${m.cardio.length} sessions · ${duration(A.sum(m.cardio.map(c => c.durationSeconds)))}`)}
         ${kpi('Bodyweight', w.length ? `${wv(ctx, w[w.length - 1].kg)} <small>${wu(ctx)}</small>` : '—', wd == null ? '' : delta(wd * W(ctx), wu(ctx)) + ' over period')}
-        ${kpi('Training stress', st ? fmt(st.total) : '—', band ? `<span class="pill ${band.key}">${band.label}</span> rolling 7 days` : '')}
+        ${kpi('Training stress', st ? fmt(st.total) : '—', band ? `<span class="pill ${band.key}">${band.label}</span> leftover fatigue` : '')}
       </div>
       <div class="grid g2">
         ${card('Weekly volume (' + wu(ctx) + ')', canvas('cVol'))}
         ${card('Weekly cardio distance (km)', canvas('cCardio'))}
         ${card('Bodyweight (' + wu(ctx) + ')', canvas('cWeight'))}
-        ${card('Training stress (rolling 7 days)', canvas('cStress'))}
+        ${card('Training stress (leftover fatigue)', canvas('cStress'))}
       </div>
       ${card('Recent activity', table(['Date', 'Type', 'Session', 'Detail'], recent.map(r => [dateStr(r.d), r.t, esc(r.n), r.x])))}`;
     return { html, mount(root) {
@@ -186,7 +186,9 @@ const Pages = (() => {
   }
 
   /* ---------------- Cardio ---------------- */
-  const maxHr = () => { try { return Number(localStorage.getItem('maxHr')) || 190; } catch { return 190; } };
+  let defaultMaxHr = 190;
+  const setDefaultMaxHr = v => { defaultMaxHr = Math.round(v) || 190; };
+  const maxHr = () => { try { return Number(localStorage.getItem('maxHr')) || defaultMaxHr; } catch { return defaultMaxHr; } };
   function zoneSummary(list) {
     const mx = maxHr(), minutes = [0, 0, 0, 0, 0];
     list.filter(c => c.averageHeartRate > 0).forEach(c => {
@@ -238,17 +240,17 @@ const Pages = (() => {
     const now = s[s.length - 1], band = A.stressBand(now.total);
     const weeks = A.weekly(s, x => x.date, false);
     const rows = weeks.map(w => { const t = A.avg(w.items.map(x => x.total)); return [dateStr(w.date), fmt(t), `<span class="pill ${A.stressBand(t).key}">${A.stressBand(t).label}</span>`, fmt(Math.max(...w.items.map(x => x.total)))]; }).reverse();
-    const html = header('Stress & recovery', 'Same model as the app: volume load (max 50) + intensity from RIR (max 30) + cardio load (max 20), over a rolling 7 days.') +
-      `<div class="grid g4">${kpi('Current stress', fmt(now.total), `<span class="pill ${band.key}">${band.label}</span>`)}${kpi('Recovery score', fmt(100 - now.total), '100 − stress')}${kpi('Period average', fmt(A.avg(s.map(x => x.total))))}${kpi('Peak', fmt(Math.max(...s.map(x => x.total))), 'highest rolling-7-day value')}</div>
-       <div class="grid g2">${card('Daily training stress', canvas('sTotal', true))}${card('What drives it', canvas('sSplit', true))}</div>
+    const html = header('Stress & recovery', 'Identical to the app: each day adds its lifting and cardio load to 65% of the previous day’s leftover fatigue. The value is today’s leftover fatigue.') +
+      `<div class="grid g4">${kpi('Current stress', fmt(now.total), `<span class="pill ${band.key}">${band.label}</span>`)}${kpi('Recovery score', fmt(100 - now.total), '100 − stress')}${kpi('Period average', fmt(A.avg(s.map(x => x.total))))}${kpi('Peak', fmt(Math.max(...s.map(x => x.total))), 'highest leftover fatigue')}</div>
+       <div class="grid g2">${card('Daily training stress', canvas('sTotal', true))}${card('Leftover fatigue by source', canvas('sSplit', true))}</div>
        ${card('Weekly summary', table(['Week of', 'Avg stress', 'Band', 'Peak'], rows, [1, 3]))}
-       <p class="foot">Bands: 0–30 recovery, 31–55 productive, 56–75 high, 76–100 very high. Cardio stress assumes resting HR 60 and max HR 190 because those aren't in the export.</p>`;
+       <p class="foot">Bands: 0–30 recovery, 31–55 productive, 56–75 high, 76–100 very high.</p>`;
     return { html, mount(root) {
       chart(root, 'sTotal', stressLine(s));
       chart(root, 'sSplit', { type: 'line', data: { labels: s.map(x => shortDate(x.date)), datasets: [
-        { label: 'Lifting', data: s.map(x => x.lift), borderColor: C.accent, backgroundColor: 'rgba(255,90,43,.35)', fill: true, pointRadius: 0, tension: .3, stack: 'a' },
-        { label: 'Cardio', data: s.map(x => x.run), borderColor: C.blue, backgroundColor: 'rgba(58,160,255,.35)', fill: true, pointRadius: 0, tension: .3, stack: 'a' }] },
-        options: lineOpts({ plugins: { legend: { display: true } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } }, y: { stacked: true, beginAtZero: true } } }) });
+        { label: 'Lifting', data: s.map(x => x.lift), borderColor: C.accent, pointRadius: 0, tension: .3 },
+        { label: 'Cardio', data: s.map(x => x.run), borderColor: C.blue, pointRadius: 0, tension: .3 }] },
+        options: lineOpts({ plugins: { legend: { display: true } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } }, y: { min: 0, max: 100 } } }) });
     } };
   }
 
@@ -293,11 +295,11 @@ const Pages = (() => {
     const html = header('Programs', 'Program structure as set up in the app (not filtered by period).') + ps.map(p =>
       card(`${esc(p.name)} ${p.isActive ? '<span class="pill recovery">Active</span>' : ''}`,
         (p.days || []).sort((a, z) => a.sortIndex - z.sortIndex).map(d => `<div class="prog-day"><strong>${esc(d.name)}</strong>${
-          table(['Exercise', 'Sets × reps', 'Rest', 'Muscles'], (d.exercises || []).sort((a, z) => a.sortIndex - z.sortIndex).map(e => [esc(e.name), `${e.targetSets} × ${e.targetReps}`, e.restSeconds ? e.restSeconds + 's' : '—', esc((e.primaryMuscles || []).join(', '))]), [1, 2])}</div>`).join(''), '')).join('<div style="height:16px"></div>');
+          table(['Exercise', 'Sets × reps', 'Rest', 'Muscles'], (d.exercises || []).sort((a, z) => a.sortIndex - z.sortIndex).map(e => [esc(e.name), `${e.targetSets} × ${e.targetReps}`, e.restSeconds ? e.restSeconds + 's' : '—', esc((e.primaryMuscles || []).join(', '))]), [1, 2]).replace('<table>', '<table class="fixed prog">')}</div>`).join(''), '')).join('<div style="height:16px"></div>');
     return { html };
   }
 
   const registry = { overview, volume, lifting, cardio, stress, bodyweight, programs };
   const u = { chart, charts: () => charts, setCharts: c => { charts = c; }, colors: () => C, esc, fmt, dateStr, shortDate, duration, pace, W, wv, wu, kpi, card, canvas, header, table, empty, delta, barOpts, lineOpts };
-  return { registry, u, setTheme, destroyCharts, esc, dateStr };
+  return { registry, u, setTheme, setDefaultMaxHr, destroyCharts, esc, dateStr };
 })();

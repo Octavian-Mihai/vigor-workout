@@ -14,6 +14,10 @@ struct WorkoutBackupFile: Codable, Equatable, Transferable {
     var cardio: [CardioBackup]? = nil
     /// The exporter's app colours, so the coach portal can match them.
     var theme: ThemeBackup? = nil
+    /// Day boundaries used by the app's stress model; the portal buckets days in this zone.
+    var timeZone: String? = nil
+    var restingHeartRate: Double? = nil
+    var maxHeartRate: Double? = nil
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .json) { file in
@@ -95,6 +99,8 @@ struct CardioBackup: Codable, Equatable {
     var distanceKm: Double
     var averageHeartRate: Double?
     var elevationGainMeters: Double?
+    /// Cardio stress exactly as the app calculates it (uses the exporter's resting and max heart rate).
+    var stress: Double? = nil
 }
 
 struct MeasurementBackup: Codable, Equatable {
@@ -210,7 +216,7 @@ enum WorkoutBackupService {
         )
     }
 
-    static func cardioBackup(from run: CardioWorkout) -> CardioBackup {
+    static func cardioBackup(from run: CardioWorkout, restingHeartRate: Double?, maxHeartRate: Double?) -> CardioBackup {
         CardioBackup(
             start: run.start,
             end: run.end,
@@ -218,7 +224,8 @@ enum WorkoutBackupService {
             durationSeconds: Int(run.duration),
             distanceKm: run.distanceKilometers,
             averageHeartRate: run.averageHeartRate,
-            elevationGainMeters: run.elevationGainMeters
+            elevationGainMeters: run.elevationGainMeters,
+            stress: run.stress(restingHeartRate: restingHeartRate, maxHeartRate: maxHeartRate)
         )
     }
 

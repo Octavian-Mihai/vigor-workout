@@ -105,3 +105,11 @@ td,th{vertical-align:middle}
 .verdict.good{color:var(--good)}.verdict.bad{color:var(--bad)}.verdict.flat{color:var(--warn)}
 .inline{display:inline-flex;gap:8px;align-items:center}
 input[type=number]{width:70px}
+
+table.fixed{table-layout:fixed;width:100%}
+table.fixed td,table.fixed th{overflow:hidden;text-overflow:ellipsis}
+table.prog col:nth-child(1),table.prog th:nth-child(1){width:38%}
+table.prog th:nth-child(2){width:16%}
+table.prog th:nth-child(3){width:12%}
+table.prog th:nth-child(4){width:34%}
+table.prog td:nth-child(4){white-space:normal}

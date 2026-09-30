@@ -45,6 +45,15 @@ const Analytics = (() => {
     return { key: 'veryHigh', label: 'Very high', range: '76–100' };
   }
 
+  const fmtCache = {};
+  /** YYYY-MM-DD of an instant in the exporter's time zone (falls back to the browser's). */
+  function dayKey(d, tz) {
+    try {
+      const f = fmtCache[tz] || (fmtCache[tz] = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }));
+      return f.format(d);
+    } catch { return iso(d); }
+  }
+
   function parse(b) {
     const sessions = (b.sessions || []).map(s => {
       const start = new Date(s.startDate);
@@ -62,7 +71,7 @@ const Analytics = (() => {
     const cardio = (b.cardio || []).map(c => {
       const o = { ...c, start: new Date(c.start), end: new Date(c.end), kind: cardioKind(c.sport) };
       o.paceMinPerKm = c.distanceKm > 0 && c.durationSeconds > 0 ? c.durationSeconds / 60 / c.distanceKm : null;
-      o.stress = runStress(o);
+      o.stress = typeof c.stress === 'number' ? c.stress : runStress(o, b.restingHeartRate || 60, b.maxHeartRate || 190);
       return o;
     }).sort((a, z) => a.start - z.start);
 
@@ -75,7 +84,8 @@ const Analytics = (() => {
     const measurements = (b.measurements || []).map(m => ({ ...m, date: new Date(m.date) })).sort((a, z) => a.date - z.date);
 
     return {
-      exportedAt: new Date(b.exportedAt || Date.now()),
+      exportedAt: new Date(b.exportedAt || Date.now()), tz: b.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+      maxHeartRate: b.maxHeartRate || null,
       programs: b.programs || [], sessions, sets: sessions.flatMap(s => s.sets), cardio, weights, measurements,
     };
   }
@@ -131,24 +141,47 @@ const Analytics = (() => {
     return res;
   }
 
-  /** Rolling 7-day training stress per day (same formula as the app's total stress). */
+  /**
+   * The app's leftover-fatigue model (StressCalculator.residualSeries): each day's lift and cardio load
+   * is added to 65% of the previous residual, seeded over 14 days, then combined.
+   */
   function stressSeries(m, from, to) {
+    const tz = m.tz, key = d => dayKey(d, tz);
+    const addKey = (k, n) => { const d = new Date(k + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
     const days = new Map();
-    const day = d => { const k = iso(d); if (!days.has(k)) days.set(k, { vol: 0, intSum: 0, n: 0, runs: [] }); return days.get(k); };
-    m.sets.forEach(s => { const x = day(s.date); x.vol += s.volume; x.intSum += Math.max(0, 5 - Math.min(s.rir, 5)) / 5; x.n++; });
-    m.cardio.forEach(c => day(c.start).runs.push(c.stress));
-    const out = [];
-    for (let d = startOfDay(from); d <= to; d = addDays(d, 1)) {
-      let vol = 0, intSum = 0, n = 0, runs = [];
-      for (let i = 0; i < 7; i++) {
-        const x = days.get(iso(addDays(d, -i)));
-        if (x) { vol += x.vol; intSum += x.intSum; n += x.n; runs = runs.concat(x.runs); }
+    const day = k => { if (!days.has(k)) days.set(k, { sets: [], runs: [] }); return days.get(k); };
+    m.sets.forEach(s => day(key(s.date)).sets.push(s));
+    m.cardio.forEach(c => day(key(c.start)).runs.push(c.stress));
+
+    const liftCache = new Map(), runCache = new Map();
+    const dayLift = k => {
+      if (liftCache.has(k)) return liftCache.get(k);
+      const x = days.get(k); let v = 0;
+      if (x && x.sets.length) {
+        const vol = sum(x.sets.map(s => s.weight * s.reps));
+        const inten = avg(x.sets.map(s => Math.max(0, 5 - Math.min(s.rir, 5)) / 5));
+        v = Math.min(100, Math.min(60, vol / 400) + inten * 40);
       }
-      const volumeScore = Math.min(50, vol / 500);
-      const intensityScore = n ? (intSum / n) * 30 : 0;
-      const runScore = runs.length ? Math.min(20, Math.max(0, avg(runs)) * 0.2) : 0;
-      const lift = volumeScore + intensityScore;
-      out.push({ date: new Date(d), key: iso(d), lift, run: runScore, total: Math.min(100, lift + runScore) });
+      liftCache.set(k, v); return v;
+    };
+    const dayRun = k => {
+      if (runCache.has(k)) return runCache.get(k);
+      const x = days.get(k), v = x && x.runs.length ? Math.min(100, sum(x.runs)) : 0;
+      runCache.set(k, v); return v;
+    };
+
+    let endKey = key(to); const cap = key(m.exportedAt);
+    if (endKey > cap) endKey = cap;
+    const startKey = key(from);
+    const out = [];
+    for (let k = startKey; k <= endKey; k = addKey(k, 1)) {
+      let lift = 0, run = 0;
+      for (let i = 13; i >= 0; i--) {
+        const dk = addKey(k, -i);
+        lift = Math.min(100, dayLift(dk) + lift * 0.65);
+        run = Math.min(100, dayRun(dk) + run * 0.65);
+      }
+      out.push({ date: new Date(k + 'T12:00:00'), key: k, lift, run, total: Math.min(100, Math.max(lift, run) + 0.5 * Math.min(lift, run)) });
     }
     return out;
   }

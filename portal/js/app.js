@@ -17,6 +17,7 @@
     const c = currentClient();
     state.model = c ? A.parse(c.backup) : null;
     applyTheme(c && c.backup.theme);
+    P.setDefaultMaxHr(c && c.backup.maxHeartRate);
   }
 
   /* Match the colours the client uses in the app (accent, background, card, light/dark). */
@@ -53,7 +54,7 @@
 
   function context() {
     const model = state.model, b = A.bounds(model);
-    const end = A.startOfDay(b ? b.last : new Date());
+    const end = A.startOfDay(b ? new Date(Math.max(b.last, model.exportedAt)) : new Date());
     let from = b ? b.first : end, to = new Date(end.getTime() + 86399999);
     if (state.range === 'custom') {
       if (state.from) from = new Date(state.from + 'T00:00:00');
@@ -64,7 +65,7 @@
     from = A.startOfDay(from);
     const sliced = A.slice(model, from, to);
     // Stress needs the previous 7 days of context, so compute it on the full model.
-    const stress = A.stressSeries(model, from, to <= new Date() ? to : new Date());
+    const stress = A.stressSeries(model, from, to);
     return { client: currentClient(), model, view: sliced, from, to, stress, unit: state.unit, rangeKey: state.range, rerender: render };
   }
 
