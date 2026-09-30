@@ -18,6 +18,8 @@ struct NamedBackup: Transferable {
 struct ExportDataView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var health: HealthKitService
+    @Environment(AppTheme.self) private var appTheme
+    @Environment(\.colorScheme) private var colorScheme
 
     let programs: [Program]
     let sessions: [WorkoutSession]
@@ -62,6 +64,14 @@ struct ExportDataView: View {
         range?.contains(date) ?? true
     }
 
+    private var themeBackup: ThemeBackup {
+        let isDark = (appTheme.resolvedColorScheme ?? colorScheme) == .dark
+        let system = BackgroundTheme.isSystem(appTheme.backgroundName)
+        let background = system ? (isDark ? "000000" : "F2F2F7") : appTheme.groupedBackground.toHex()
+        let card = system ? (isDark ? "1C1C1E" : "FFFFFF") : appTheme.cardFill.toHex()
+        return ThemeBackup(accentHex: appTheme.accent.toHex(), backgroundHex: background, cardHex: card, isDark: isDark)
+    }
+
     private var backup: WorkoutBackupFile {
         var file = WorkoutBackupService.make(
             programs: includeWorkouts ? programs : [],
@@ -69,6 +79,7 @@ struct ExportDataView: View {
             weights: includeWeight ? weights.filter { inRange($0.date) } : [],
             measurements: includeWeight ? measurements.filter { inRange($0.date) } : []
         )
+        file.theme = themeBackup
         if includeCardio {
             file.cardio = health.cardioSessions
                 .filter { inRange($0.start) }

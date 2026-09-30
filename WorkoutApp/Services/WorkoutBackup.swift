@@ -12,6 +12,8 @@ struct WorkoutBackupFile: Codable, Equatable, Transferable {
     var measurements: [MeasurementBackup]
     /// Cardio sessions come from Apple Health; exported for reference, never re-imported.
     var cardio: [CardioBackup]? = nil
+    /// The exporter's app colours, so the coach portal can match them.
+    var theme: ThemeBackup? = nil
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .json) { file in
@@ -76,6 +78,13 @@ struct SetBackup: Codable, Equatable {
 struct BodyWeightBackup: Codable, Equatable {
     var date: Date
     var kilograms: Double
+}
+
+struct ThemeBackup: Codable, Equatable {
+    var accentHex: String
+    var backgroundHex: String
+    var cardHex: String
+    var isDark: Bool
 }
 
 struct CardioBackup: Codable, Equatable {

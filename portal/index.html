@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VIGOR Coach Portal</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><span class="dot"></span>VIGOR <em>Coach</em></div>
+    <nav id="nav">
+      <a href="#/overview" data-route="overview">Overview</a>
+      <a href="#/volume" data-route="volume">Volume</a>
+      <a href="#/lifting" data-route="lifting">Weightlifting</a>
+      <a href="#/cardio" data-route="cardio">Cardio</a>
+      <a href="#/stress" data-route="stress">Stress &amp; recovery</a>
+      <a href="#/progress" data-route="progress">Progress &amp; PRs</a>
+      <a href="#/balance" data-route="balance">Balance &amp; intensity</a>
+      <a href="#/calendar" data-route="calendar">Calendar</a>
+      <a href="#/bodyweight" data-route="bodyweight">Bodyweight</a>
+      <a href="#/programs" data-route="programs">Programs</a>
+      <a href="#/clients" data-route="clients" class="sep">Clients &amp; import</a>
+    </nav>
+    <p class="privacy">Data stays in this browser. Nothing is uploaded.</p>
+  </aside>
+  <div class="main">
+    <header class="top" id="top"></header>
+    <main id="view"></main>
+  </div>
+</div>
+<script src="vendor/chart.umd.min.js"></script>
+<script src="js/store.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

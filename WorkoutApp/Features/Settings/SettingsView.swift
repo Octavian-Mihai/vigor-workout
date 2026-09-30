@@ -262,6 +262,7 @@ struct SettingsView: View {
                     measurements: measurementEntries
                 )
                 .environmentObject(health)
+                .environment(appTheme)
             }
             .fileImporter(
                 isPresented: $showImporter,
