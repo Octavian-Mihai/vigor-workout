@@ -32,6 +32,7 @@ struct SettingsView: View {
     @AppStorage(HealthKitService.writeStrengthToHealthKitKey) private var writeStrengthToHealthKit = false
     @State private var showDeleteConfirm = false
     @State private var showImporter = false
+    @State private var showExport = false
     @State private var dataError: String?
     @State private var showDataError = false
 
@@ -197,16 +198,10 @@ struct SettingsView: View {
                 }
 
                 Section("Data") {
-                    ShareLink(
-                        item: WorkoutBackupService.make(
-                            programs: programs,
-                            sessions: sessions,
-                            weights: weightEntries,
-                            measurements: measurementEntries
-                        ),
-                        preview: SharePreview("Workout data")
-                    ) {
-                        Label("Export workout data", systemImage: "square.and.arrow.up")
+                    Button {
+                        showExport = true
+                    } label: {
+                        Label("Export data", systemImage: "square.and.arrow.up")
                     }
                     Button("Import workout data") {
                         showImporter = true
@@ -258,6 +253,15 @@ struct SettingsView: View {
                 Button("OK", role: .cancel) {}
             } message: {
                 Text(dataError ?? "The file could not be read.")
+            }
+            .sheet(isPresented: $showExport) {
+                ExportDataView(
+                    programs: programs,
+                    sessions: sessions,
+                    weights: weightEntries,
+                    measurements: measurementEntries
+                )
+                .environmentObject(health)
             }
             .fileImporter(
                 isPresented: $showImporter,

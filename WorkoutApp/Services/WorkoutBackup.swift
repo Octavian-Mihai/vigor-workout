@@ -10,6 +10,8 @@ struct WorkoutBackupFile: Codable, Equatable, Transferable {
     var sessions: [SessionBackup]
     var bodyWeights: [BodyWeightBackup]
     var measurements: [MeasurementBackup]
+    /// Cardio sessions come from Apple Health; exported for reference, never re-imported.
+    var cardio: [CardioBackup]? = nil
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .json) { file in
@@ -74,6 +76,16 @@ struct SetBackup: Codable, Equatable {
 struct BodyWeightBackup: Codable, Equatable {
     var date: Date
     var kilograms: Double
+}
+
+struct CardioBackup: Codable, Equatable {
+    var start: Date
+    var end: Date
+    var sport: String
+    var durationSeconds: Int
+    var distanceKm: Double
+    var averageHeartRate: Double?
+    var elevationGainMeters: Double?
 }
 
 struct MeasurementBackup: Codable, Equatable {
@@ -186,6 +198,18 @@ enum WorkoutBackupService {
             },
             bodyWeights: weights.map { BodyWeightBackup(date: $0.date, kilograms: $0.kilograms) },
             measurements: measurements.map { measurementBackup(from: $0) }
+        )
+    }
+
+    static func cardioBackup(from run: CardioWorkout) -> CardioBackup {
+        CardioBackup(
+            start: run.start,
+            end: run.end,
+            sport: run.sportLabel,
+            durationSeconds: Int(run.duration),
+            distanceKm: run.distanceKilometers,
+            averageHeartRate: run.averageHeartRate,
+            elevationGainMeters: run.elevationGainMeters
         )
     }
 

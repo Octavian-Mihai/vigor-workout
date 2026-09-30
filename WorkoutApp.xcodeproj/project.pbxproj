@@ -45,6 +45,7 @@
 		5C54924803950DC31497340B /* VolumeAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C5CFA3766519661BC6A3A5 /* VolumeAnalytics.swift */; };
 		5CA748CB8C6C56348FBB1153 /* RestTimerSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D20C5D59A01F6E785F367D3 /* RestTimerSound.swift */; };
 		5D47E979F36A7019F4568973 /* ProgressPhotoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87624FC90F46C937AAF8573 /* ProgressPhotoStorage.swift */; };
+		5D94E26C61FD2206E18426E8 /* WatchSessionSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D979710B9322F2381EA35B /* WatchSessionSync.swift */; };
 		5E264A24A42601929A8363DF /* ProgramOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29678EA705335344E73B1C19 /* ProgramOverviewView.swift */; };
 		6074CA527906301CCF2DBA49 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28E37477937D37BFD762CD8 /* RootTabView.swift */; };
 		61F5B3831EAFFC57731F2611 /* WorkoutTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A70CEAD22F0780B6C8A6B0 /* WorkoutTabView.swift */; };
@@ -75,7 +76,6 @@
 		C26EA5E1C3C7DA33E255E660 /* ExercisePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F6AFE2CF75D4119FA5B07C /* ExercisePhotoView.swift */; };
 		C7829BB892EB366849ADBFFD /* WorkoutSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4798E19A6EED7C1A79E2FA7D /* WorkoutSummaryView.swift */; };
 		CC447520952DB2F25FCDEB4F /* WidgetSnapshotSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D854B6E5E142ADF29F9B1C4 /* WidgetSnapshotSync.swift */; };
-		5D94E26C61FD2206E18426E8 /* WatchSessionSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D979710B9322F2381EA35B /* WatchSessionSync.swift */; };
 		D1F8FA0371166F1BD51CEF27 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38CDA0471BEA3C57336CD4A9 /* AudioToolbox.framework */; };
 		D344CB9BB61D6CC6212B4A94 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C729BCFE81109650DA6485 /* ScreenshotTests.swift */; };
 		D586AB00861CD97055DD9EE0 /* WorkoutSummarySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BB6A1FD408261E14B096D9 /* WorkoutSummarySheet.swift */; };
@@ -96,6 +96,7 @@
 		F3ADFC82F48F47CE5D8793A2 /* BackgroundPickerDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF49216171AF6982EF66131E /* BackgroundPickerDashboard.swift */; };
 		F627D4F06F2E4CEB5FE3B3CE /* program-template.fixture.json in Resources */ = {isa = PBXBuildFile; fileRef = C1D96AC20739268F38F5987B /* program-template.fixture.json */; };
 		FF1E727C6D979C9AABA1B451 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF1935B97A864F04647A291 /* MapKit.framework */; };
+		A1B2C3D4E5F60718293A4B5D /* ExportDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* ExportDataView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +193,7 @@
 		671C9586EB2802CB3FA89128 /* ProgramTemplateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTemplateService.swift; sourceTree = "<group>"; };
 		6F0D3AF107B52635A65CBF39 /* YearActivityGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearActivityGrid.swift; sourceTree = "<group>"; };
 		70A0C7C5FA17D8A21CD6B30A /* ActiveSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSessionStore.swift; sourceTree = "<group>"; };
+		76D979710B9322F2381EA35B /* WatchSessionSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionSync.swift; sourceTree = "<group>"; };
 		76F131D872BE6063CBDA0B37 /* RestTimerLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTimerLiveActivity.swift; sourceTree = "<group>"; };
 		77022E29588CB4FB335F712E /* MeasurementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsView.swift; sourceTree = "<group>"; };
 		7963774C6CCC3129D3129F2C /* CustomExercisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomExercisesView.swift; sourceTree = "<group>"; };
@@ -202,7 +204,6 @@
 		867005C15A12EF3AA21F7675 /* SessionExerciseReorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionExerciseReorderView.swift; sourceTree = "<group>"; };
 		86FC7B88BDDF3C24E9D0C08C /* ExerciseHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseHistoryView.swift; sourceTree = "<group>"; };
 		8D854B6E5E142ADF29F9B1C4 /* WidgetSnapshotSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSnapshotSync.swift; sourceTree = "<group>"; };
-		76D979710B9322F2381EA35B /* WatchSessionSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionSync.swift; sourceTree = "<group>"; };
 		969786FECA93B12FF622670D /* AppTour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTour.swift; sourceTree = "<group>"; };
 		977A9855BEF0CF06BB617C7C /* AddMeasurementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMeasurementView.swift; sourceTree = "<group>"; };
 		9DF1935B97A864F04647A291 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -248,6 +249,7 @@
 		F8169C488B212012A4AD1E51 /* RestTimerAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestTimerAttributes.swift; sourceTree = "<group>"; };
 		FA6BBBB891955C99D0710309 /* StressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressCalculator.swift; sourceTree = "<group>"; };
 		FDA53125E3A467133F20780B /* ExerciseSubmissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSubmissionService.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5C /* ExportDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportDataView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -389,6 +391,7 @@
 				F5989C63462884A38BA52973 /* AccentPickerDashboard.swift */,
 				DF49216171AF6982EF66131E /* BackgroundPickerDashboard.swift */,
 				B92E529C838DBC34454DC60A /* SettingsView.swift */,
+				A1B2C3D4E5F60718293A4B5C /* ExportDataView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -861,6 +864,7 @@
 				1C615D87B4FE584B6339DDBF /* SessionExerciseReorderView.swift in Sources */,
 				1EEF59C9A150CF0E7D9C5A75 /* SessionInputKeyboard.swift in Sources */,
 				35ED2CA09DDDD5B5677C482A /* SettingsView.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5D /* ExportDataView.swift in Sources */,
 				142677DFEC3133725373AFCE /* StressCalculator.swift in Sources */,
 				9E9096F991394FB062D39558 /* StressLegendView.swift in Sources */,
 				28607DF074E5B2E88FC39427 /* Theme.swift in Sources */,
@@ -1057,6 +1061,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VIGOR-Watch-App-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "VIGOR Watch App";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "WorkoutApp needs to save your workout data to the Health app";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.local.WorkoutApp;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1098,6 +1103,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VIGOR-Watch-App-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "VIGOR Watch App";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "WorkoutApp needs to save your workout data to the Health app";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.local.WorkoutApp;
 				LD_RUNPATH_SEARCH_PATHS = (
