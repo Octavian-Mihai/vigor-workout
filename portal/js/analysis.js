@@ -145,15 +145,6 @@
       ['Biceps : Triceps', `${fmt(wk('Biceps'), 1)} : ${fmt(wk('Triceps'), 1)}`, ratio(wk('Biceps'), wk('Triceps')), 'about 1 : 1', 0.6, 1.6],
     ].map(r => [r[0], r[1], r[2] == null ? '—' : fmt(r[2], 2), status(r[2], r[4], r[5]), `<span class="note">${r[3]}</span>`]);
 
-    // Volume landmarks (weekly hard sets per muscle vs target range)
-    const lo = Number(lsGet('landLo', 10)), hi = Number(lsGet('landHi', 20));
-    const muscles = Object.keys(tot).sort((a, z) => tot[z] - tot[a]);
-    const maxV = Math.max(hi * 1.3, ...muscles.map(wk));
-    const land = muscles.map(n => {
-      const v = wk(n), st = v < lo ? ['Below', 'var(--warn)'] : v > hi ? ['Above', 'var(--bad)'] : ['In range', 'var(--good)'];
-      return [esc(n), fmt(v, 1), `<div class="meter"><div class="band" style="left:${lo / maxV * 100}%;width:${(hi - lo) / maxV * 100}%"></div><div class="bar" style="width:${Math.min(v / maxV, 1) * 100}%;background:${st[1]}"></div></div>`, `<span style="color:${st[1]}">${st[0]}</span>`];
-    });
-
     // Recency
     const last = {}, recent7 = {};
     const ref = to < new Date() ? to : new Date();
@@ -176,7 +167,6 @@
     const html = header('Balance & intensity', 'Where the work goes, what is neglected, and how hard it is. Values are weekly hard sets averaged over the selected period.') +
       `<div class="grid g4">${kpi('Push : Pull', ratio(push, pull) ? fmt(ratio(push, pull), 2) : '—', `${fmt(push, 1)} vs ${fmt(pull, 1)} sets/wk`)}${kpi('Upper : Lower', ratio(upper, legs) ? fmt(ratio(upper, legs), 2) : '—')}${kpi('Sets to failure', fmt(fail) + '%', 'RIR 0', fail > 25 ? 'down' : 'flat')}${kpi('Avg RIR', fmt(A.avg(sets.map(s => s.rir)), 1))}</div>
        <div class="grid g2">${card('Muscle balance ratios', table(['Ratio', 'Sets / week', 'Value', 'Reading', 'Guide'], rows))}${card('Training split (share of weekly sets)', canvas('bSplit'))}</div>
-       ${card(`<div class="row"><span>Volume landmarks — weekly sets per muscle</span><span class="inline muted">Target <input type="number" id="landLo" value="${lo}" min="0"> to <input type="number" id="landHi" value="${hi}" min="1"> sets</span></div>`, table(['Muscle', 'Sets / week', 'Against target', 'Status'], land, [1]) + '<p class="foot">Primary muscle = 1 set, secondary = 0.5. The shaded band is the target range; 10–20 is a common hypertrophy guide.</p>')}
        <div style="height:16px"></div>
        ${card('Body-part recency (time since last direct training)', `<div class="tiles">${tiles}</div><div class="legend"><span><i style="background:var(--bad)"></i>0–2 days (recovering)</span><span><i style="background:var(--good)"></i>3–7 days</span><span><i style="background:var(--warn)"></i>8–14 days</span><span><i style="background:var(--ink-faint)"></i>15+ days</span></div>`)}
        <div style="height:16px"></div>
@@ -187,7 +177,6 @@
       chart(root, 'iReps', { type: 'doughnut', data: { labels: ['1–5 strength', '6–12 hypertrophy', '13+ endurance'], datasets: [{ data: reps, backgroundColor: [C().accent, C().green, C().blue], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'right' } } } });
       chart(root, 'iRir', { type: 'bar', data: { labels: ['0 (failure)', '1', '2', '3', '4', '5+'], datasets: [{ data: rirB.map(x => x / N * 100), backgroundColor: C().violet, borderRadius: 4 }] }, options: barOpts({ scales: { x: { grid: { display: false } }, y: { beginAtZero: true, title: { display: true, text: '% of sets' } } } }) });
       chart(root, 'iPct', { type: 'bar', data: { labels: ['<60%', '60–70%', '70–80%', '80–90%', '90%+'], datasets: [{ data: zb.map(x => x / N * 100), backgroundColor: C().pink, borderRadius: 4 }] }, options: barOpts({ scales: { x: { grid: { display: false } }, y: { beginAtZero: true, title: { display: true, text: '% of sets' } } } }) });
-      ['landLo', 'landHi'].forEach(id => { const el = root.querySelector('#' + id); el.onchange = () => { try { localStorage.setItem(id, el.value); } catch {} ctx.rerender(); }; });
     } };
   }
 
@@ -196,24 +185,35 @@
     const { model } = ctx, m = ctx.view;
     if (!m.sessions.length && !m.cardio.length) return { html: header('Calendar', 'Training consistency') + empty('No training in this period.') };
     const end = A.startOfDay(ctx.to < new Date() ? ctx.to : new Date());
-    let start = A.weekStart(A.addDays(end, -7 * 52));
+    const firstAct = A.startOfDay(new Date(Math.min(...model.sessions.map(x => x.start), ...model.cardio.map(x => x.start), end)));
+    const start = A.weekStart(new Date(Math.max(A.addDays(end, -7 * 52), firstAct)));
     const days = new Map();
     const d = x => { const k = A.iso(x); if (!days.has(k)) days.set(k, { lift: 0, sets: 0, cardio: 0, mins: 0 }); return days.get(k); };
     model.sessions.forEach(s => { const x = d(s.start); x.lift++; x.sets += s.sets.length; });
     model.cardio.forEach(c => { const x = d(c.start); x.cardio++; x.mins += c.durationSeconds / 60; });
-    const cells = [];
-    for (let day = start; day <= end; day = A.addDays(day, 1)) {
+    const cells = [], monthLabels = [];
+    const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let idx = 0, lastMonth = -1, lastLabelWeek = -10;
+    for (let day = start; day <= end; day = A.addDays(day, 1), idx++) {
+      const w = Math.floor(idx / 7), dow = idx % 7;
+      if (dow === 0) {
+        // Label a column when the month changes (keep labels at least 3 columns apart).
+        const mth = day.getMonth();
+        if (mth !== lastMonth) { if (w - lastLabelWeek >= 3 || lastLabelWeek < 0) { monthLabels.push(`<span class="cal-m" style="grid-column:${w + 2} / span 3;grid-row:1">${MONTHS[mth]}</span>`); lastLabelWeek = w; } lastMonth = mth; }
+      }
       const x = days.get(A.iso(day));
       let bg = '', tip = dateStr(day);
       if (x) {
         const strength = Math.min(1, x.sets / 25), cardio = Math.min(1, x.mins / 60);
         const a = (.3 + .7 * Math.max(strength, cardio)).toFixed(2);
         const col = x.lift && x.cardio ? 'var(--good)' : x.lift ? 'var(--accent)' : 'var(--blue)';
-        bg = `background:color-mix(in srgb,${col} ${Math.round(a * 100)}%,transparent)`;
+        bg = `background:color-mix(in srgb,${col} ${Math.round(a * 100)}%,transparent);`;
         tip += `: ${x.lift ? x.sets + ' sets' : ''}${x.lift && x.cardio ? ' + ' : ''}${x.cardio ? Math.round(x.mins) + ' min cardio' : ''}`;
       }
-      cells.push(`<i style="${bg}" title="${tip}"></i>`);
+      cells.push(`<i style="${bg}grid-column:${w + 2};grid-row:${dow + 2}" title="${tip}"></i>`);
     }
+    const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((n, i) => `<span class="cal-d" style="grid-column:1;grid-row:${i + 2}">${n}</span>`).join('');
+    const calHtml = `<div class="calscroll"><div class="cal">${monthLabels.join('')}${dayLabels}${cells.join('')}</div></div>`;
     // Consistency stats within the selected period
     const active = [...new Set([...m.sessions.map(s => A.iso(s.start)), ...m.cardio.map(c => A.iso(c.start))])].sort();
     let longest = 0, streak = 0, gap = 0, prevD = null;
@@ -230,7 +230,7 @@
     const mrows = [...months.entries()].sort().reverse().map(([k, r]) => [k, r.l, `${fmt(r.vol * W(ctx))} ${wu(ctx)}`, r.c, `${fmt(r.km, 1)} km`]);
     const html = header('Calendar', 'Every training day over the last year, plus consistency patterns.') +
       `<div class="grid g4">${kpi('Training days', fmt(active.length), 'in selected period')}${kpi('Weeks with activity', `${wk.filter(w => w.items.length).length} / ${wk.length}`)}${kpi('Longest weekly streak', fmt(longest) + ' wk')}${kpi('Longest gap', fmt(gap) + ' d', 'between sessions', gap > 10 ? 'down' : 'flat')}</div>
-       ${card('Training calendar (last 52 weeks)', `<div class="cal">${cells.join('')}</div><div class="legend"><span><i style="background:var(--accent)"></i>Lifting</span><span><i style="background:var(--blue)"></i>Cardio</span><span><i style="background:var(--good)"></i>Both</span><span>Darker = bigger session</span></div>`)}
+       ${card('Training calendar (up to 52 weeks)', calHtml + `<div class="legend"><span><i style="background:var(--accent)"></i>Lifting</span><span><i style="background:var(--blue)"></i>Cardio</span><span><i style="background:var(--good)"></i>Both</span><span>Darker = bigger session</span></div>`)}
        <div style="height:16px"></div>
        <div class="grid g2">${card('Sessions by weekday', canvas('cDow'))}${card('Sessions by start time', canvas('cHour'))}</div>
        ${card('Monthly summary', table(['Month', 'Lifting sessions', 'Volume', 'Cardio sessions', 'Distance'], mrows, [1, 2, 3, 4]))}`;

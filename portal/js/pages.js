@@ -118,9 +118,9 @@ const Pages = (() => {
     const weeks = A.weekly(m.sets, s => s.date).slice(-10);
     const muscles = Object.keys(msw).sort((a, z) => A.sum(Object.values(msw[z])) - A.sum(Object.values(msw[a])));
     const max = Math.max(1, ...muscles.flatMap(mu => weeks.map(w => msw[mu][w.key] || 0)));
-    const heat = `<div class="tablewrap"><table class="heat"><thead><tr><th>Muscle</th>${weeks.map(w => `<th class="num">${shortDate(w.date)}</th>`).join('')}<th class="num">Avg / wk</th></tr></thead><tbody>${
+    const heat = `<div class="tablewrap"><table class="heat"><thead><tr><th>Muscle</th><th class="num">Avg / wk</th>${weeks.map(w => `<th class="num">${shortDate(w.date)}</th>`).join('')}</tr></thead><tbody>${
       muscles.map(mu => { const vals = weeks.map(w => msw[mu][w.key] || 0);
-        return `<tr><td>${esc(mu)}</td>${vals.map(v => `<td class="h" style="background:rgba(255,90,43,${(v / max * .75).toFixed(2)})">${v ? fmt(v, v % 1 ? 1 : 0) : ''}</td>`).join('')}<td class="num">${fmt(A.avg(vals), 1)}</td></tr>`; }).join('')}</tbody></table></div>
+        return `<tr><td>${esc(mu)}</td><td class="num"><strong>${fmt(A.avg(vals), 1)}</strong></td>${vals.map(v => `<td class="h" style="background:rgba(var(--accent-rgb),${(v / max * .75).toFixed(2)})">${v ? fmt(v, v % 1 ? 1 : 0) : ''}</td>`).join('')}</tr>`; }).join('')}</tbody></table></div>
       <p class="foot">Hard sets per muscle per week, last 10 weeks. Primary muscles count 1 set, secondary 0.5.</p>`;
     const html = header('Volume', `Volume = weight × reps, in ${wu(ctx)}. Secondary muscles count at 50%.`) +
       `<div class="grid g2">${card('Weekly volume', canvas('vWeek'))}${card('Weekly sets & average volume per session', canvas('vSets'))}</div>

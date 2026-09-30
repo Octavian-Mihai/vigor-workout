@@ -7,7 +7,7 @@
     get: (k, d) => { try { return localStorage.getItem(k) ?? d; } catch { return d; } },
     set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
   };
-  const state = { clients: [], clientId: ls.get('clientId', null), range: ls.get('range', 'all'), from: '', to: '', unit: ls.get('unit', 'kg'), model: null };
+  const state = { clients: [], clientId: ls.get('clientId', null), range: ls.get('range', 'all'), from: '', to: '', unit: ls.get('unit', 'kg'), themeMode: ls.get('themeMode', 'auto'), model: null };
 
   const routes = P.registry;
 
@@ -28,6 +28,9 @@
   const lum = c => (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255;
   function applyTheme(t) {
     const th = { ...DEFAULT_THEME, ...(t || {}) };
+    // Manual override: keep the client's accent, swap only surfaces to light or dark.
+    if (state.themeMode === 'light' && th.isDark !== false && lum(rgb(/^[0-9a-fA-F]{6}$/.test(th.backgroundHex) ? th.backgroundHex : DEFAULT_THEME.backgroundHex)) < 0.5) { th.backgroundHex = 'F2F2F7'; th.cardHex = 'FFFFFF'; }
+    if (state.themeMode === 'dark' && lum(rgb(/^[0-9a-fA-F]{6}$/.test(th.backgroundHex) ? th.backgroundHex : DEFAULT_THEME.backgroundHex)) >= 0.5) { th.backgroundHex = DEFAULT_THEME.backgroundHex; th.cardHex = DEFAULT_THEME.cardHex; }
     const valid = h => /^[0-9a-fA-F]{6}$/.test(h);
     if (!valid(th.accentHex)) th.accentHex = DEFAULT_THEME.accentHex;
     if (!valid(th.backgroundHex)) th.backgroundHex = DEFAULT_THEME.backgroundHex;
@@ -77,11 +80,13 @@
       <div class="seg" id="rangeSeg">${ranges.map(([k, l]) => `<button data-r="${k}" class="${state.range === k ? 'on' : ''}">${l}</button>`).join('')}</div>
       ${state.range === 'custom' ? `<input type="date" id="fromD" value="${state.from}"><span class="muted">to</span><input type="date" id="toD" value="${state.to}">` : ''}
       <span class="grow"></span>
+      <div class="seg" id="themeSeg" title="Colour theme">${[['auto', 'App'], ['light', 'Light'], ['dark', 'Dark']].map(([k, l]) => `<button data-t="${k}" class="${state.themeMode === k ? 'on' : ''}">${l}</button>`).join('')}</div>
       <div class="seg" id="unitSeg"><button data-u="kg" class="${state.unit === 'kg' ? 'on' : ''}">kg</button><button data-u="lb" class="${state.unit === 'lb' ? 'on' : ''}">lb</button></div>
       <button id="printBtn">Print</button>` : '<span class="muted">No clients yet — import a VIGOR export to begin.</span>';
     if (!state.clients.length) return;
     $('#clientSel').onchange = e => { state.clientId = e.target.value; ls.set('clientId', state.clientId); buildModel(); render(); };
     top.querySelectorAll('#rangeSeg button').forEach(b => b.onclick = () => { state.range = b.dataset.r; ls.set('range', state.range); render(); });
+    top.querySelectorAll('#themeSeg button').forEach(b => b.onclick = () => { state.themeMode = b.dataset.t; ls.set('themeMode', state.themeMode); render(); });
     top.querySelectorAll('#unitSeg button').forEach(b => b.onclick = () => { state.unit = b.dataset.u; ls.set('unit', state.unit); render(); });
     $('#printBtn').onclick = () => window.print();
     const f = $('#fromD'), t = $('#toD');
@@ -95,6 +100,8 @@
 
   function render() {
     P.destroyCharts();
+    const cur = currentClient();
+    applyTheme(cur && cur.backup.theme);
     renderTop();
     const name = routeName();
     document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('active', a.dataset.route === name));
