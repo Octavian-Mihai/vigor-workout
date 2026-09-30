@@ -24,7 +24,7 @@ A native iPhone strength-training app, a desktop **Program Builder**, and a **Co
 
 | Cardio | Customization |
 |:---:|:---:|
-| ![Cardio tab](docs/screenshots/running.png) | ![Accent and appearance customization](website/screens/customization.png) |
+| ![Cardio tab](docs/screenshots/running_page.png) | ![Accent and appearance customization](website/screens/customization.png) |
 
 ### Features
 
