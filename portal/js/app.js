@@ -70,14 +70,14 @@
 
   function renderTop() {
     const c = currentClient();
-    const ranges = [['30', '30 days'], ['90', '90 days'], ['180', '6 months'], ['365', '1 year'], ['all', 'All time'], ['custom', 'Custom']];
+    const ranges = [['30', '30d'], ['90', '90d'], ['180', '6m'], ['365', '1y'], ['all', 'All'], ['custom', 'Custom']];
     top.innerHTML = state.clients.length ? `
       <select id="clientSel">${state.clients.map(x => `<option value="${x.id}" ${x.id === state.clientId ? 'selected' : ''}>${P.esc(x.name)}</option>`).join('')}</select>
       <div class="seg" id="rangeSeg">${ranges.map(([k, l]) => `<button data-r="${k}" class="${state.range === k ? 'on' : ''}">${l}</button>`).join('')}</div>
       ${state.range === 'custom' ? `<input type="date" id="fromD" value="${state.from}"><span class="muted">to</span><input type="date" id="toD" value="${state.to}">` : ''}
       <span class="grow"></span>
       <div class="seg" id="unitSeg"><button data-u="kg" class="${state.unit === 'kg' ? 'on' : ''}">kg</button><button data-u="lb" class="${state.unit === 'lb' ? 'on' : ''}">lb</button></div>
-      <button id="printBtn">Print / PDF</button>` : '<span class="muted">No clients yet — import a VIGOR export to begin.</span>';
+      <button id="printBtn">Print</button>` : '<span class="muted">No clients yet — import a VIGOR export to begin.</span>';
     if (!state.clients.length) return;
     $('#clientSel').onchange = e => { state.clientId = e.target.value; ls.set('clientId', state.clientId); buildModel(); render(); };
     top.querySelectorAll('#rangeSeg button').forEach(b => b.onclick = () => { state.range = b.dataset.r; ls.set('range', state.range); render(); });
@@ -100,6 +100,7 @@
     if (name === 'clients' || !state.model) return renderClients();
     const page = routes[name](context());
     view.innerHTML = page.html;
+    view.querySelectorAll('.g4').forEach(g => { g.style.setProperty('--n', g.children.length); g.dataset.n = g.children.length; });
     if (page.mount) page.mount(view);
   }
 
