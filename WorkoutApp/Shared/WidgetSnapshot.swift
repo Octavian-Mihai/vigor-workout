@@ -31,6 +31,14 @@ struct WidgetSnapshot: Equatable {
     var showsRunningActivity: Bool = true
     /// When false, stress widgets show a placeholder and year large hides the stress block.
     var showsStressAnalysis: Bool = true
+    /// Volume (weight × reps, kg) logged this Monday-start week and the week before.
+    var weekVolumeKg: Double = 0
+    var lastWeekVolumeKg: Double = 0
+    /// Latest complete program cycle and its % volume change vs. the cycle-1 baseline.
+    var cycleNumber: Int? = nil
+    var cycleVsBaselinePercent: Double? = nil
+    /// "kg" or "lb", mirroring the app's weight-unit setting.
+    var weightUnit: String = "kg"
 
     static let empty = WidgetSnapshot(
         version: 1,
@@ -98,7 +106,12 @@ struct WidgetSnapshot: Equatable {
             accentHex: "FA6B2E",
             workoutsLast7Days: 6,
             showsRunningActivity: true,
-            showsStressAnalysis: true
+            showsStressAnalysis: true,
+            weekVolumeKg: 18_400,
+            lastWeekVolumeKg: 16_500,
+            cycleNumber: 4,
+            cycleVsBaselinePercent: 9.5,
+            weightUnit: "kg"
         )
     }()
 }
@@ -114,6 +127,7 @@ extension WidgetSnapshot: Codable {
         case workoutsLast7Days
         case showsRunningActivity
         case showsStressAnalysis
+        case weekVolumeKg, lastWeekVolumeKg, cycleNumber, cycleVsBaselinePercent, weightUnit
     }
 
     init(from decoder: Decoder) throws {
@@ -139,7 +153,12 @@ extension WidgetSnapshot: Codable {
             accentHex: try c.decode(String.self, forKey: .accentHex),
             workoutsLast7Days: try c.decodeIfPresent(Int.self, forKey: .workoutsLast7Days) ?? 0,
             showsRunningActivity: try c.decodeIfPresent(Bool.self, forKey: .showsRunningActivity) ?? true,
-            showsStressAnalysis: try c.decodeIfPresent(Bool.self, forKey: .showsStressAnalysis) ?? true
+            showsStressAnalysis: try c.decodeIfPresent(Bool.self, forKey: .showsStressAnalysis) ?? true,
+            weekVolumeKg: try c.decodeIfPresent(Double.self, forKey: .weekVolumeKg) ?? 0,
+            lastWeekVolumeKg: try c.decodeIfPresent(Double.self, forKey: .lastWeekVolumeKg) ?? 0,
+            cycleNumber: try c.decodeIfPresent(Int.self, forKey: .cycleNumber),
+            cycleVsBaselinePercent: try c.decodeIfPresent(Double.self, forKey: .cycleVsBaselinePercent),
+            weightUnit: try c.decodeIfPresent(String.self, forKey: .weightUnit) ?? "kg"
         )
     }
 
@@ -166,6 +185,11 @@ extension WidgetSnapshot: Codable {
         try c.encode(workoutsLast7Days, forKey: .workoutsLast7Days)
         try c.encode(showsRunningActivity, forKey: .showsRunningActivity)
         try c.encode(showsStressAnalysis, forKey: .showsStressAnalysis)
+        try c.encode(weekVolumeKg, forKey: .weekVolumeKg)
+        try c.encode(lastWeekVolumeKg, forKey: .lastWeekVolumeKg)
+        try c.encodeIfPresent(cycleNumber, forKey: .cycleNumber)
+        try c.encodeIfPresent(cycleVsBaselinePercent, forKey: .cycleVsBaselinePercent)
+        try c.encode(weightUnit, forKey: .weightUnit)
     }
 }
 

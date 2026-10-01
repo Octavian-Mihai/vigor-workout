@@ -339,6 +339,8 @@ struct WidgetYearGridView: View {
     let snapshot: WidgetSnapshot
     var showMonths: Bool = true
     var dense: Bool = false
+    /// When set, every activity kind is drawn in this colour (night-red mode).
+    var tint: Color? = nil
 
     private static let monthLetters = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"]
 
@@ -385,7 +387,7 @@ struct WidgetYearGridView: View {
                                     if index < cells.count {
                                         let item = cells[index]
                                         Circle()
-                                            .fill(WidgetChrome.color(for: item.kind, inYear: item.inYear))
+                                            .fill(tint.map { item.kind == .none ? WidgetChrome.color(for: .none, inYear: item.inYear) : $0 } ?? WidgetChrome.color(for: item.kind, inYear: item.inYear))
                                             .frame(width: layout.cell, height: layout.cell)
                                             .overlay {
                                                 if item.inYear && Calendar.current.isDateInToday(item.date) {

@@ -107,6 +107,33 @@ enum WidgetSnapshotSync {
         let active = programs.first(where: \.isActive)
         let next = NextWorkoutResolver.nextDay(activeProgram: active, sessions: sessions)
 
+        var weekCal = cal
+        weekCal.firstWeekday = 2
+        let weekStart = weekCal.dateInterval(of: .weekOfYear, for: now)?.start ?? cal.startOfDay(for: now)
+        let lastWeekStart = weekCal.date(byAdding: .weekOfYear, value: -1, to: weekStart) ?? weekStart
+        var weekVolume = 0.0
+        var lastWeekVolume = 0.0
+        for session in finished {
+            let volume = session.sets.reduce(0) { $0 + $1.volume }
+            if session.startDate >= weekStart {
+                weekVolume += volume
+            } else if session.startDate >= lastWeekStart {
+                lastWeekVolume += volume
+            }
+        }
+
+        var cycleNumber: Int?
+        var cycleVsBaseline: Double?
+        if let active {
+            let entries = finished
+                .filter { $0.isProgrammed && $0.programUUID == active.uuid && $0.programDayIndex != nil && !$0.sets.isEmpty }
+                .map { CycleSession(date: $0.startDate, dayIndex: $0.programDayIndex ?? 0, volumeKg: $0.sets.reduce(0) { $0 + $1.volume }) }
+            let latest = ProgramCycleAnalytics.cycles(from: entries, dayCount: active.days.count)
+                .last { $0.isComplete && $0.percentVsBaseline != nil }
+            cycleNumber = latest?.number
+            cycleVsBaseline = latest?.percentVsBaseline
+        }
+
         return WidgetSnapshot(
             version: 1,
             updatedAt: now,
@@ -128,7 +155,12 @@ enum WidgetSnapshotSync {
             accentHex: accentHex,
             workoutsLast7Days: workoutsLast7Days,
             showsRunningActivity: showsRunningActivity,
-            showsStressAnalysis: showsStressAnalysis
+            showsStressAnalysis: showsStressAnalysis,
+            weekVolumeKg: weekVolume,
+            lastWeekVolumeKg: lastWeekVolume,
+            cycleNumber: cycleNumber,
+            cycleVsBaselinePercent: cycleVsBaseline,
+            weightUnit: UserDefaults.standard.string(forKey: "weightUnit") ?? "kg"
         )
     }
 }

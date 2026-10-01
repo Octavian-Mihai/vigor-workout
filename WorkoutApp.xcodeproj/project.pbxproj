@@ -57,6 +57,7 @@
 		74CC9775A63F913ED8B64C1A /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CD87A072FA195D910510F1 /* Formatters.swift */; };
 		7792F81F651D35625B072F07 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE795723010CE3E2D66B7A0 /* HomeView.swift */; };
 		7ADD71974D7FCC9A98118C2D /* WorkoutWidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87D45169F9CA2A5403147B /* WorkoutWidgetViews.swift */; };
+		7E1C0A5D3B9F4C28A6D10E11 /* StandByWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1C0A5D3B9F4C28A6D10E12 /* StandByWidgets.swift */; };
 		7BB265CB166E4FEA1310C42F /* YearActivityGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0D3AF107B52635A65CBF39 /* YearActivityGrid.swift */; };
 		84DBCE3763580221EA998001 /* PersonalRecordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FEF381C8C4EA2A6F6AD8B5 /* PersonalRecordsView.swift */; };
 		89BD146CEDDC675A7C23F02E /* workout-backup-fixture.json in Resources */ = {isa = PBXBuildFile; fileRef = DDA333509A60D5609F63DFD9 /* workout-backup-fixture.json */; };
@@ -182,6 +183,7 @@
 		3BFAF24130681F0300A88751 /* VIGOR Watch App Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VIGOR Watch App Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BFAF25130681FB600A88751 /* VIGOR-Watch-App-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VIGOR-Watch-App-Watch-App-Info.plist"; sourceTree = "<group>"; };
 		3C87D45169F9CA2A5403147B /* WorkoutWidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutWidgetViews.swift; sourceTree = "<group>"; };
+		7E1C0A5D3B9F4C28A6D10E12 /* StandByWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandByWidgets.swift; sourceTree = "<group>"; };
 		422D09EB801CE5BA0EDFBA28 /* VIGOR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VIGOR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45807FC427FAE0EEE6D1465B /* LiveSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionView.swift; sourceTree = "<group>"; };
 		46346A9EC9D5FC95DB2EB324 /* FilterInputKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterInputKeyboard.swift; sourceTree = "<group>"; };
@@ -611,6 +613,7 @@
 				F58D4A2E14021E15401B93B9 /* WorkoutWidgets.entitlements */,
 				B0256CB12EA15D9B945FE3C1 /* WorkoutWidgets.swift */,
 				3C87D45169F9CA2A5403147B /* WorkoutWidgetViews.swift */,
+				7E1C0A5D3B9F4C28A6D10E12 /* StandByWidgets.swift */,
 			);
 			path = WorkoutWidgets;
 			sourceTree = "<group>";
@@ -901,6 +904,7 @@
 				B9BA4E37C4529107C271B824 /* RestTimerLiveActivity.swift in Sources */,
 				E28A561DC8F19FC8C29622E6 /* WidgetSnapshot.swift in Sources */,
 				7ADD71974D7FCC9A98118C2D /* WorkoutWidgetViews.swift in Sources */,
+				7E1C0A5D3B9F4C28A6D10E11 /* StandByWidgets.swift in Sources */,
 				339EF172BA99655269754FB7 /* WorkoutWidgets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
