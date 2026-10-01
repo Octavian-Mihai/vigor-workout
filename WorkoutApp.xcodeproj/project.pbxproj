@@ -30,9 +30,11 @@
 		326D0CFFD9FEEC15DF540947 /* WidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD11DEBA5204836C53CC31F3 /* WidgetSnapshot.swift */; };
 		339EF172BA99655269754FB7 /* WorkoutWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0256CB12EA15D9B945FE3C1 /* WorkoutWidgets.swift */; };
 		34500F985F4F2C08412EA9A0 /* OneRM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1955C1BE20A586D0B96A08A2 /* OneRM.swift */; };
+		7E1C0A5D3B9F4C28A6D10E01 /* ProgramCycleAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1C0A5D3B9F4C28A6D10E02 /* ProgramCycleAnalytics.swift */; };
 		34DAC4F345EE96977840E819 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF17773585342C27C170F89 /* InfoView.swift */; };
 		35ED2CA09DDDD5B5677C482A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92E529C838DBC34454DC60A /* SettingsView.swift */; };
 		3718926A40ED4604A90976ED /* OneRMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2237F5E5F8FD3F07DAB02CE9 /* OneRMTests.swift */; };
+		7E1C0A5D3B9F4C28A6D10E03 /* ProgramCycleAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1C0A5D3B9F4C28A6D10E04 /* ProgramCycleAnalyticsTests.swift */; };
 		3931B0615727B114C0B83BD8 /* ExercisePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345E7F362E9745AB51F78A99 /* ExercisePickerView.swift */; };
 		3BFAF24B30681F0500A88751 /* VIGOR Watch App Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3BFAF24130681F0300A88751 /* VIGOR Watch App Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		417D4F6FA9671B3F14BAD5E2 /* ProgramTemplateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671C9586EB2802CB3FA89128 /* ProgramTemplateService.swift */; };
@@ -165,8 +167,10 @@
 		17CD87A072FA195D910510F1 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		18390FB11E46F03CE08CED21 /* ProgressionHintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionHintEngine.swift; sourceTree = "<group>"; };
 		1955C1BE20A586D0B96A08A2 /* OneRM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneRM.swift; sourceTree = "<group>"; };
+		7E1C0A5D3B9F4C28A6D10E02 /* ProgramCycleAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCycleAnalytics.swift; sourceTree = "<group>"; };
 		1F8ABF239EC4A2FE587DCA3C /* ExerciseCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCatalog.swift; sourceTree = "<group>"; };
 		2237F5E5F8FD3F07DAB02CE9 /* OneRMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneRMTests.swift; sourceTree = "<group>"; };
+		7E1C0A5D3B9F4C28A6D10E04 /* ProgramCycleAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCycleAnalyticsTests.swift; sourceTree = "<group>"; };
 		29678EA705335344E73B1C19 /* ProgramOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramOverviewView.swift; sourceTree = "<group>"; };
 		2C334BF3622A98A9F7979AF5 /* ProgramEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEditorView.swift; sourceTree = "<group>"; };
 		2CE795723010CE3E2D66B7A0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -356,6 +360,7 @@
 			children = (
 				5C37C6C5FBF63B8F94F30347 /* AnalyticsModels.swift */,
 				1955C1BE20A586D0B96A08A2 /* OneRM.swift */,
+				7E1C0A5D3B9F4C28A6D10E02 /* ProgramCycleAnalytics.swift */,
 				7DA2FD46664E46417B76B5EC /* ProgramOverviewStats.swift */,
 				54C5CFA3766519661BC6A3A5 /* VolumeAnalytics.swift */,
 			);
@@ -565,6 +570,7 @@
 			children = (
 				4B82121792A2271006FA9301 /* MuscleGroupMappingTests.swift */,
 				2237F5E5F8FD3F07DAB02CE9 /* OneRMTests.swift */,
+				7E1C0A5D3B9F4C28A6D10E04 /* ProgramCycleAnalyticsTests.swift */,
 				C8A9A618E83F5430EF18C62A /* ProgramOverviewStatsTests.swift */,
 				C6BEB9DECEAA22E0F2C10EFE /* VolumeAnalyticsTests.swift */,
 			);
@@ -844,6 +850,7 @@
 				445CC27D599AD582890650BD /* MuscleFreshnessView.swift in Sources */,
 				E1A0F2E2490F92146B1EE1D7 /* NextWorkoutResolver.swift in Sources */,
 				34500F985F4F2C08412EA9A0 /* OneRM.swift in Sources */,
+				7E1C0A5D3B9F4C28A6D10E01 /* ProgramCycleAnalytics.swift in Sources */,
 				3158470B9EF573E0984255DB /* PersonalRecordTracker.swift in Sources */,
 				84DBCE3763580221EA998001 /* PersonalRecordsView.swift in Sources */,
 				DFD20EFA53B6EA2C50BA4E57 /* PlateCalculator.swift in Sources */,
@@ -904,6 +911,7 @@
 			files = (
 				6FA71F8EF2D868CB6F6EFD0F /* MuscleGroupMappingTests.swift in Sources */,
 				3718926A40ED4604A90976ED /* OneRMTests.swift in Sources */,
+				7E1C0A5D3B9F4C28A6D10E03 /* ProgramCycleAnalyticsTests.swift in Sources */,
 				2527CA54DE1F266DE85B4096 /* ProgramOverviewStatsTests.swift in Sources */,
 				8C92F3FA16EE9AEE529FFAFF /* ProgramTemplateContractTests.swift in Sources */,
 				A1F31FEB78B96D6BEDD03148 /* SwiftDataIntegrationTests.swift in Sources */,

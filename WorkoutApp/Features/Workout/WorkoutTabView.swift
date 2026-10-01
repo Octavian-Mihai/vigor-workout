@@ -245,7 +245,7 @@ struct StrengthAnalyticsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if showTrainingLoadEvolution {
-                TrainingLoadEvolutionChart(sets: sets, accent: accent)
+                TrainingLoadEvolutionChart(accent: accent)
             }
             if showVolumeCharts {
                 WeeklyVolumeTrendChart(sets: sets, accent: accent)
