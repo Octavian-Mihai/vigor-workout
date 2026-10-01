@@ -222,10 +222,8 @@ struct StrengthAnalyticsView: View {
 
     @Environment(AppTheme.self) private var theme
     @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
-    @AppStorage(InfoPageVisibility.showTonnageKey) private var showTonnage = true
     @AppStorage(InfoPageVisibility.showVolumeChartsKey) private var showVolumeCharts = true
     @AppStorage(InfoPageVisibility.showEstimated1RMKey) private var showEstimated1RM = true
-    @AppStorage(InfoPageVisibility.showIntensityMapKey) private var showIntensityMap = true
     @AppStorage(InfoPageVisibility.showTrainingLoadEvolutionKey) private var showTrainingLoadEvolution = true
 
     private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
@@ -249,78 +247,15 @@ struct StrengthAnalyticsView: View {
             if showTrainingLoadEvolution {
                 TrainingLoadEvolutionChart(sets: sets, accent: accent)
             }
-            if showTonnage {
-                tonnageSummary
-            }
             if showVolumeCharts {
-                volumeChart
+                WeeklyVolumeTrendChart(sets: sets, accent: accent)
                 engagementChart
             }
+            BodyWeightTrendChart(accent: accent)
             if showEstimated1RM {
                 oneRMChart
             }
-            if showIntensityMap {
-                intensityMap
-            }
         }
-    }
-
-    private var tonnageSummary: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Tonnage (7d)")
-                Spacer()
-                Text("\(Formatters.compactNumber(unit.fromKg(VolumeAnalytics.totalVolume(from: recent)))) \(unit.rawValue)·reps")
-                    .monospacedDigit()
-            }
-            .font(.subheadline)
-            HStack {
-                Text("Reps (7d)")
-                Spacer()
-                Text("\(VolumeAnalytics.totalReps(from: recent))")
-                    .monospacedDigit()
-            }
-            .font(.subheadline)
-            ForEach(muscleLoads, id: \.name) { row in
-                HStack(alignment: .firstTextBaseline) {
-                    Text(row.name)
-                    Spacer()
-                    VStack(alignment: .trailing, spacing: 2) {
-                        Text("\(Formatters.compactNumber(unit.fromKg(row.tonnageKg))) \(unit.rawValue)·reps")
-                            .monospacedDigit()
-                        Text("\(Formatters.trimmedNumber(row.reps, decimals: 1)) reps")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .monospacedDigit()
-                    }
-                }
-                .font(.subheadline)
-            }
-        }
-        .padding(16)
-        .opaqueCard()
-    }
-
-    private var volumeChart: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Volume per muscle (7d)")
-                .font(.headline)
-            Text("Primary gets full set volume; secondary gets half.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            Chart(muscleVolume, id: \.0) { item in
-                BarMark(
-                    x: .value("Volume", unit.fromKg(item.1)),
-                    y: .value("Muscle", item.0)
-                )
-                .foregroundStyle(accent)
-            }
-            .chartXScale(domain: recent.isEmpty ? 0...1 : 0...max(1, unit.fromKg(muscleVolume.map(\.1).max() ?? 0)))
-            .frame(height: max(160, CGFloat(muscleVolume.count) * 22))
-            .chartXAxisLabel(unit.rawValue + "·reps")
-        }
-        .padding(16)
-        .opaqueCard()
     }
 
     private var oneRMChart: some View {
@@ -340,7 +275,7 @@ struct StrengthAnalyticsView: View {
     private var engagementChart: some View {
         let data = muscleVolume
         return VStack(alignment: .leading, spacing: 8) {
-            Text("Muscle engagement (7d)")
+            Text("Volume per muscle (7d)")
                 .font(.headline)
             Chart(data, id: \.0) { item in
                 BarMark(
@@ -356,51 +291,6 @@ struct StrengthAnalyticsView: View {
                 }
             }
             .frame(height: 200)
-        }
-        .padding(16)
-        .opaqueCard()
-    }
-
-    private var intensityMap: some View {
-        let rows = intensityRows()
-        return VStack(alignment: .leading, spacing: 8) {
-            Text("Intensity map")
-                .font(.headline)
-            Text("Average RIR per exercise over the last 7 days.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            if rows.isEmpty {
-                GeometryReader { geo in
-                    Capsule()
-                        .fill(theme.mutedFill)
-                        .frame(width: geo.size.width, height: 8)
-                }
-                .frame(height: 88)
-            } else {
-                ForEach(rows) { row in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(row.exercise)
-                                .font(.subheadline.weight(.semibold))
-                            Text(row.muscle)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                        RIRBadge(rir: row.avgRIR, accent: accent)
-                    }
-                    GeometryReader { geo in
-                        Capsule()
-                            .fill(theme.mutedFill)
-                            .overlay(alignment: .leading) {
-                                Capsule()
-                                    .fill(RIRPalette.color(for: row.avgRIR, accent: accent))
-                                    .frame(width: geo.size.width * min(max(row.heat, 0.08), 1))
-                            }
-                    }
-                    .frame(height: 8)
-                }
-            }
         }
         .padding(16)
         .opaqueCard()
@@ -448,22 +338,6 @@ struct StrengthAnalyticsView: View {
         }
         return points
     }
-
-    private func intensityRows() -> [IntensityRow] {
-        let grouped = Dictionary(grouping: recent, by: \.exerciseName)
-        return grouped.map { name, items in
-            let avgRIR = Int((items.map { Double($0.rir) }.reduce(0, +) / Double(max(items.count, 1))).rounded())
-            let heat = max(0, 5.0 - Double(min(avgRIR, 5))) / 5.0
-            return IntensityRow(
-                id: name,
-                exercise: name,
-                muscle: items.first?.primaryMuscles.first ?? "—",
-                avgRIR: avgRIR,
-                heat: heat
-            )
-        }
-        .sorted { $0.heat > $1.heat }
-    }
 }
 
 struct LiftPoint: Identifiable {
@@ -471,12 +345,4 @@ struct LiftPoint: Identifiable {
     let lift: String
     let date: Date
     let value: Double
-}
-
-struct IntensityRow: Identifiable {
-    let id: String
-    let exercise: String
-    let muscle: String
-    let avgRIR: Int
-    let heat: Double
 }

@@ -3,10 +3,8 @@ import SwiftData
 
 enum InfoPageVisibility {
     static let showTodayStressKey = "infoShowTodayStress"
-    static let showTonnageKey = "infoShowTonnage"
     static let showVolumeChartsKey = "infoShowVolumeCharts"
     static let showEstimated1RMKey = "infoShowEstimated1RM"
-    static let showIntensityMapKey = "infoShowIntensityMap"
     static let showTrainingLoadEvolutionKey = "infoShowTrainingLoadEvolution"
     static let stressExpandedKey = "infoStressExpanded"
     static let analyticsExpandedKey = "infoAnalyticsExpanded"
@@ -28,10 +26,8 @@ struct InfoView: View {
     @EnvironmentObject private var health: HealthKitService
     @Environment(AppTheme.self) private var theme
     @AppStorage(StressVisibility.showAnalysisKey) private var showStressAnalysis = true
-    @AppStorage(InfoPageVisibility.showTonnageKey) private var showTonnage = true
     @AppStorage(InfoPageVisibility.showVolumeChartsKey) private var showVolumeCharts = true
     @AppStorage(InfoPageVisibility.showEstimated1RMKey) private var showEstimated1RM = true
-    @AppStorage(InfoPageVisibility.showIntensityMapKey) private var showIntensityMap = true
     @AppStorage(InfoPageVisibility.showTrainingLoadEvolutionKey) private var showTrainingLoadEvolution = true
     @AppStorage(RunningVisibility.showActivityKey) private var showRunningActivity = true
     @Environment(AppTourController.self) private var tour
@@ -44,10 +40,6 @@ struct InfoView: View {
 
     private var allSets: [SetLog] {
         sessions.flatMap(\.sets)
-    }
-
-    private var showsAnalytics: Bool {
-        showTonnage || showVolumeCharts || showEstimated1RM || showIntensityMap || showTrainingLoadEvolution
     }
 
     private var stressCardio: [CardioWorkout] {
@@ -125,17 +117,15 @@ struct InfoView: View {
 
                     measurementsLink
 
-                    if showsAnalytics {
-                        DisclosureGroup(isExpanded: $analyticsExpanded) {
-                            StrengthAnalyticsView(sets: allSets, accent: accent)
-                                .padding(.top, 8)
-                        } label: {
-                            Text("Analytics")
-                                .font(.title3.weight(.bold))
-                                .foregroundStyle(.primary)
-                        }
-                        .tint(.secondary)
+                    DisclosureGroup(isExpanded: $analyticsExpanded) {
+                        StrengthAnalyticsView(sets: allSets, accent: accent)
+                            .padding(.top, 8)
+                    } label: {
+                        Text("Analytics")
+                            .font(.title3.weight(.bold))
+                            .foregroundStyle(.primary)
                     }
+                    .tint(.secondary)
                 }
                 .tourTarget(.infoAnalytics)
                 .padding(16)

@@ -1,5 +1,6 @@
 import SwiftUI
 import Charts
+import SwiftData
 
 private enum TrainingLoadChartMode: String, CaseIterable, Identifiable {
     case absolute, normalized
@@ -194,5 +195,121 @@ struct TrainingLoadEvolutionChart: View {
         case .sets: return "Sets"
         case .reps: return "Reps"
         }
+    }
+}
+
+struct WeeklyVolumeTrendChart: View {
+    let sets: [SetLog]
+    let accent: Color
+
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var weeklyData: [WeeklyTrainingLoad] {
+        StressCalculator.weeklyTrainingLoad(from: sets, weeks: 12)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Weekly volume trend")
+                .font(.headline)
+            Text("Weight × reps per week, last 12 weeks (Monday start).")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Chart(weeklyData) { week in
+                BarMark(
+                    x: .value("Week", week.weekStart),
+                    y: .value("Volume", unit.fromKg(week.tonnageKg)),
+                    width: .fixed(14)
+                )
+                .foregroundStyle(accent)
+                .cornerRadius(3)
+            }
+            .frame(height: 200)
+            .chartXAxis {
+                AxisMarks(values: .automatic(desiredCount: 6)) { value in
+                    if let date = value.as(Date.self) {
+                        AxisValueLabel(Formatters.dayMonth.string(from: date))
+                    }
+                }
+            }
+            .chartYAxisLabel(unit.rawValue + "·reps")
+        }
+        .padding(16)
+        .opaqueCard()
+    }
+}
+
+private struct BodyWeightPoint: Identifiable {
+    let id: Date
+    let date: Date
+    let value: Double
+    let average: Double
+}
+
+struct BodyWeightTrendChart: View {
+    let accent: Color
+
+    @Query(sort: \BodyWeightEntry.date) private var entries: [BodyWeightEntry]
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+
+    private var points: [BodyWeightPoint] {
+        let values = entries.map { unit.fromKg($0.kilograms) }
+        return entries.enumerated().map { index, entry in
+            let window = values[max(0, index - 6)...index]
+            return BodyWeightPoint(
+                id: entry.date,
+                date: entry.date,
+                value: values[index],
+                average: window.reduce(0, +) / Double(window.count)
+            )
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Bodyweight trend")
+                .font(.headline)
+            Text("Weigh-ins with a 7-entry moving average.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            if points.isEmpty {
+                Text("No weigh-ins logged yet.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 80)
+            } else {
+                Chart {
+                    ForEach(points) { point in
+                        LineMark(
+                            x: .value("Date", point.date),
+                            y: .value("Weigh-in", point.value),
+                            series: .value("Series", "Weigh-in")
+                        )
+                        .foregroundStyle(accent)
+                        PointMark(
+                            x: .value("Date", point.date),
+                            y: .value("Weigh-in", point.value)
+                        )
+                        .foregroundStyle(accent)
+                        .symbolSize(24)
+                        LineMark(
+                            x: .value("Date", point.date),
+                            y: .value("7-entry average", point.average),
+                            series: .value("Series", "7-entry average")
+                        )
+                        .foregroundStyle(.secondary)
+                        .lineStyle(StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
+                    }
+                }
+                .chartYScale(domain: .automatic(includesZero: false))
+                .frame(height: 200)
+                .chartYAxisLabel(unit.rawValue)
+            }
+        }
+        .padding(16)
+        .opaqueCard()
     }
 }

@@ -91,7 +91,7 @@ enum AppTourStep: Int, CaseIterable, Identifiable, Hashable {
         case .workoutLibrary:
             return "Custom exercises you added live here — share them to the developer or delete them. History lists finished workouts with unit labels; swipe or tap Delete to remove a session."
         case .infoAnalytics:
-            return "Today’s stress, exercise history, plus tonnage, volume, estimated 1RM, and the intensity map. Hide individual analytics sections or turn off all stress in Settings."
+            return "Today’s stress, exercise history, plus weekly volume, volume per muscle, estimated 1RM, and bodyweight trend. Hide individual analytics sections or turn off all stress in Settings."
         case .running:
             return "Runs come from Apple Health. Filter, open a route, and see pace and run stress. Hide this tab in Settings if you don’t want it."
         case .settings:

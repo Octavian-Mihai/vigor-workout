@@ -22,10 +22,8 @@ struct SettingsView: View {
     @AppStorage(EquipmentSettings.barbellBarLbKey) private var barbellBarLb = EquipmentSettings.defaultBarLb
     @AppStorage(StressVisibility.showAnalysisKey) private var showStressAnalysis = true
     @AppStorage(StressVisibility.colorPresetKey) private var stressColorPresetRaw = StressColorPreset.classic.rawValue
-    @AppStorage(InfoPageVisibility.showTonnageKey) private var showTonnage = true
     @AppStorage(InfoPageVisibility.showVolumeChartsKey) private var showVolumeCharts = true
     @AppStorage(InfoPageVisibility.showEstimated1RMKey) private var showEstimated1RM = true
-    @AppStorage(InfoPageVisibility.showIntensityMapKey) private var showIntensityMap = true
     @AppStorage(InfoPageVisibility.showTrainingLoadEvolutionKey) private var showTrainingLoadEvolution = true
     @AppStorage(RunningVisibility.showTabKey) private var showRunningTab = true
     @AppStorage(RunningVisibility.showActivityKey) private var showRunningActivity = true
@@ -131,10 +129,8 @@ struct SettingsView: View {
                 }
 
                 Section("Info page") {
-                    Toggle("Show tonnage / muscle breakdown", isOn: $showTonnage)
-                    Toggle("Show volume charts", isOn: $showVolumeCharts)
+                    Toggle("Show volume charts (weekly trend, per muscle)", isOn: $showVolumeCharts)
                     Toggle("Show estimated 1RM", isOn: $showEstimated1RM)
-                    Toggle("Show intensity map", isOn: $showIntensityMap)
                     Toggle("Show training load evolution", isOn: $showTrainingLoadEvolution)
                     Text("Hidden sections do not appear on the Info tab.")
                         .font(.caption)
