@@ -12,6 +12,40 @@ A native iPhone strength-training app, a desktop **Program Builder**, and a **Co
 
 ---
 
+
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph iOS["iPhone app — WorkoutApp/ (SwiftUI, SwiftData)"]
+        App[App/<br/>RootTabView]
+        Feat["Features/<br/>Home · Workout · Session · Program<br/>Measurements · Running · Info · Settings"]
+        Ana[Analytics/<br/>1RM · volume · cycle stats]
+        Svc["Services/<br/>RestTimer · HealthKit · ProgressionHints<br/>PRTracker · StressCalculator · Backup"]
+        Models[(Models/<br/>SwiftData store)]
+        App --> Feat
+        Feat --> Ana
+        Feat --> Svc
+        Feat --> Models
+        Ana --> Models
+        Svc --> Models
+    end
+
+    Watch["VIGOR Watch App<br/>WatchSession"]
+    Widgets["WorkoutWidgets<br/>Live Activity · StandBy"]
+    HK[(HealthKit)]
+    Builder["program-builder/<br/>static site (Vercel)"]
+    Portal["portal/<br/>Coach Portal (static JS)"]
+
+    Svc <-->|WatchSessionSync| Watch
+    Svc -->|WidgetSnapshotSync| Widgets
+    Svc <--> HK
+    Builder -->|program template JSON| Svc
+    Svc -->|WorkoutBackup export| Portal
+```
+
+More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+
 ## The app
 
 | Home | Logging | Programs |
