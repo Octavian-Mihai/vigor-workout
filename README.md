@@ -8,7 +8,7 @@ A native iPhone strength-training app, a desktop **Program Builder**, and a **Co
 |---|---|
 | **iPhone app** | SwiftUI client in `WorkoutApp/` |
 | **Program Builder** | Static site in `program-builder/` — [live site](https://program-builder-mu.vercel.app/) |
-| **Coach Portal** | Static site in `portal/` — import an app export, explore it in depth |
+| **Coach Portal** | Static site in `portal/` — import an app export, explore it in depth [live site](https://vigor-workout-portal.vercel.app/) |
 
 ---
 
