@@ -111,6 +111,8 @@ struct InfoView: View {
                         .tint(.secondary)
                     }
 
+                    compactNavLink("Daily check-in", destination: CheckInInsightsView())
+
                     compactNavLink("Personal records", destination: PersonalRecordsView())
 
                     exerciseHistoryLink

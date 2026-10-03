@@ -93,6 +93,10 @@ final class HealthKitService: ObservableObject {
     @Published var restingHeartRate: Double?
     @Published var hrvSDNN: Double?
     @Published var lastNightSleepHours: Double?
+    /// Per-day history used by the daily check-in insights (keyed by start of day).
+    @Published var dailyHRV: [Date: Double] = [:]
+    @Published var dailyRestingHR: [Date: Double] = [:]
+    @Published var dailySleepHours: [Date: Double] = [:]
     @Published var dailySteps: [DailySteps] = []
     @Published var isLoadingSteps = false
     @Published var stepsError: String?
@@ -157,6 +161,7 @@ final class HealthKitService: ObservableObject {
             try await loadRestingHeartRate()
             try await loadHRV()
             try? await loadSleep()
+            await loadRecoveryHistory()
             await loadDailyStepsIfPossible()
         } catch {
             lastError = error.localizedDescription
@@ -489,6 +494,82 @@ final class HealthKitService: ObservableObject {
 
             store.execute(query)
         }
+    }
+
+    /// Daily HRV, resting heart rate and hours asleep for roughly the last `days` days.
+    func loadRecoveryHistory(days: Int = 90) async {
+        async let hrv = try? dailyAverages(.heartRateVariabilitySDNN, unit: .secondUnit(with: .milli), days: days)
+        async let resting = try? dailyAverages(.restingHeartRate, unit: HKUnit.count().unitDivided(by: .minute()), days: days)
+        async let sleep = try? dailyAsleepHours(days: days)
+        dailyHRV = await hrv ?? [:]
+        dailyRestingHR = await resting ?? [:]
+        dailySleepHours = await sleep ?? [:]
+    }
+
+    private func dailyAverages(_ identifier: HKQuantityTypeIdentifier, unit: HKUnit, days: Int) async throws -> [Date: Double] {
+        guard let type = HKQuantityType.quantityType(forIdentifier: identifier) else { return [:] }
+        let cal = Calendar.current
+        let todayStart = cal.startOfDay(for: Date())
+        guard let start = cal.date(byAdding: .day, value: -days, to: todayStart),
+              let end = cal.date(byAdding: .day, value: 1, to: todayStart) else { return [:] }
+
+        return try await withCheckedThrowingContinuation { continuation in
+            var interval = DateComponents()
+            interval.day = 1
+            let query = HKStatisticsCollectionQuery(
+                quantityType: type,
+                quantitySamplePredicate: HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate),
+                options: .discreteAverage,
+                anchorDate: start,
+                intervalComponents: interval
+            )
+            query.initialResultsHandler = { _, collection, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                var result: [Date: Double] = [:]
+                collection?.enumerateStatistics(from: start, to: end) { statistics, _ in
+                    if let value = statistics.averageQuantity()?.doubleValue(for: unit) {
+                        result[cal.startOfDay(for: statistics.startDate)] = value
+                    }
+                }
+                continuation.resume(returning: result)
+            }
+            store.execute(query)
+        }
+    }
+
+    /// Hours asleep per night, credited to the day the person woke up. Days with under two hours
+    /// (a nap) are left out.
+    private func dailyAsleepHours(days: Int) async throws -> [Date: Double] {
+        guard let type = HKCategoryType.categoryType(forIdentifier: .sleepAnalysis) else { return [:] }
+        let cal = Calendar.current
+        guard let start = cal.date(byAdding: .day, value: -days, to: cal.startOfDay(for: Date())) else { return [:] }
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: Date(), options: .strictStartDate)
+
+        let samples: [HKCategorySample] = try await withCheckedThrowingContinuation { continuation in
+            let query = HKSampleQuery(sampleType: type, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { _, samples, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                continuation.resume(returning: (samples as? [HKCategorySample]) ?? [])
+            }
+            store.execute(query)
+        }
+
+        let asleep: Set<Int> = [
+            HKCategoryValueSleepAnalysis.asleepUnspecified.rawValue,
+            HKCategoryValueSleepAnalysis.asleepCore.rawValue,
+            HKCategoryValueSleepAnalysis.asleepDeep.rawValue,
+            HKCategoryValueSleepAnalysis.asleepREM.rawValue
+        ]
+        var seconds: [Date: Double] = [:]
+        for sample in samples where asleep.contains(sample.value) {
+            seconds[cal.startOfDay(for: sample.endDate), default: 0] += sample.endDate.timeIntervalSince(sample.startDate)
+        }
+        return seconds.compactMapValues { $0 >= 2 * 3600 ? $0 / 3600 : nil }
     }
 
     func loadSleep() async throws {

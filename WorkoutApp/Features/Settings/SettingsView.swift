@@ -12,6 +12,7 @@ struct SettingsView: View {
     @Query private var sessions: [WorkoutSession]
     @Query private var weightEntries: [BodyWeightEntry]
     @Query private var measurementEntries: [BodyMeasurementEntry]
+    @Query private var checkInEntries: [DailyCheckIn]
     @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
     @AppStorage("lengthUnit") private var lengthUnitRaw = LengthUnit.cm.rawValue
     @AppStorage("distanceUnit") private var distanceUnitRaw = DistanceUnit.km.rawValue
@@ -22,6 +23,7 @@ struct SettingsView: View {
     @AppStorage(EquipmentSettings.barbellBarLbKey) private var barbellBarLb = EquipmentSettings.defaultBarLb
     @AppStorage(StressVisibility.showAnalysisKey) private var showStressAnalysis = true
     @AppStorage(StressVisibility.colorPresetKey) private var stressColorPresetRaw = StressColorPreset.classic.rawValue
+    @AppStorage(CheckInVisibility.showOnHomeKey) private var showDailyCheckIn = true
     @AppStorage(InfoPageVisibility.showVolumeChartsKey) private var showVolumeCharts = true
     @AppStorage(InfoPageVisibility.showEstimated1RMKey) private var showEstimated1RM = true
     @AppStorage(InfoPageVisibility.showTrainingLoadEvolutionKey) private var showTrainingLoadEvolution = true
@@ -126,6 +128,14 @@ struct SettingsView: View {
                     Text("Lift, cardio, and total meters and charts use the selected palette.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                }
+
+                Section("Daily check-in") {
+                    Toggle("Show check-in on Home", isOn: $showDailyCheckIn)
+                    Text("Log sleep, mood and energy in about 10 seconds. After a couple of weeks, Info → Daily check-in shows what seems to affect how you feel. Turn off to hide the card on Home; your entries stay.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    CheckInReminderSettingsRows()
                 }
 
                 Section("Info page") {
@@ -255,7 +265,8 @@ struct SettingsView: View {
                     programs: programs,
                     sessions: sessions,
                     weights: weightEntries,
-                    measurements: measurementEntries
+                    measurements: measurementEntries,
+                    checkIns: checkInEntries
                 )
                 .environmentObject(health)
                 .environment(appTheme)
@@ -301,7 +312,8 @@ struct SettingsView: View {
                 existingPrograms: programs,
                 existingSessions: sessions,
                 existingWeights: weightEntries,
-                existingMeasurements: measurementEntries
+                existingMeasurements: measurementEntries,
+                existingCheckIns: checkInEntries
             )
         } catch {
             dataError = error.localizedDescription
@@ -313,6 +325,7 @@ struct SettingsView: View {
         for item in programs { modelContext.delete(item) }
         for item in sessions { modelContext.delete(item) }
         for item in weightEntries { modelContext.delete(item) }
+        for item in checkInEntries { modelContext.delete(item) }
         for item in measurementEntries {
             ProgressPhotoStorage.delete(filename: item.photoFilename)
             modelContext.delete(item)
@@ -325,12 +338,12 @@ struct PrivacyInfoView: View {
     var body: some View {
         List {
             Section("On this device") {
-                Text("Programs, workout sessions, sets (weight, reps, RIR), and body-weight entries are stored locally with SwiftData. Nothing is uploaded to a server.")
+                Text("Programs, workout sessions, sets (weight, reps, RIR), body-weight entries, and daily check-ins (sleep, mood, energy, last caffeine) are stored locally with SwiftData. Nothing is uploaded to a server.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
             Section("Apple Health") {
-                Text("Running workouts, GPS routes, distance, and heart rate are read only. Body weight is read from and written to Apple Health when you use the weight log. Finished strength sessions are written to Health as Traditional Strength Training workouts only if you turn on writing workouts in Settings.")
+                Text("Running workouts, GPS routes, distance, heart rate, and last night’s sleep hours (shown beside your daily check-in) are read only. Body weight is read from and written to Apple Health when you use the weight log. Finished strength sessions are written to Health as Traditional Strength Training workouts only if you turn on writing workouts in Settings.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }

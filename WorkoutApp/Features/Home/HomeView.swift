@@ -9,6 +9,7 @@ struct HomeView: View {
     @Environment(AppTheme.self) private var theme
     @AppStorage(RunningVisibility.showActivityKey) private var showRunningActivity = true
     @AppStorage(StressVisibility.showAnalysisKey) private var showStressAnalysis = true
+    @AppStorage(CheckInVisibility.showOnHomeKey) private var showDailyCheckIn = true
 
     @Environment(AppTourController.self) private var tour
     @State private var showTrends = false
@@ -53,6 +54,10 @@ struct HomeView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
+                        if showDailyCheckIn {
+                            DailyCheckInCard()
+                        }
+
                         YearActivityGrid(
                             sessions: sessions,
                             runDates: showRunningActivity ? health.activityRunDays : [],

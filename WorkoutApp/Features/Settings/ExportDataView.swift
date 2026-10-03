@@ -25,6 +25,7 @@ struct ExportDataView: View {
     let sessions: [WorkoutSession]
     let weights: [BodyWeightEntry]
     let measurements: [BodyMeasurementEntry]
+    let checkIns: [DailyCheckIn]
 
     enum Timeline: String, CaseIterable, Identifiable {
         case all = "All time"
@@ -38,12 +39,13 @@ struct ExportDataView: View {
     @State private var includeWeight = true
     @State private var includeWorkouts = true
     @State private var includeCardio = true
+    @State private var includeCheckIns = true
     @State private var timeline: Timeline = .all
     @State private var customStart = Calendar.current.date(byAdding: .month, value: -3, to: Date()) ?? Date()
     @State private var customEnd = Date()
     @State private var cardioReady = false
 
-    private var nothingSelected: Bool { !includeWeight && !includeWorkouts && !includeCardio }
+    private var nothingSelected: Bool { !includeWeight && !includeWorkouts && !includeCardio && !includeCheckIns }
 
     private var range: ClosedRange<Date>? {
         let cal = Calendar.current
@@ -77,7 +79,8 @@ struct ExportDataView: View {
             programs: includeWorkouts ? programs : [],
             sessions: includeWorkouts ? sessions.filter { inRange($0.startDate) } : [],
             weights: includeWeight ? weights.filter { inRange($0.date) } : [],
-            measurements: includeWeight ? measurements.filter { inRange($0.date) } : []
+            measurements: includeWeight ? measurements.filter { inRange($0.date) } : [],
+            checkIns: includeCheckIns ? checkIns.filter { inRange($0.date) } : []
         )
         file.theme = themeBackup
         file.timeZone = TimeZone.current.identifier
@@ -116,6 +119,7 @@ struct ExportDataView: View {
                     Toggle("Weight & measurements", isOn: $includeWeight)
                     Toggle("Workouts", isOn: $includeWorkouts)
                     Toggle("Cardio", isOn: $includeCardio)
+                    Toggle("Daily check-ins", isOn: $includeCheckIns)
                 }
 
                 Section("Timeline") {

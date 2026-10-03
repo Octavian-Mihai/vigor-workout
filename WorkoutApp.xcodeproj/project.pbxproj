@@ -100,6 +100,14 @@
 		F627D4F06F2E4CEB5FE3B3CE /* program-template.fixture.json in Resources */ = {isa = PBXBuildFile; fileRef = C1D96AC20739268F38F5987B /* program-template.fixture.json */; };
 		FF1E727C6D979C9AABA1B451 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF1935B97A864F04647A291 /* MapKit.framework */; };
 		A1B2C3D4E5F60718293A4B5D /* ExportDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* ExportDataView.swift */; };
+		E5C73BD1C680B0E7E39687EB /* CheckInInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA838CC29A295651FDADB5 /* CheckInInsights.swift */; };
+		D27485B2169A0F2C9731DB18 /* CheckInInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD7947FE5B19E1323FB9485 /* CheckInInputView.swift */; };
+		4FA9EBB695575095C36E3B33 /* DailyCheckInCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43453317035A3C005D55F022 /* DailyCheckInCard.swift */; };
+		0E5EED203FA6C65CEB53CA74 /* CheckInInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107D51C901ED11F2FD19743 /* CheckInInsightsView.swift */; };
+		5FC69F30A562A3FE09632B02 /* CheckInInsightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A564636452365456E84C68 /* CheckInInsightsTests.swift */; };
+		1CE2D5F72E58771B25779EC4 /* CheckInReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F084AFE8ED60E609DAAF8D89 /* CheckInReminder.swift */; };
+		732B311A0DC969D644B2D25D /* CheckInReminderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD53DE19F8C90183E428D8F /* CheckInReminderViews.swift */; };
+		B69C878B6ECE782F0C5EFF2D /* CheckInReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DDEBD5BD181D3A6C036E07 /* CheckInReminderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -256,6 +264,14 @@
 		FA6BBBB891955C99D0710309 /* StressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressCalculator.swift; sourceTree = "<group>"; };
 		FDA53125E3A467133F20780B /* ExerciseSubmissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSubmissionService.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60718293A4B5C /* ExportDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportDataView.swift; sourceTree = "<group>"; };
+		BFDA838CC29A295651FDADB5 /* CheckInInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInInsights.swift; sourceTree = "<group>"; };
+		7AD7947FE5B19E1323FB9485 /* CheckInInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInInputView.swift; sourceTree = "<group>"; };
+		43453317035A3C005D55F022 /* DailyCheckInCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCheckInCard.swift; sourceTree = "<group>"; };
+		4107D51C901ED11F2FD19743 /* CheckInInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInInsightsView.swift; sourceTree = "<group>"; };
+		E3A564636452365456E84C68 /* CheckInInsightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInInsightsTests.swift; sourceTree = "<group>"; };
+		F084AFE8ED60E609DAAF8D89 /* CheckInReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInReminder.swift; sourceTree = "<group>"; };
+		3CD53DE19F8C90183E428D8F /* CheckInReminderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInReminderViews.swift; sourceTree = "<group>"; };
+		69DDEBD5BD181D3A6C036E07 /* CheckInReminderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInReminderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -304,6 +320,7 @@
 		111D689DCF60C4857CD33A18 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F084AFE8ED60E609DAAF8D89 /* CheckInReminder.swift */,
 				FDA53125E3A467133F20780B /* ExerciseSubmissionService.swift */,
 				B20721E9FB4B4B4F36A718A9 /* HealthKitService.swift */,
 				A99D54D106959C1FC29CAF35 /* NextWorkoutResolver.swift */,
@@ -361,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				5C37C6C5FBF63B8F94F30347 /* AnalyticsModels.swift */,
+				BFDA838CC29A295651FDADB5 /* CheckInInsights.swift */,
 				1955C1BE20A586D0B96A08A2 /* OneRM.swift */,
 				7E1C0A5D3B9F4C28A6D10E02 /* ProgramCycleAnalytics.swift */,
 				7DA2FD46664E46417B76B5EC /* ProgramOverviewStats.swift */,
@@ -466,10 +484,22 @@
 			path = contract;
 			sourceTree = "<group>";
 		};
+		9DCFC5796691C360C9E37B07 /* CheckIn */ = {
+			isa = PBXGroup;
+			children = (
+				3CD53DE19F8C90183E428D8F /* CheckInReminderViews.swift */,
+				4107D51C901ED11F2FD19743 /* CheckInInsightsView.swift */,
+				7AD7947FE5B19E1323FB9485 /* CheckInInputView.swift */,
+				43453317035A3C005D55F022 /* DailyCheckInCard.swift */,
+			);
+			path = CheckIn;
+			sourceTree = "<group>";
+		};
 		9FD0E0D7A5A2227247D767EE /* Features */ = {
 			isa = PBXGroup;
 			children = (
 				A7DFEC5CB1547C49AFA42069 /* ActivityDetail */,
+				9DCFC5796691C360C9E37B07 /* CheckIn */,
 				E3E963CB8625B5D712A5F318 /* Home */,
 				C364964895536827973F4C20 /* Info */,
 				D7FFE6C049E47377C5D91FF8 /* Measurements */,
@@ -548,6 +578,7 @@
 			path = Measurements;
 			sourceTree = "<group>";
 		};
+
 		D89249CA78CA2287048F5B17 /* Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,6 +601,8 @@
 		E0BB10869B86BE97A5537621 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				E3A564636452365456E84C68 /* CheckInInsightsTests.swift */,
+				69DDEBD5BD181D3A6C036E07 /* CheckInReminderTests.swift */,
 				4B82121792A2271006FA9301 /* MuscleGroupMappingTests.swift */,
 				2237F5E5F8FD3F07DAB02CE9 /* OneRMTests.swift */,
 				7E1C0A5D3B9F4C28A6D10E04 /* ProgramCycleAnalyticsTests.swift */,
@@ -829,6 +862,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2363FE82BB839706124D2492 /* AccentPickerDashboard.swift in Sources */,
+				E5C73BD1C680B0E7E39687EB /* CheckInInsights.swift in Sources */,
+				1CE2D5F72E58771B25779EC4 /* CheckInReminder.swift in Sources */,
+				732B311A0DC969D644B2D25D /* CheckInReminderViews.swift in Sources */,
+				D27485B2169A0F2C9731DB18 /* CheckInInputView.swift in Sources */,
+				4FA9EBB695575095C36E3B33 /* DailyCheckInCard.swift in Sources */,
+				0E5EED203FA6C65CEB53CA74 /* CheckInInsightsView.swift in Sources */,
 				DD5B39393F4A3FE0FF1E24A7 /* ActiveSessionStore.swift in Sources */,
 				E42364B6EECE1192F82D6B71 /* AddMeasurementView.swift in Sources */,
 				9423C54C8779CA1310E86549 /* AnalyticsModels.swift in Sources */,
@@ -913,6 +952,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FC69F30A562A3FE09632B02 /* CheckInInsightsTests.swift in Sources */,
+				B69C878B6ECE782F0C5EFF2D /* CheckInReminderTests.swift in Sources */,
 				6FA71F8EF2D868CB6F6EFD0F /* MuscleGroupMappingTests.swift in Sources */,
 				3718926A40ED4604A90976ED /* OneRMTests.swift in Sources */,
 				7E1C0A5D3B9F4C28A6D10E03 /* ProgramCycleAnalyticsTests.swift in Sources */,

@@ -262,3 +262,85 @@ final class BodyMeasurementEntry {
             || rightCalfCm != nil
     }
 }
+
+/// One row per calendar day: how last night's sleep, today's mood and today's energy felt (1...5),
+/// plus two quick things that may explain them. Every field is optional so a day can be half-logged.
+@Model
+final class DailyCheckIn {
+    /// Start of the day this check-in belongs to.
+    var date: Date
+    var sleepRating: Int?
+    var moodRating: Int?
+    var energyRating: Int?
+    /// `CaffeineTiming.rawValue` — when the last caffeine was (0 = none that day).
+    var lastCaffeine: Int?
+    /// Hours asleep last night as Apple Health reported them when this was logged.
+    var sleepHours: Double?
+
+    init(date: Date = Date()) {
+        self.date = Calendar.current.startOfDay(for: date)
+    }
+
+    var loggedRatingCount: Int {
+        [sleepRating, moodRating, energyRating].compactMap { $0 }.count
+    }
+
+    /// Sleep, mood, energy and last caffeine are all answered.
+    var isComplete: Bool { loggedRatingCount == 3 && lastCaffeine != nil }
+
+    var isEmpty: Bool {
+        loggedRatingCount == 0 && lastCaffeine == nil
+    }
+}
+
+enum CheckInScale {
+    static let ratings = 1...5
+
+    static func clampedRating(_ value: Int) -> Int {
+        min(max(value, ratings.lowerBound), ratings.upperBound)
+    }
+}
+
+/// When the last caffeinated drink was. Later doses are the ones that tend to cost sleep.
+/// Raw values run in order of lateness, which is what the insights compare.
+enum CaffeineTiming: Int, CaseIterable, Identifiable {
+    case none = 0
+    case morning = 1
+    case midday = 2
+    case afternoon = 3
+    case evening = 4
+
+    var id: Int { rawValue }
+
+    /// Chip label.
+    var label: String {
+        switch self {
+        case .none: return "None"
+        case .morning: return "Before 11"
+        case .midday: return "11–2"
+        case .afternoon: return "2–6"
+        case .evening: return "After 6"
+        }
+    }
+
+    /// Full wording for summaries and VoiceOver.
+    var spoken: String {
+        switch self {
+        case .none: return "No caffeine"
+        case .morning: return "Before 11am"
+        case .midday: return "11am–2pm"
+        case .afternoon: return "2–6pm"
+        case .evening: return "After 6pm"
+        }
+    }
+
+    /// The clock time this window starts at, as it reads in "caffeine after 2pm".
+    var startLabel: String? {
+        switch self {
+        case .none, .morning: return nil
+        case .midday: return "11am"
+        case .afternoon: return "2pm"
+        case .evening: return "6pm"
+        }
+    }
+}

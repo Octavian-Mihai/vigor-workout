@@ -62,6 +62,7 @@ struct RootTabView: View {
             }
         }
         .coordinateSpace(name: TourCoordinateSpace.name)
+        .modifier(CheckInReminderSync())
         .onAppear {
             if !hasSeenAppGuide && !ScreenshotDefaults.isActive && !tour.isActive {
                 tour.start()

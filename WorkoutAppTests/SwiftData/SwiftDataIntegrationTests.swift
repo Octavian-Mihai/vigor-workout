@@ -12,7 +12,8 @@ private func makeInMemoryContext() throws -> ModelContext {
         WorkoutSession.self,
         SetLog.self,
         BodyWeightEntry.self,
-        BodyMeasurementEntry.self
+        BodyMeasurementEntry.self,
+        DailyCheckIn.self
     ])
     let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try ModelContainer(for: schema, configurations: [configuration])
@@ -242,5 +243,130 @@ struct SwiftDataIntegrationTests {
         )
 
         #expect(try context.fetch(FetchDescriptor<BodyWeightEntry>()).count == 1)
+    }
+
+    // MARK: - Daily check-in
+
+    @Test("the first answer creates the day's check-in and later answers update the same row")
+    func checkInStoreKeepsOneRowPerDay() throws {
+        let context = try makeInMemoryContext()
+        let today = Date()
+
+        CheckInStore.update(on: today, in: context) { $0.moodRating = 4 }
+        CheckInStore.update(on: today.addingTimeInterval(60), in: context) { $0.energyRating = 3 }
+
+        let entries = try context.fetch(FetchDescriptor<DailyCheckIn>())
+        #expect(entries.count == 1)
+        #expect(entries.first?.moodRating == 4)
+        #expect(entries.first?.energyRating == 3)
+        #expect(entries.first?.isComplete == false)
+    }
+
+    @Test("clearing the only answer removes the check-in instead of leaving a blank row")
+    func checkInStoreRemovesEmptyEntry() throws {
+        let context = try makeInMemoryContext()
+
+        CheckInStore.update(on: Date(), in: context) { $0.moodRating = 4 }
+        CheckInStore.update(on: Date(), in: context) { $0.moodRating = nil }
+
+        #expect(try context.fetch(FetchDescriptor<DailyCheckIn>()).isEmpty)
+    }
+
+    @Test("import ignores a last-caffeine value outside the scale and clamps ratings")
+    func importSanitisesCaffeineAndRatings() throws {
+        let context = try makeInMemoryContext()
+        let backup = WorkoutBackupFile(
+            version: 2, exportedAt: Date(), programs: [], sessions: [], bodyWeights: [], measurements: [],
+            checkIns: [
+                CheckInBackup(date: Date(timeIntervalSince1970: 1_700_000_000), sleepRating: 9, moodRating: 3, energyRating: nil,
+                              lastCaffeine: 42, sleepHours: nil)
+            ]
+        )
+        try WorkoutBackupService.importBackup(backup, context: context, existingPrograms: [], existingSessions: [], existingWeights: [])
+
+        let imported = try #require(try context.fetch(FetchDescriptor<DailyCheckIn>()).first)
+        #expect(imported.sleepRating == 5)
+        #expect(imported.lastCaffeine == nil)
+    }
+
+    @Test("Apple Health sleep hours are attached to today's check-in but never overwrite or leak onto past days")
+    func checkInStoreAttachesSleepHoursOnlyToToday() throws {
+        let context = try makeInMemoryContext()
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+
+        CheckInStore.update(on: Date(), in: context, healthSleepHours: 7.5) { $0.sleepRating = 4 }
+        CheckInStore.update(on: yesterday, in: context, healthSleepHours: 7.5) { $0.sleepRating = 3 }
+        CheckInStore.attachSleepHours(5, to: Date(), in: context)
+
+        let today = try #require(CheckInStore.entry(on: Date(), in: context))
+        let past = try #require(CheckInStore.entry(on: yesterday, in: context))
+        #expect(today.sleepHours == 7.5)
+        #expect(past.sleepHours == nil)
+    }
+
+    @Test("check-ins survive a backup round trip, skip days already logged, and old backups still decode")
+    func checkInsRoundTripThroughBackup() throws {
+        let source = try makeInMemoryContext()
+        let day = Date(timeIntervalSince1970: 1_700_000_000)
+
+        let entry = DailyCheckIn(date: day)
+        entry.sleepRating = 4
+        entry.moodRating = 5
+        entry.energyRating = 3
+        entry.lastCaffeine = CaffeineTiming.afternoon.rawValue
+        entry.sleepHours = 7.25
+        source.insert(entry)
+        source.insert(DailyCheckIn(date: day.addingTimeInterval(-86_400)))
+        try source.save()
+
+        let file = WorkoutBackupService.make(
+            programs: [], sessions: [], weights: [],
+            checkIns: try source.fetch(FetchDescriptor<DailyCheckIn>())
+        )
+        // The untouched second row has no answers, so it isn't exported.
+        #expect(file.checkIns?.count == 1)
+
+        let decoded = try WorkoutBackupService.decode(try WorkoutBackupService.encode(file))
+        let destination = try makeInMemoryContext()
+        try WorkoutBackupService.importBackup(
+            decoded, context: destination,
+            existingPrograms: [], existingSessions: [], existingWeights: []
+        )
+
+        let imported = try #require(try destination.fetch(FetchDescriptor<DailyCheckIn>()).first)
+        #expect(imported.sleepRating == 4)
+        #expect(imported.moodRating == 5)
+        #expect(imported.energyRating == 3)
+        #expect(imported.lastCaffeine == CaffeineTiming.afternoon.rawValue)
+        #expect(imported.sleepHours == 7.25)
+
+        try WorkoutBackupService.importBackup(
+            decoded, context: destination,
+            existingPrograms: [], existingSessions: [], existingWeights: [],
+            existingCheckIns: try destination.fetch(FetchDescriptor<DailyCheckIn>())
+        )
+        #expect(try destination.fetch(FetchDescriptor<DailyCheckIn>()).count == 1)
+
+        let withoutCheckIns = WorkoutBackupService.make(programs: [], sessions: [], weights: [])
+        #expect(withoutCheckIns.checkIns == nil)
+        let json = String(decoding: try WorkoutBackupService.encode(withoutCheckIns), as: UTF8.self)
+        #expect(!json.contains("checkIns"))
+    }
+
+    @Test("a day counts as trained only when a session has sets in it")
+    func trainedDaysIgnoreEmptySessions() throws {
+        let context = try makeInMemoryContext()
+        let calendar = Calendar.current
+        let lifted = WorkoutSession(startDate: Date(timeIntervalSince1970: 1_700_000_000), source: SessionSource.empty)
+        let abandoned = WorkoutSession(startDate: Date(timeIntervalSince1970: 1_700_000_000 + 3 * 86_400), source: SessionSource.empty)
+        context.insert(lifted)
+        context.insert(abandoned)
+        let set = SetLog(exerciseName: "Row", primaryMuscles: ["Lats"], secondaryMuscles: [], weight: 60, reps: 10, rir: 2)
+        set.session = lifted
+        context.insert(set)
+        try context.save()
+
+        let days = CheckInInsights.trainedDays(sessions: [lifted, abandoned], cardio: [])
+        #expect(days == [calendar.startOfDay(for: lifted.startDate)])
     }
 }

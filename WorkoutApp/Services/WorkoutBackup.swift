@@ -18,6 +18,8 @@ struct WorkoutBackupFile: Codable, Equatable, Transferable {
     var timeZone: String? = nil
     var restingHeartRate: Double? = nil
     var maxHeartRate: Double? = nil
+    /// Daily sleep / mood / energy check-ins. Absent in older exports.
+    var checkIns: [CheckInBackup]? = nil
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .json) { file in
@@ -103,6 +105,16 @@ struct CardioBackup: Codable, Equatable {
     var stress: Double? = nil
 }
 
+struct CheckInBackup: Codable, Equatable {
+    var date: Date
+    var sleepRating: Int?
+    var moodRating: Int?
+    var energyRating: Int?
+    /// `CaffeineTiming` raw value (0 = none, 1 = before 11am … 4 = after 6pm).
+    var lastCaffeine: Int? = nil
+    var sleepHours: Double?
+}
+
 struct MeasurementBackup: Codable, Equatable {
     var date: Date
     var photoFilename: String?
@@ -177,11 +189,23 @@ enum WorkoutBackupService {
         )
     }
 
+    static func checkInBackup(from entry: DailyCheckIn) -> CheckInBackup {
+        CheckInBackup(
+            date: entry.date,
+            sleepRating: entry.sleepRating,
+            moodRating: entry.moodRating,
+            energyRating: entry.energyRating,
+            lastCaffeine: entry.lastCaffeine,
+            sleepHours: entry.sleepHours
+        )
+    }
+
     static func make(
         programs: [Program],
         sessions: [WorkoutSession],
         weights: [BodyWeightEntry],
-        measurements: [BodyMeasurementEntry] = []
+        measurements: [BodyMeasurementEntry] = [],
+        checkIns: [DailyCheckIn] = []
     ) -> WorkoutBackupFile {
         WorkoutBackupFile(
             version: 2,
@@ -212,7 +236,8 @@ enum WorkoutBackupService {
                 )
             },
             bodyWeights: weights.map { BodyWeightBackup(date: $0.date, kilograms: $0.kilograms) },
-            measurements: measurements.map { measurementBackup(from: $0) }
+            measurements: measurements.map { measurementBackup(from: $0) },
+            checkIns: checkIns.isEmpty ? nil : checkIns.filter { !$0.isEmpty }.map { checkInBackup(from: $0) }
         )
     }
 
@@ -267,7 +292,8 @@ enum WorkoutBackupService {
         existingPrograms: [Program],
         existingSessions: [WorkoutSession],
         existingWeights: [BodyWeightEntry],
-        existingMeasurements: [BodyMeasurementEntry] = []
+        existingMeasurements: [BodyMeasurementEntry] = [],
+        existingCheckIns: [DailyCheckIn] = []
     ) throws {
         let existingProgramIDs = Set(existingPrograms.map(\.uuid))
         let existingSessionIDs = Set(existingSessions.map(\.uuid))
@@ -370,6 +396,19 @@ enum WorkoutBackupService {
                 model.rightThighCm = measurement.rightThighCm
                 model.leftCalfCm = measurement.leftCalfCm
                 model.rightCalfCm = measurement.rightCalfCm
+                context.insert(model)
+            }
+        }
+
+        for checkIn in backup.checkIns ?? [] {
+            let exists = existingCheckIns.contains { calendar.isDate($0.date, inSameDayAs: checkIn.date) }
+            if !exists {
+                let model = DailyCheckIn(date: checkIn.date)
+                model.sleepRating = checkIn.sleepRating.map(CheckInScale.clampedRating)
+                model.moodRating = checkIn.moodRating.map(CheckInScale.clampedRating)
+                model.energyRating = checkIn.energyRating.map(CheckInScale.clampedRating)
+                model.lastCaffeine = checkIn.lastCaffeine.flatMap(CaffeineTiming.init(rawValue:))?.rawValue
+                model.sleepHours = checkIn.sleepHours
                 context.insert(model)
             }
         }
