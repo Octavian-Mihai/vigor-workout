@@ -100,6 +100,12 @@
 		F627D4F06F2E4CEB5FE3B3CE /* program-template.fixture.json in Resources */ = {isa = PBXBuildFile; fileRef = C1D96AC20739268F38F5987B /* program-template.fixture.json */; };
 		FF1E727C6D979C9AABA1B451 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF1935B97A864F04647A291 /* MapKit.framework */; };
 		A1B2C3D4E5F60718293A4B5D /* ExportDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* ExportDataView.swift */; };
+		56575A620B2663AFA65B3FB0 /* VBTCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DBBD1A734599744E27147C /* VBTCaptureView.swift */; };
+		70EB4E04DB6E7990FA8D8140 /* VBTController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583B56B993C9E2A91F6B8D59 /* VBTController.swift */; };
+		ADBB1B8F228E2DBC3A48E111 /* VBTSyntheticSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521C915C58595C9AC9071F8F /* VBTSyntheticSource.swift */; };
+		2B3255B2819FB29D68012487 /* VelocityAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1764941B87FFB941F1B1DE /* VelocityAnalyzer.swift */; };
+		DE52659A73099F4A6F0BFA71 /* BarTrackerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBA2488E7E19870F40BD0EB /* BarTrackerCore.swift */; };
+		38E0997E19DFE8AE6E463E3C /* VelocityAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EC6D297D2BC0ADA483FEC2 /* VelocityAnalyzerTests.swift */; };
 		E5C73BD1C680B0E7E39687EB /* CheckInInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA838CC29A295651FDADB5 /* CheckInInsights.swift */; };
 		D27485B2169A0F2C9731DB18 /* CheckInInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD7947FE5B19E1323FB9485 /* CheckInInputView.swift */; };
 		4FA9EBB695575095C36E3B33 /* DailyCheckInCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43453317035A3C005D55F022 /* DailyCheckInCard.swift */; };
@@ -264,6 +270,12 @@
 		FA6BBBB891955C99D0710309 /* StressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressCalculator.swift; sourceTree = "<group>"; };
 		FDA53125E3A467133F20780B /* ExerciseSubmissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSubmissionService.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60718293A4B5C /* ExportDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportDataView.swift; sourceTree = "<group>"; };
+		D9DBBD1A734599744E27147C /* VBTCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBTCaptureView.swift; sourceTree = "<group>"; };
+		583B56B993C9E2A91F6B8D59 /* VBTController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBTController.swift; sourceTree = "<group>"; };
+		521C915C58595C9AC9071F8F /* VBTSyntheticSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBTSyntheticSource.swift; sourceTree = "<group>"; };
+		9B1764941B87FFB941F1B1DE /* VelocityAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityAnalyzer.swift; sourceTree = "<group>"; };
+		BCBA2488E7E19870F40BD0EB /* BarTrackerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarTrackerCore.swift; sourceTree = "<group>"; };
+		80EC6D297D2BC0ADA483FEC2 /* VelocityAnalyzerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityAnalyzerTests.swift; sourceTree = "<group>"; };
 		BFDA838CC29A295651FDADB5 /* CheckInInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInInsights.swift; sourceTree = "<group>"; };
 		7AD7947FE5B19E1323FB9485 /* CheckInInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInInputView.swift; sourceTree = "<group>"; };
 		43453317035A3C005D55F022 /* DailyCheckInCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCheckInCard.swift; sourceTree = "<group>"; };
@@ -506,6 +518,7 @@
 				2565386D8F2A31305CAED786 /* Program */,
 				B5ACF0C9CCD86D820255B191 /* Running */,
 				D89249CA78CA2287048F5B17 /* Session */,
+				D1D13FA8900899EBD6FB17BF /* VBT */,
 				394C01B6B6EA73E441D8928F /* Settings */,
 				7DD4D5A49C1B2E9C57244358 /* Workout */,
 			);
@@ -578,7 +591,18 @@
 			path = Measurements;
 			sourceTree = "<group>";
 		};
-
+		D1D13FA8900899EBD6FB17BF /* VBT */ = {
+			isa = PBXGroup;
+			children = (
+				D9DBBD1A734599744E27147C /* VBTCaptureView.swift */,
+				583B56B993C9E2A91F6B8D59 /* VBTController.swift */,
+				521C915C58595C9AC9071F8F /* VBTSyntheticSource.swift */,
+				9B1764941B87FFB941F1B1DE /* VelocityAnalyzer.swift */,
+				BCBA2488E7E19870F40BD0EB /* BarTrackerCore.swift */,
+			);
+			path = VBT;
+			sourceTree = "<group>";
+		};
 		D89249CA78CA2287048F5B17 /* Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,6 +629,7 @@
 				69DDEBD5BD181D3A6C036E07 /* CheckInReminderTests.swift */,
 				4B82121792A2271006FA9301 /* MuscleGroupMappingTests.swift */,
 				2237F5E5F8FD3F07DAB02CE9 /* OneRMTests.swift */,
+				80EC6D297D2BC0ADA483FEC2 /* VelocityAnalyzerTests.swift */,
 				7E1C0A5D3B9F4C28A6D10E04 /* ProgramCycleAnalyticsTests.swift */,
 				C8A9A618E83F5430EF18C62A /* ProgramOverviewStatsTests.swift */,
 				C6BEB9DECEAA22E0F2C10EFE /* VolumeAnalyticsTests.swift */,
@@ -886,6 +911,11 @@
 				7792F81F651D35625B072F07 /* HomeView.swift in Sources */,
 				34DAC4F345EE96977840E819 /* InfoView.swift in Sources */,
 				083063D580CE8FA180F346AC /* LiveSessionView.swift in Sources */,
+				56575A620B2663AFA65B3FB0 /* VBTCaptureView.swift in Sources */,
+				70EB4E04DB6E7990FA8D8140 /* VBTController.swift in Sources */,
+				ADBB1B8F228E2DBC3A48E111 /* VBTSyntheticSource.swift in Sources */,
+				2B3255B2819FB29D68012487 /* VelocityAnalyzer.swift in Sources */,
+				DE52659A73099F4A6F0BFA71 /* BarTrackerCore.swift in Sources */,
 				5101E2177DCC7D87C58BF234 /* MeasurementDetailView.swift in Sources */,
 				62C04E75C7DA749E7581BE09 /* MeasurementsView.swift in Sources */,
 				312109604BB6767FA00B4EAD /* Models.swift in Sources */,
@@ -956,6 +986,7 @@
 				B69C878B6ECE782F0C5EFF2D /* CheckInReminderTests.swift in Sources */,
 				6FA71F8EF2D868CB6F6EFD0F /* MuscleGroupMappingTests.swift in Sources */,
 				3718926A40ED4604A90976ED /* OneRMTests.swift in Sources */,
+				38E0997E19DFE8AE6E463E3C /* VelocityAnalyzerTests.swift in Sources */,
 				7E1C0A5D3B9F4C28A6D10E03 /* ProgramCycleAnalyticsTests.swift in Sources */,
 				2527CA54DE1F266DE85B4096 /* ProgramOverviewStatsTests.swift in Sources */,
 				8C92F3FA16EE9AEE529FFAFF /* ProgramTemplateContractTests.swift in Sources */,

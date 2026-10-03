@@ -990,6 +990,7 @@ struct SessionExerciseCard: View {
 
     @State private var showHistory = false
     @State private var showDetails = false
+    @State private var showVBT = false
     @State private var showSwapPicker = false
     @State private var showRemoveConfirm = false
     @State private var showSwapConfirm = false
@@ -1083,6 +1084,13 @@ struct SessionExerciseCard: View {
                                 showDetails = true
                             } label: {
                                 Label("Exercise details", systemImage: "info.circle")
+                            }
+                            if VBTLift(exerciseName: live.name) != nil {
+                                Button {
+                                    showVBT = true
+                                } label: {
+                                    Label("VBT mode", systemImage: "speedometer")
+                                }
                             }
                             Button {
                                 onReorder()
@@ -1254,6 +1262,11 @@ struct SessionExerciseCard: View {
         }
         .onAppear {
             controller.ensureDraft(for: exercise.id, unit: unit, previousSets: previousSets)
+        }
+        .fullScreenCover(isPresented: $showVBT) {
+            if let lift = VBTLift(exerciseName: live.name) {
+                VBTCaptureView(lift: lift)
+            }
         }
         .sheet(isPresented: $showHistory) {
             NavigationStack {

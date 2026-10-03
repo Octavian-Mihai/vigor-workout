@@ -22,6 +22,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Velocity-based training uses the camera to track the barbell and measure bar speed. Video is analysed on your device and never saved or uploaded.</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Workout reads your cardio workouts (running, walking, hiking, cycling), GPS routes, distance, elevation, heart rate, resting heart rate, HRV, and sleep from Apple Health to show maps, pace charts, duration, and training stress. It also reads body weight to keep your weight log in sync.</string>
 	<key>NSHealthUpdateUsageDescription</key>
