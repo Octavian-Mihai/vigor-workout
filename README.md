@@ -60,7 +60,7 @@ More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 | Cardio | Customization |
 |:---:|:---:|
-| ![Cardio tab](docs/screenshots/running_page.png) | ![Accent and appearance customization](website/screens/customization.png) |
+| <img src="docs/screenshots/running_page.png" alt="Cardio tab" width="270"> | <img src="website/screens/customization.png" alt="Accent and appearance customization" width="270"> |
 
 ### Features
 
