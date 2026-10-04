@@ -14,6 +14,10 @@ struct WatchSessionSnapshot: Codable, Equatable {
         var targetReps: Int?
         var completedSets: Int
         var isSupersetGroup: Bool
+        var lastWeightKg: Double?
+        var lastReps: Int?
+        var lastRIR: Int?
+        var isAssisted: Bool?
     }
 
     var isActive: Bool
@@ -22,6 +26,8 @@ struct WatchSessionSnapshot: Codable, Equatable {
     var currentExerciseIndex: Int
     var isResting: Bool
     var restEndDate: Date?
+    var restTotalSeconds: Int?
+    var weightUnit: String?
 
     static let empty = WatchSessionSnapshot(
         isActive: false,
@@ -29,7 +35,9 @@ struct WatchSessionSnapshot: Codable, Equatable {
         exercises: [],
         currentExerciseIndex: 0,
         isResting: false,
-        restEndDate: nil
+        restEndDate: nil,
+        restTotalSeconds: nil,
+        weightUnit: nil
     )
 }
 
@@ -58,6 +66,19 @@ final class PhoneConnectivity: NSObject, ObservableObject {
         let message = WatchLogSetMessage(exerciseID: exerciseID, weightKg: weightKg, reps: reps, rir: rir)
         guard let data = try? JSONEncoder().encode(message) else { return }
         let payload = ["logSet": data]
+        let session = WCSession.default
+        if session.isReachable {
+            session.sendMessage(payload, replyHandler: nil) { _ in
+                session.transferUserInfo(payload)
+            }
+        } else {
+            session.transferUserInfo(payload)
+        }
+    }
+
+    /// Asks the phone to finish and save the session; the watch workout ends when the phone reports it inactive.
+    func endWorkout() {
+        let payload: [String: Any] = ["endWorkout": true]
         let session = WCSession.default
         if session.isReachable {
             session.sendMessage(payload, replyHandler: nil) { _ in

@@ -12,6 +12,11 @@ struct WatchSessionSnapshot: Codable, Equatable {
         var targetReps: Int?
         var completedSets: Int
         var isSupersetGroup: Bool
+        /// Suggested starting values for the next set (last set this session, else the same set last time).
+        var lastWeightKg: Double?
+        var lastReps: Int?
+        var lastRIR: Int?
+        var isAssisted: Bool?
     }
 
     var isActive: Bool
@@ -20,6 +25,8 @@ struct WatchSessionSnapshot: Codable, Equatable {
     var currentExerciseIndex: Int
     var isResting: Bool
     var restEndDate: Date?
+    var restTotalSeconds: Int?
+    var weightUnit: String?
 
     static let inactive = WatchSessionSnapshot(
         isActive: false,
@@ -27,7 +34,9 @@ struct WatchSessionSnapshot: Codable, Equatable {
         exercises: [],
         currentExerciseIndex: 0,
         isResting: false,
-        restEndDate: nil
+        restEndDate: nil,
+        restTotalSeconds: nil,
+        weightUnit: nil
     )
 }
 
@@ -69,13 +78,25 @@ final class WatchSessionSync: NSObject {
     func pushSnapshot(from controller: SessionController) {
         guard self.controller === controller else { return }
         let exercises = controller.exercises.map { exercise in
-            WatchSessionSnapshot.ExerciseInfo(
+            let previous = previousSets(for: exercise.name, in: controller.pastSessions)
+            let suggestion: (weightKg: Double, reps: Int, rir: Int)? = {
+                if let last = exercise.logged.last { return (last.weightKg, last.reps, last.rir) }
+                if let set = previous[safe: exercise.logged.count] ?? previous.last {
+                    return (set.weight, set.reps, set.rir)
+                }
+                return nil
+            }()
+            return WatchSessionSnapshot.ExerciseInfo(
                 id: exercise.id.uuidString,
                 name: exercise.name,
                 targetSets: exercise.targetSets,
                 targetReps: exercise.targetReps,
                 completedSets: exercise.logged.count,
-                isSupersetGroup: exercise.supersetGroupID != nil
+                isSupersetGroup: exercise.supersetGroupID != nil,
+                lastWeightKg: suggestion?.weightKg,
+                lastReps: suggestion?.reps,
+                lastRIR: suggestion?.rir,
+                isAssisted: AssistedLoad.isAssisted(exercise.name)
             )
         }
         let currentIndex = controller.exercises.firstIndex { $0.logged.count < max($0.targetSets, 1) } ?? 0
@@ -85,9 +106,21 @@ final class WatchSessionSync: NSObject {
             exercises: exercises,
             currentExerciseIndex: currentIndex,
             isResting: controller.timerRunning,
-            restEndDate: controller.timerRunning ? Date().addingTimeInterval(TimeInterval(controller.restRemaining)) : nil
+            restEndDate: controller.timerRunning ? Date().addingTimeInterval(TimeInterval(controller.restRemaining)) : nil,
+            restTotalSeconds: controller.restDuration,
+            weightUnit: UserDefaults.standard.string(forKey: "weightUnit") ?? "kg"
         )
         send(snapshot)
+    }
+
+    private func previousSets(for name: String, in sessions: [WorkoutSession]) -> [SetLog] {
+        for session in sessions where session.endDate != nil {
+            let sets = session.orderedSets.filter {
+                $0.exerciseName.compare(name, options: .caseInsensitive) == .orderedSame
+            }
+            if !sets.isEmpty { return sets }
+        }
+        return []
     }
 
     private func send(_ snapshot: WatchSessionSnapshot) {
@@ -119,6 +152,10 @@ extension WatchSessionSync: WCSessionDelegate {
     }
 
     nonisolated func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        if message["endWorkout"] != nil {
+            Task { @MainActor in self.controller?.watchFinishRequest += 1 }
+            return
+        }
         guard let data = message["logSet"] as? Data,
               let decoded = try? JSONDecoder().decode(WatchLogSetMessage.self, from: data)
         else { return }
@@ -128,11 +165,21 @@ extension WatchSessionSync: WCSessionDelegate {
     }
 
     nonisolated func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
+        if userInfo["endWorkout"] != nil {
+            Task { @MainActor in self.controller?.watchFinishRequest += 1 }
+            return
+        }
         guard let data = userInfo["logSet"] as? Data,
               let decoded = try? JSONDecoder().decode(WatchLogSetMessage.self, from: data)
         else { return }
         Task { @MainActor in
             self.applyLogSet(decoded)
         }
+    }
+}
+
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
     }
 }

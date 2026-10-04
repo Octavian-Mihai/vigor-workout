@@ -112,6 +112,8 @@ final class SessionController: ObservableObject {
     @Published var barWeightOverrides: [UUID: Double] = [:]
     @Published var prSetIDs: Set<UUID> = []
     @Published var prPulse = 0
+    /// Bumped when the watch asks to finish the workout.
+    @Published var watchFinishRequest = 0
     @Published var showSuggestionByExercise: [UUID: Bool] = [:]
     @Published var latestPRExerciseID: UUID?
     @Published var latestPREstimateKg: Double?
@@ -771,6 +773,9 @@ struct LiveSessionView: View {
         }
         .onChange(of: pastSessions.count) { _, _ in
             controller.pastSessions = pastSessions
+        }
+        .onChange(of: controller.watchFinishRequest) { _, _ in
+            if controller.loggedSetCount > 0, finishedSession == nil { finish() }
         }
     }
 
