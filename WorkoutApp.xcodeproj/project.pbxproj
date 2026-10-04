@@ -1115,7 +1115,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WorkoutWidgets/WorkoutWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WorkoutWidgets/Info.plist;
@@ -1164,7 +1164,7 @@
 				CODE_SIGN_ENTITLEMENTS = "VIGOR Watch App Watch App/VIGOR Watch App Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LFUJ5F964X;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1211,7 +1211,7 @@
 				CODE_SIGN_ENTITLEMENTS = "VIGOR Watch App Watch App/VIGOR Watch App Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LFUJ5F964X;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1252,7 +1252,7 @@
 				CODE_SIGN_ENTITLEMENTS = WorkoutApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1283,7 +1283,7 @@
 				CODE_SIGN_ENTITLEMENTS = WorkoutApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1370,7 +1370,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = WorkoutWidgets/WorkoutWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LFUJ5F964X;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WorkoutWidgets/Info.plist;

@@ -97,7 +97,10 @@ final class DayExercise {
     }
 
     var equipment: ExerciseEquipment {
-        get { ExerciseEquipment.resolve(raw: equipmentRaw, name: name) }
+        get {
+            if let catalog = ExerciseCatalog.match(name: name) { return catalog.equipment }
+            return ExerciseEquipment.resolve(raw: equipmentRaw, name: name)
+        }
         set { equipmentRaw = newValue.rawValue }
     }
 
