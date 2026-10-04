@@ -431,7 +431,7 @@ enum ExerciseCatalog {
             primary: [.quadriceps, .glutes],
             secondary: [.coreAndAbs, .adductors],
             cues: "Hold the bar at chest height and sit between the hips. Brace, stay tall, and stand without folding forward.",
-            equipment: .barbell
+            equipment: .dumbbell
         ),
         CatalogExercise(
             id: "box-squat",
@@ -643,7 +643,7 @@ enum ExerciseCatalog {
             primary: [.hamstrings, .glutes],
             secondary: [.erectors],
             cues: "Soft knees, push the hips back, bar close to the legs. Stop when the hamstrings run out of range.",
-            equipment: .dumbbell
+            equipment: .barbell
         ),
         CatalogExercise(
             id: "single-leg-romanian-deadlift",
@@ -1028,7 +1028,7 @@ enum ExerciseCatalog {
             primary: [.chest, .triceps],
             secondary: [.anteriorDelts],
             cues: "Shoulders down. Lean forward for more chest; stay more upright for triceps. Don’t dump into the joints.",
-            equipment: .machine
+            equipment: .bodyweight
         ),
         CatalogExercise(
             id: "dip-machine",
@@ -1046,7 +1046,7 @@ enum ExerciseCatalog {
             primary: [.chest],
             secondary: [.triceps, .anteriorDelts, .coreAndAbs],
             cues: "Body in one line. Elbows ~45° from the torso. Chest to near the floor, then press the floor away.",
-            equipment: .machine
+            equipment: .bodyweight
         ),
         CatalogExercise(
             id: "overhead-press",
@@ -1064,7 +1064,7 @@ enum ExerciseCatalog {
             primary: [.chest, .anteriorDelts],
             secondary: [.triceps, .coreAndAbs],
             cues: "Brace and press the bar up and slightly forward on an arc. Don’t over-arch the low back or let the shoulder dump forward.",
-            equipment: .barbell
+            equipment: .dumbbell
         ),
         CatalogExercise(
             id: "dumbbell-shoulder-press",
@@ -1163,7 +1163,7 @@ enum ExerciseCatalog {
             primary: [.triceps],
             secondary: [],
             cues: "Only the elbows move. Lower toward the forehead or hairline, then extend without flaring.",
-            equipment: .dumbbell
+            equipment: .barbell
         ),
         CatalogExercise(
             id: "barbell-row",
@@ -1181,7 +1181,7 @@ enum ExerciseCatalog {
             primary: [.lats, .rhomboids],
             secondary: [.biceps, .posteriorDelts, .coreAndAbs],
             cues: "Hinge, brace, and row the bar to the hip. Don’t yank with the torso or turn it into a shrug.",
-            equipment: .barbell
+            equipment: .dumbbell
         ),
         CatalogExercise(
             id: "chest-supported-dumbbell-row",
@@ -1280,7 +1280,7 @@ enum ExerciseCatalog {
             primary: [.lats],
             secondary: [.biceps, .rhomboids],
             cues: "Dead hang to chin over the bar. Drive elbows down; avoid kipping unless that’s the point.",
-            equipment: .machine
+            equipment: .bodyweight
         ),
         CatalogExercise(
             id: "assisted-pull-up",
@@ -1347,7 +1347,7 @@ enum ExerciseCatalog {
             primary: [.lats, .biceps],
             secondary: [.rhomboids],
             cues: "Supinated grip. Same full range as a pull-up, with a little more biceps.",
-            equipment: .machine
+            equipment: .bodyweight
         ),
         CatalogExercise(
             id: "cable-pullover",
@@ -1468,7 +1468,7 @@ enum ExerciseCatalog {
             primary: [.biceps],
             secondary: [],
             cues: "Upper arms pinned to the pad. Curl through a full range and lower slowly; don’t hyperextend the elbows.",
-            equipment: .dumbbell
+            equipment: .barbell
         ),
         CatalogExercise(
             id: "preacher-curl-machine",
@@ -1643,7 +1643,7 @@ enum ExerciseCatalog {
             primary: [.coreAndAbs],
             secondary: [],
             cues: "Brace and rotate the bar through the torso, not the arms. Control both directions; don’t twist from the knees.",
-            equipment: .barbell
+            equipment: .dumbbell
         ),
         CatalogExercise(
             id: "russian-twist",
@@ -1661,7 +1661,8 @@ enum ExerciseCatalog {
             category: .core,
             primary: [.coreAndAbs],
             secondary: [.lats, .anteriorDelts],
-            cues: "Roll out only as far as you can keep a braced, slightly rounded torso."
+            cues: "Roll out only as far as you can keep a braced, slightly rounded torso.",
+            equipment: .bodyweight
         )
     ]
 
