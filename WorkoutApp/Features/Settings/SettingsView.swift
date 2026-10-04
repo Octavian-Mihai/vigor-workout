@@ -13,7 +13,7 @@ struct SettingsView: View {
     @Query private var weightEntries: [BodyWeightEntry]
     @Query private var measurementEntries: [BodyMeasurementEntry]
     @Query private var checkInEntries: [DailyCheckIn]
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @AppStorage("lengthUnit") private var lengthUnitRaw = LengthUnit.cm.rawValue
     @AppStorage("distanceUnit") private var distanceUnitRaw = DistanceUnit.km.rawValue
     @AppStorage("defaultRestSeconds") private var defaultRestSeconds = 90
@@ -43,7 +43,7 @@ struct SettingsView: View {
     }
 
     private var unit: WeightUnit {
-        WeightUnit(rawValue: weightUnitRaw) ?? .kg
+        WeightUnit(rawValue: weightUnitRaw) ?? .lb
     }
 
     var body: some View {

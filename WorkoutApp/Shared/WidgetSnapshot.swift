@@ -38,7 +38,7 @@ struct WidgetSnapshot: Equatable {
     var cycleNumber: Int? = nil
     var cycleVsBaselinePercent: Double? = nil
     /// "kg" or "lb", mirroring the app's weight-unit setting.
-    var weightUnit: String = "kg"
+    var weightUnit: String = "lb"
 
     static let empty = WidgetSnapshot(
         version: 1,
@@ -111,7 +111,7 @@ struct WidgetSnapshot: Equatable {
             lastWeekVolumeKg: 16_500,
             cycleNumber: 4,
             cycleVsBaselinePercent: 9.5,
-            weightUnit: "kg"
+            weightUnit: "lb"
         )
     }()
 }
@@ -158,7 +158,7 @@ extension WidgetSnapshot: Codable {
             lastWeekVolumeKg: try c.decodeIfPresent(Double.self, forKey: .lastWeekVolumeKg) ?? 0,
             cycleNumber: try c.decodeIfPresent(Int.self, forKey: .cycleNumber),
             cycleVsBaselinePercent: try c.decodeIfPresent(Double.self, forKey: .cycleVsBaselinePercent),
-            weightUnit: try c.decodeIfPresent(String.self, forKey: .weightUnit) ?? "kg"
+            weightUnit: try c.decodeIfPresent(String.self, forKey: .weightUnit) ?? "lb"
         )
     }
 

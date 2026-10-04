@@ -160,7 +160,7 @@ enum WidgetSnapshotSync {
             lastWeekVolumeKg: lastWeekVolume,
             cycleNumber: cycleNumber,
             cycleVsBaselinePercent: cycleVsBaseline,
-            weightUnit: UserDefaults.standard.string(forKey: "weightUnit") ?? "kg"
+            weightUnit: UserDefaults.standard.string(forKey: "weightUnit") ?? "lb"
         )
     }
 }

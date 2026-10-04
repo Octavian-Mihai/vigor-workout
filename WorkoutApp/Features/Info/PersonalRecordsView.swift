@@ -4,9 +4,9 @@ import SwiftData
 struct PersonalRecordsView: View {
     @Query(sort: \WorkoutSession.startDate, order: .reverse) private var sessions: [WorkoutSession]
     @Environment(AppTheme.self) private var theme
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
 
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
 
     private var records: [LiftPersonalRecord] {
         PersonalRecordTracker.summaries(in: sessions)

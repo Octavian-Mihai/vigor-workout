@@ -158,10 +158,10 @@ struct ExerciseHistoryBrowserView: View {
 
     @Environment(AppTheme.self) private var theme
     @Query(sort: \WorkoutSession.startDate, order: .reverse) private var sessions: [WorkoutSession]
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @State private var query = ""
 
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
 
     private var loggedExercises: [LoggedExerciseSummary] {
         var grouped: [String: LoggedExerciseSummary] = [:]

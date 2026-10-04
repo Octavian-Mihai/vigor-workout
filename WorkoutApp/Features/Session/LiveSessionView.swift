@@ -540,7 +540,7 @@ struct LiveSessionView: View {
     @Environment(AppTheme.self) private var theme
     @EnvironmentObject private var health: HealthKitService
     @Query(sort: \WorkoutSession.startDate, order: .reverse) private var pastSessions: [WorkoutSession]
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @AppStorage("defaultRestSeconds") private var defaultRestSeconds = 90
     @AppStorage("restTimerHaptics") private var restTimerHaptics = true
     @AppStorage(StressVisibility.showAnalysisKey) private var showStressAnalysis = true
@@ -563,7 +563,7 @@ struct LiveSessionView: View {
     }
 
     private var unit: WeightUnit {
-        WeightUnit(rawValue: weightUnitRaw) ?? .kg
+        WeightUnit(rawValue: weightUnitRaw) ?? .lb
     }
 
     var body: some View {

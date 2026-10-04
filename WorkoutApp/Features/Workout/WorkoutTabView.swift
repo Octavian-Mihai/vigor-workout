@@ -8,14 +8,14 @@ struct WorkoutTabView: View {
     @EnvironmentObject private var sessionStore: ActiveSessionStore
     @Environment(AppTheme.self) private var theme
     @Environment(AppTourController.self) private var tour
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @State private var selectedDayID: UUID?
     @AppStorage(WorkoutPageVisibility.learnExpandedKey) private var learnExpanded = false
     @AppStorage(WorkoutPageVisibility.customExercisesExpandedKey) private var customExercisesExpanded = false
     @AppStorage(WorkoutPageVisibility.historyExpandedKey) private var historyExpanded = false
 
     private var accent: Color { theme.accent }
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
 
     private var activeProgram: Program? {
         programs.first(where: \.isActive)
@@ -221,12 +221,12 @@ struct StrengthAnalyticsView: View {
     let accent: Color
 
     @Environment(AppTheme.self) private var theme
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @AppStorage(InfoPageVisibility.showVolumeChartsKey) private var showVolumeCharts = true
     @AppStorage(InfoPageVisibility.showEstimated1RMKey) private var showEstimated1RM = true
     @AppStorage(InfoPageVisibility.showTrainingLoadEvolutionKey) private var showTrainingLoadEvolution = true
 
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
     private var recent: [SetEntry] { VolumeAnalytics.sets(inLastDays: 7, from: sets.map(SetEntry.init)) }
     private var muscleVolume: [(String, Double)] {
         let recorded = VolumeAnalytics.muscleVolume(from: recent)

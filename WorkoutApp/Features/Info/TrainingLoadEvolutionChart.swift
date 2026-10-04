@@ -102,9 +102,9 @@ struct WeeklyVolumeTrendChart: View {
     let sets: [SetLog]
     let accent: Color
 
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
 
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
     private var weeklyData: [WeeklyTrainingLoad] {
         StressCalculator.weeklyTrainingLoad(from: sets, weeks: 12)
     }
@@ -151,9 +151,9 @@ struct BodyWeightTrendChart: View {
     let accent: Color
 
     @Query(sort: \BodyWeightEntry.date) private var entries: [BodyWeightEntry]
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
 
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
 
     private var points: [BodyWeightPoint] {
         let values = entries.map { unit.fromKg($0.kilograms) }

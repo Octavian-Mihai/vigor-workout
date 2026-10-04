@@ -185,8 +185,10 @@ final class WatchWorkoutManager: NSObject, ObservableObject {
     func end() {
         guard let session else { return }
         session.end()
-        builder?.endCollection(withEnd: Date()) { [weak self] _, _ in
-            self?.builder?.finishWorkout { _, _ in }
+        if let builder {
+            builder.endCollection(withEnd: Date()) { _, _ in
+                builder.finishWorkout { _, _ in }
+            }
         }
         self.session = nil
         self.builder = nil

@@ -108,7 +108,7 @@ final class WatchSessionSync: NSObject {
             isResting: controller.timerRunning,
             restEndDate: controller.timerRunning ? Date().addingTimeInterval(TimeInterval(controller.restRemaining)) : nil,
             restTotalSeconds: controller.restDuration,
-            weightUnit: UserDefaults.standard.string(forKey: "weightUnit") ?? "kg"
+            weightUnit: UserDefaults.standard.string(forKey: "weightUnit") ?? "lb"
         )
         send(snapshot)
     }

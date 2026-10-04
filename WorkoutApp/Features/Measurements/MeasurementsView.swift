@@ -25,10 +25,10 @@ struct MeasurementsView: View {
     @EnvironmentObject private var health: HealthKitService
     @Query(sort: \BodyMeasurementEntry.date, order: .reverse) private var measurements: [BodyMeasurementEntry]
     @Query(sort: \BodyWeightEntry.date, order: .reverse) private var weightEntries: [BodyWeightEntry]
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @State private var showAdd = false
 
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
 
     private var timeline: [MeasurementTimelineItem] {
         let calendar = Calendar.current

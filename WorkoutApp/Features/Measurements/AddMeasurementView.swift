@@ -6,7 +6,7 @@ struct AddMeasurementView: View {
     var onSave: (BodyMeasurementEntry) -> Void
 
     @Environment(\.dismiss) private var dismiss
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @AppStorage("lengthUnit") private var lengthUnitRaw = LengthUnit.cm.rawValue
 
     @State private var date = Date()
@@ -52,7 +52,7 @@ struct AddMeasurementView: View {
     @State private var includeRightCalf = false
     @State private var rightCalfValue: Double = 38
 
-    private var weightUnit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var weightUnit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
     private var lengthUnit: LengthUnit { LengthUnit(rawValue: lengthUnitRaw) ?? .cm }
 
     var body: some View {

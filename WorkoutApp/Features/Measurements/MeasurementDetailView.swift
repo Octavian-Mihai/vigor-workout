@@ -3,10 +3,10 @@ import SwiftUI
 struct MeasurementDetailView: View {
     let entry: BodyMeasurementEntry
 
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
     @AppStorage("lengthUnit") private var lengthUnitRaw = LengthUnit.cm.rawValue
 
-    private var weightUnit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    private var weightUnit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
     private var lengthUnit: LengthUnit { LengthUnit(rawValue: lengthUnitRaw) ?? .cm }
 
     var body: some View {
@@ -124,8 +124,8 @@ struct MeasurementDetailView: View {
 struct WeightOnlyDetailView: View {
     let entry: BodyWeightEntry
 
-    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.kg.rawValue
-    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .kg }
+    @AppStorage("weightUnit") private var weightUnitRaw = WeightUnit.lb.rawValue
+    private var unit: WeightUnit { WeightUnit(rawValue: weightUnitRaw) ?? .lb }
 
     var body: some View {
         List {
