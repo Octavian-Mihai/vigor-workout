@@ -4,11 +4,11 @@
 
 A native iPhone strength-training app, a desktop **Program Builder**, and a **Coach Portal** for digging into a client's data on a laptop. Requires **iOS 17+**.
 
-| Part | What it is |
-|---|---|
-| **iPhone app** | SwiftUI client in `WorkoutApp/` |
-| **Program Builder** | Static site in `program-builder/` — [live site](https://program-builder-mu.vercel.app/) |
-| **Coach Portal** | Static site in `portal/` — import an app export, explore it in depth [live site](https://vigor-workout-portal.vercel.app/) |
+| Part | What it is | Link |
+|---|---|---|
+| **iPhone app** | SwiftUI client in `WorkoutApp/` | [Demo site: tour the features](https://vigor-workout-demo.vercel.app/) |
+| **Program Builder** | Desktop static site in `program-builder/` | [Open the builder](https://program-builder-mu.vercel.app/) |
+| **Coach Portal** | Static site in `portal/`: import an app export, explore it in depth | [Open the portal](https://vigor-workout-portal.vercel.app/#/overview) |
 
 ---
 
@@ -48,6 +48,8 @@ More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ## The app
 
+**[Explore the demo site](https://vigor-workout-demo.vercel.app/)** to see the features without installing anything.
+
 | Home | Logging | Programs |
 |:---:|:---:|:---:|
 | ![Home screen](website/screens/home.png) | ![Custom keypad with RIR](website/screens/workout_logging.png) | ![Programs tab](website/screens/programs.png) |
@@ -62,17 +64,24 @@ More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ### Features
 
-- **Logging:** custom keypad, RIR on every set, rest timer, plate calculator, estimated 1RM, editable sets
+- **Logging:** custom keypad, RIR on every set, rest timer, plate calculator, estimated 1RM, editable sets, progression suggestions
+- **Assisted lifts:** log the assistance on assisted pull-ups and dips; less assistance counts as harder for suggestions, PRs and volume
+- **Exercise catalog:** 140+ exercises with photos, cues and muscles, searchable and filterable by category, equipment and muscle
+- **PRs:** celebration on a new estimated-1RM record, with personal-record history
+- **Bar speed (VBT):** track bar velocity from the camera during a set
 - **Programs:** multi-day rotating programs, planned vs logged sets, JSON import from the Program Builder
-- **Recovery:** daily stress and 7-day trend, per-muscle freshness, volume and tonnage charts
-- **Cardio:** runs, rides and walks from Apple Health with pace, heart-rate and route views
-- **Home & widgets:** year activity grid, today's stress, next workout
+- **Recovery:** daily stress and 7-day trend, per-muscle freshness, volume and tonnage charts, deload advice and a train-today suggestion
+- **Daily check-in:** sleep, mood and energy with an optional reminder, plus insights from Apple Health on what affects how you feel
+- **Cardio:** runs, rides, hikes and more from Apple Health with pace, heart-rate and route views
+- **Home & widgets:** year activity grid (lifting and cardio), today's stress, next workout, plus StandBy and Lock Screen widgets
 - **Settings:** accent and background colors, light/dark, kg/lb, km/mi, body weight and measurements, Health sync
 - **Export:** pick what to export (weight, workouts, cardio) and the period, as JSON for the Coach Portal
 
 ---
 
 ## Coach Portal
+
+**[Open the live portal](https://vigor-workout-portal.vercel.app/#/overview)**
 
 Import a client's export and get the full picture on a bigger screen: ten pages from volume and PRs to stress, balance and body composition. It picks up the client's app colors, has light and dark modes, handles multiple clients, and keeps everything in the browser (nothing is uploaded). **Try demo data** on the import page loads a sample client.
 
@@ -93,6 +102,8 @@ The stress model is the same one the app uses, so numbers match between phone an
 ---
 
 ## Program Builder
+
+**[Open the live builder](https://program-builder-mu.vercel.app/)** (best on desktop)
 
 Assemble rotating programs from the app's exercise catalog, see muscle balance across 20 muscles, and export JSON the app imports.
 
