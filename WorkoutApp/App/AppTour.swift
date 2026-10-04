@@ -79,11 +79,11 @@ enum AppTourStep: Int, CaseIterable, Identifiable, Hashable {
     var message: String {
         switch self {
         case .homeYearGrid:
-            return "Lifting days light up here — and runs, if running activity is on. Tap the grid for longer trends."
+            return "Lifting days light up here, along with runs, rides, hikes and other cardio if cardio activity is on. Above it, the daily check-in logs sleep, mood and energy; a streak builds as you go. Tap the grid for longer trends."
         case .homeTodayStress:
-            return "Per-muscle recovery from recent training. Tap for the full list, or edit which muscles show here. Turn this off in Settings → Stress if you prefer."
+            return "Per-muscle recovery from recent training. Tap for the full list, or edit which muscles show here. Below it, Home suggests which day of your program fits today, and recommends a deload when fatigue stays high. Turn stress off in Settings → Stress if you prefer."
         case .homeStartWorkout:
-            return "If a program is active, start the next day here. Otherwise use Start empty workout. In a session, log weight, reps, and RIR — barbell lifts show a plate calculator. When you finish, share a summary card as a PNG."
+            return "If a program is active, start the next day here. Otherwise use Start empty workout. In a session, log weight, reps, and RIR; barbell lifts show a plate calculator, and beating your best estimated 1RM triggers a PR celebration. VBT mode tracks bar speed on supported lifts. When you finish, share a summary card as a PNG."
         case .workoutPrograms:
             return "Create from a starter template, import a plan, or build your own. Mark one active so Home knows what comes next. Programs remember whether they’re expanded or collapsed."
         case .workoutLearn:
@@ -91,11 +91,11 @@ enum AppTourStep: Int, CaseIterable, Identifiable, Hashable {
         case .workoutLibrary:
             return "Custom exercises you added live here — share them to the developer or delete them. History lists finished workouts with unit labels; swipe or tap Delete to remove a session."
         case .infoAnalytics:
-            return "Today’s stress, exercise history, plus weekly volume, volume per muscle, estimated 1RM, and bodyweight trend. Hide individual analytics sections or turn off all stress in Settings."
+            return "Today’s stress, daily check-in insights, personal records with projected next PRs, exercise history, plus weekly volume, volume per muscle, training load evolution across program cycles, and bodyweight trend. Hide individual analytics sections or turn off all stress in Settings."
         case .running:
-            return "Runs come from Apple Health. Filter, open a route, and see pace and run stress. Hide this tab in Settings if you don’t want it."
+            return "Cardio comes from Apple Health. Filter by activity, open a route, and see pace and cardio stress. Hide this tab in Settings if you don’t want it."
         case .settings:
-            return "Units, rest timer, bar weight for the plate calculator, stress visibility, and Running. About → How to use this app replays this tour."
+            return "Units, accent color and appearance, rest timer, bar weight for the plate calculator, stress visibility, the daily check-in and its reminder, and Running. About → How to use this app replays this tour."
         }
     }
 

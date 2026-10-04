@@ -7,19 +7,15 @@ enum ScreenshotDefaults {
             || ProcessInfo.processInfo.environment["UITEST_SCREENSHOTS"] == "1"
     }
 
-    static let accentHex = "41BD75"
-    static let backgroundHex = "190000"
+    static let backgroundHex = "FFFFFF"
 
-    static var accentColor: Color {
-        Color(hex: accentHex) ?? AccentOption.green.color
-    }
+    static var accentColor: Color { AccentOption.orange.color }
 
     static func apply() {
         guard isActive else { return }
         let defaults = UserDefaults.standard
-        defaults.set(AppearanceMode.dark.rawValue, forKey: AppTheme.appearanceModeKey)
-        defaults.set(AccentTheme.customName, forKey: "accentName")
-        defaults.set(accentHex, forKey: AccentTheme.customHexKey)
+        defaults.set(AppearanceMode.light.rawValue, forKey: AppTheme.appearanceModeKey)
+        defaults.set(AccentOption.orange.rawValue, forKey: "accentName")
         defaults.set(BackgroundTheme.customName, forKey: BackgroundTheme.backgroundNameKey)
         defaults.set(backgroundHex, forKey: BackgroundTheme.customHexKey)
         defaults.set(true, forKey: "hasSeenAppGuide")
@@ -43,7 +39,7 @@ struct WorkoutApp: App {
             RootTabView()
                 .environment(appTheme)
                 .tint(ScreenshotDefaults.isActive ? ScreenshotDefaults.accentColor : appTheme.accent)
-                .preferredColorScheme(ScreenshotDefaults.isActive ? .dark : appTheme.resolvedColorScheme)
+                .preferredColorScheme(ScreenshotDefaults.isActive ? .light : appTheme.resolvedColorScheme)
         }
         .modelContainer(for: [
             Program.self,

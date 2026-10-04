@@ -93,8 +93,8 @@ final class PhoneConnectivity: NSObject, ObservableObject {
         }
         let finished = state == "complete"
         let exercises = [
-            exercise("Incline Dumbbell Press", done: finished ? 4 : 2, weight: 32.5, reps: 8),
-            exercise("Cable Fly", done: finished ? 4 : 0, weight: 15, reps: 12)
+            exercise("Incline Dumbbell Press", done: finished ? 4 : 2, weight: 80 * 0.45359237, reps: 8),
+            exercise("Cable Fly", done: finished ? 4 : 0, weight: 30 * 0.45359237, reps: 12)
         ]
         return WatchSessionSnapshot(
             isActive: true,
@@ -104,7 +104,7 @@ final class PhoneConnectivity: NSObject, ObservableObject {
             isResting: state == "rest",
             restEndDate: state == "rest" ? Date().addingTimeInterval(62) : nil,
             restTotalSeconds: 90,
-            weightUnit: "kg"
+            weightUnit: "lb"
         )
     }
 
