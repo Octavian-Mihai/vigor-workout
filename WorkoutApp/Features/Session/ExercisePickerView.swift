@@ -158,7 +158,11 @@ struct ExercisePickerView: View {
             .scrollContentBackground(.hidden)
         }
         .background(theme.groupedBackground)
-        .searchable(text: $query, prompt: "Search exercises or muscles")
+        .searchable(
+            text: $query,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: "Search exercises or muscles"
+        )
         .compactNavigationTitle(navigationTitle)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
@@ -313,7 +317,7 @@ struct ExercisePickerView: View {
                 Menu {
                     Button("All muscles") { muscleFilter = nil }
                     Divider()
-                    ForEach(MuscleGroup.allCases) { muscle in
+                    ForEach(MuscleGroup.allCases.sorted { $0.rawValue < $1.rawValue }) { muscle in
                         Button(muscle.rawValue) { muscleFilter = muscle }
                     }
                 } label: {

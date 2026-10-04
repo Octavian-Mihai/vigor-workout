@@ -262,7 +262,11 @@ struct ExerciseCatalogBrowserView: View {
             .scrollContentBackground(.hidden)
         }
         .background(theme.groupedBackground)
-        .searchable(text: $query, prompt: "Search exercises or muscles")
+        .searchable(
+            text: $query,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: "Search exercises or muscles"
+        )
         .compactNavigationTitle("Exercise catalog")
         .sheet(item: $previewExercise) { exercise in
             ExercisePreviewSheet(exercise: exercise)
@@ -339,7 +343,7 @@ struct ExerciseCatalogBrowserView: View {
                 Menu {
                     Button("All muscles") { muscleFilter = nil }
                     Divider()
-                    ForEach(MuscleGroup.allCases) { muscle in
+                    ForEach(MuscleGroup.allCases.sorted { $0.rawValue < $1.rawValue }) { muscle in
                         Button(muscle.rawValue) { muscleFilter = muscle }
                     }
                 } label: {

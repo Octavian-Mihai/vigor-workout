@@ -464,6 +464,15 @@ enum ExerciseCatalog {
             pattern: .squat
         ),
         CatalogExercise(
+            id: "pendulum-squat",
+            name: "Pendulum Squat",
+            category: .legs,
+            primary: [.quadriceps, .glutes],
+            secondary: [],
+            cues: "Shoulders under the pads, feet planted. Sit deep along the arc with control and drive up without locking out hard.",
+            equipment: .machine
+        ),
+        CatalogExercise(
             id: "leg-press",
             name: "Leg Press",
             category: .legs,
@@ -995,6 +1004,15 @@ enum ExerciseCatalog {
             equipment: .dumbbell
         ),
         CatalogExercise(
+            id: "machine-press",
+            name: "Machine Press",
+            category: .push,
+            primary: [.chest],
+            secondary: [.triceps, .anteriorDelts],
+            cues: "Set the seat so the handles line up with mid-chest. Shoulder blades back, press smoothly, and don’t let the shoulders roll forward.",
+            equipment: .machine
+        ),
+        CatalogExercise(
             id: "machine-chest-press",
             name: "Machine Chest Press",
             category: .push,
@@ -1200,6 +1218,15 @@ enum ExerciseCatalog {
             secondary: [.biceps, .posteriorDelts],
             cues: "Start from a long arm. Pull the elbow back, pause, then reach without rounding hard.",
             equipment: .functionalTrainer
+        ),
+        CatalogExercise(
+            id: "machine-row",
+            name: "Machine Row",
+            category: .pull,
+            primary: [.lats, .rhomboids],
+            secondary: [.biceps, .posteriorDelts],
+            cues: "Chest on the pad, set the shoulder blades, then pull the handles to the ribs. Pause and control the stretch; don’t yank with the lower back.",
+            equipment: .machine
         ),
         CatalogExercise(
             id: "seated-cable-row",
