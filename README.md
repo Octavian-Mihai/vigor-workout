@@ -56,11 +56,11 @@ More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 | Workout summary | Recovery | Exercise catalog |
 |:---:|:---:|:---:|
-| ![Workout complete summary](website/screens/workout_complete.png) | ![Stress and muscle-freshness analytics](website/screens/stress_analytics.png) | ![Exercise catalog](website/screens/exercise_catalog.png) |
+| ![Personal records with projected next PR](website/screens/records.png) | ![Stress and muscle-freshness analytics](website/screens/stress_analytics.png) | ![Exercise catalog](website/screens/exercise_catalog.png) |
 
 | Cardio | Customization |
 |:---:|:---:|
-| <img src="docs/screenshots/running_page.png" alt="Cardio tab" width="270"> | <img src="website/screens/customization.png" alt="Accent and appearance customization" width="270"> |
+| <img src="website/screens/cardio.png" alt="Cardio tab" width="270"> | <img src="website/screens/customization.png" alt="Accent and appearance customization" width="270"> |
 
 ### Apple Watch
 
