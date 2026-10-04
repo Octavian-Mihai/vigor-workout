@@ -14,6 +14,7 @@ struct FilterInputKeyboard: View {
     var onDismiss: () -> Void
 
     @Environment(AppTheme.self) private var theme
+    @State private var keyTick = 0
 
     private let rowHeight: CGFloat = 50
     private let gap: CGFloat = 6
@@ -38,6 +39,7 @@ struct FilterInputKeyboard: View {
         .overlay(alignment: .top) {
             Divider()
         }
+        .gatedHaptic(.impact(weight: .light), trigger: keyTick)
     }
 
     private var suggestionStrip: some View {
@@ -55,7 +57,7 @@ struct FilterInputKeyboard: View {
                             .clipShape(Capsule())
                             .foregroundStyle(.primary)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.pressable)
                 }
             }
             .padding(.horizontal, 4)
@@ -104,7 +106,7 @@ struct FilterInputKeyboard: View {
                     .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
                     .foregroundStyle(.primary)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.pressable)
             .frame(maxWidth: .infinity)
             .frame(height: rowHeight)
         } else if token == "." {
@@ -124,7 +126,7 @@ struct FilterInputKeyboard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .foregroundStyle(.primary)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.pressable)
     }
 
     private func actionKey(title: String, fill: Color, foreground: Color, action: @escaping () -> Void) -> some View {
@@ -139,10 +141,11 @@ struct FilterInputKeyboard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .foregroundStyle(foreground)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.pressable)
     }
 
     private func appendDigit(_ digit: String) {
+        keyTick += 1
         var current = text
         if current == "0" { current = digit }
         else if current.count < 8 { current += digit }
@@ -151,6 +154,7 @@ struct FilterInputKeyboard: View {
 
     private func appendDecimal() {
         guard allowsDecimal else { return }
+        keyTick += 1
         var current = text
         if current.isEmpty { current = "0." }
         else if !current.contains(".") { current += "." }
@@ -158,6 +162,7 @@ struct FilterInputKeyboard: View {
     }
 
     private func backspace() {
+        keyTick += 1
         if !text.isEmpty {
             text.removeLast()
         }

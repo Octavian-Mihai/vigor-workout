@@ -68,8 +68,14 @@ struct MeasurementsView: View {
 
             Section("History") {
                 if timeline.isEmpty {
-                    Text("No entries yet. Log progress photos, body weight, calories, or circumferences.")
-                        .foregroundStyle(.secondary)
+                    EmptyStateView(
+                        systemImage: "figure.arms.open",
+                        title: "No Entries Yet",
+                        message: "Log progress photos, body weight, calories, or circumferences.",
+                        actionTitle: "Add Measurement",
+                        action: { showAdd = true }
+                    )
+                    .listRowBackground(Color.clear)
                 } else {
                     ForEach(timeline) { item in
                         NavigationLink {

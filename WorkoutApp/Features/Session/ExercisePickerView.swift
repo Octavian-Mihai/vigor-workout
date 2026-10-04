@@ -99,10 +99,13 @@ struct ExercisePickerView: View {
             filterBar
             List {
                 if filtered.isEmpty {
-                    Text("No exercises match your search or filters.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .listRowBackground(Color.clear)
+                    EmptyStateView(
+                        systemImage: "magnifyingglass",
+                        title: "No Results",
+                        message: "No exercises match your search or filters."
+                    )
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 } else {
                     if !recommendedExercises.isEmpty {
                         Section("Recommended") {
@@ -493,6 +496,7 @@ struct CustomExerciseForm: View {
     var body: some View {
         Form {
             TextField("Exercise name", text: $name)
+                .submitLabel(.done)
             HStack {
                 Text("Equipment")
                 Spacer()
@@ -521,6 +525,7 @@ struct CustomExerciseForm: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle(mode.navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {

@@ -24,6 +24,7 @@ struct SessionInputKeyboard: View {
     @Environment(AppTheme.self) private var theme
     @State private var replacePending = true
     @State private var showRIRGuide = false
+    @State private var keyTick = 0
 
     @AppStorage(EquipmentSettings.barbellBarKgKey) private var barbellBarKg = EquipmentSettings.defaultBarKg
     @AppStorage(EquipmentSettings.barbellBarLbKey) private var barbellBarLb = EquipmentSettings.defaultBarLb
@@ -88,7 +89,7 @@ struct SessionInputKeyboard: View {
                             )
                             .foregroundStyle(.primary)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.pressable)
                     .accessibilityLabel("About RIR")
 
                     RIRSelector(rir: $rir, accent: accent, compact: true)
@@ -103,6 +104,7 @@ struct SessionInputKeyboard: View {
         .overlay(alignment: .top) {
             Divider()
         }
+        .gatedHaptic(.impact(weight: .light), trigger: keyTick)
         .onChange(of: focusIdentity) { _, _ in
             replacePending = true
         }
@@ -157,6 +159,7 @@ struct SessionInputKeyboard: View {
                         title: completeTitle,
                         fill: accent,
                         foreground: .white,
+                        ticks: false,
                         action: onCompleteSet
                     )
                     .frame(height: rowHeight * 2 + gap)
@@ -182,7 +185,7 @@ struct SessionInputKeyboard: View {
                     .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
                     .foregroundStyle(.primary)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.pressable)
             .frame(maxWidth: .infinity)
             .frame(height: rowHeight)
         } else if token == "." {
@@ -202,11 +205,14 @@ struct SessionInputKeyboard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .foregroundStyle(.primary)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.pressable)
     }
 
-    private func actionKey(title: String, fill: Color, foreground: Color, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
+    private func actionKey(title: String, fill: Color, foreground: Color, ticks: Bool = true, action: @escaping () -> Void) -> some View {
+        Button {
+            if ticks { keyTick += 1 }
+            action()
+        } label: {
             Text(title)
                 .font(.caption.weight(.semibold))
                 .multilineTextAlignment(.center)
@@ -217,7 +223,7 @@ struct SessionInputKeyboard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .foregroundStyle(foreground)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.pressable)
     }
 
     private func plateStrip(_ breakdown: PlateBreakdown) -> some View {
@@ -237,6 +243,7 @@ struct SessionInputKeyboard: View {
             if equipment == .barbell, let onAdjustBarWeight {
                 HStack(spacing: 6) {
                     Button {
+                        keyTick += 1
                         onAdjustBarWeight(-barStep)
                     } label: {
                         Image(systemName: "minus")
@@ -245,11 +252,12 @@ struct SessionInputKeyboard: View {
                             .background(theme.mutedFill)
                             .clipShape(Circle())
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.pressable)
                     Text("Bar \(Formatters.trimmedNumber(baseWeight))")
                         .font(.caption2.monospacedDigit().weight(.semibold))
                         .foregroundStyle(.secondary)
                     Button {
+                        keyTick += 1
                         onAdjustBarWeight(barStep)
                     } label: {
                         Image(systemName: "plus")
@@ -258,7 +266,7 @@ struct SessionInputKeyboard: View {
                             .background(theme.mutedFill)
                             .clipShape(Circle())
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.pressable)
                 }
             }
         }
@@ -284,6 +292,7 @@ struct SessionInputKeyboard: View {
     }
 
     private func appendDigit(_ digit: String) {
+        keyTick += 1
         if consumeReplacePending() {
             if mode == .weight {
                 weightText = digit
@@ -307,6 +316,7 @@ struct SessionInputKeyboard: View {
 
     private func appendDecimal() {
         guard mode == .weight else { return }
+        keyTick += 1
         if consumeReplacePending() {
             weightText = "0."
             return
@@ -318,6 +328,7 @@ struct SessionInputKeyboard: View {
     }
 
     private func backspace() {
+        keyTick += 1
         replacePending = false
         if mode == .weight {
             if !weightText.isEmpty {

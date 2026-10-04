@@ -69,6 +69,7 @@ private struct ConfettiBurst: View {
         let drift: CGFloat
     }
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var fallen = false
     @State private var pieces: [Piece] = []
 
@@ -91,6 +92,7 @@ private struct ConfettiBurst: View {
         }
         .frame(height: 360)
         .onAppear {
+            guard !reduceMotion else { return }
             pieces = (0..<36).map { index in
                 Piece(
                     id: index,

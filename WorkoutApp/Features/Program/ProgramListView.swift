@@ -41,9 +41,13 @@ struct ProgramListView: View {
                 }
 
                 if programs.isEmpty {
-                    Text("No programs yet. Start from a template or create a blank program and add rotating days.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                    EmptyStateView(
+                        systemImage: "list.bullet.rectangle",
+                        title: "No Programs Yet",
+                        message: "Start from a template or create a blank program and add rotating days.",
+                        actionTitle: "Create Program",
+                        action: { showStarterPicker = true }
+                    )
                 } else {
                     ForEach(programs) { program in
                         programRow(program)

@@ -163,9 +163,7 @@ struct RunningView: View {
                             }
                         }
                         if health.isLoading {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                                .padding()
+                            SkeletonCards()
                         } else if recentRuns.isEmpty && !shouldShowOlderFolder {
                             Text(health.cardioSessions.isEmpty && health.olderCardioSessionCount == 0
                                  ? "No running or cycling workouts found in Apple Health. Record one in the Fitness or Health app, then pull to refresh."

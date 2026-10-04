@@ -13,6 +13,7 @@ struct AddMeasurementView: View {
     @State private var photoItem: PhotosPickerItem?
     @State private var pendingPhotoData: Data?
     @State private var removePhoto = false
+    @FocusState private var keyboardFocused: Bool
 
     @State private var includeWeight = false
     @State private var weightValue: Double = 80
@@ -97,11 +98,15 @@ struct AddMeasurementView: View {
                     TextField("Weight", value: $weightValue, format: .number.precision(.fractionLength(1)))
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
+                        .focused($keyboardFocused)
+                .focused($keyboardFocused)
                 }
                 measurementToggle("Calorie intake", isOn: $includeCalories, unit: "kcal") {
                     TextField("Calories", value: $caloriesValue, format: .number)
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
+                        .focused($keyboardFocused)
+                .focused($keyboardFocused)
                 }
             }
 
@@ -110,6 +115,8 @@ struct AddMeasurementView: View {
                     TextField("Height", value: $heightValue, format: .number.precision(.fractionLength(1)))
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
+                        .focused($keyboardFocused)
+                .focused($keyboardFocused)
                 }
             }
 
@@ -138,6 +145,7 @@ struct AddMeasurementView: View {
                 circumferenceField("Right calf", isOn: $includeRightCalf, value: $rightCalfValue)
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle(existing == nil ? "Add measurement" : "Edit measurement")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -147,6 +155,10 @@ struct AddMeasurementView: View {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save") { save() }
                     .disabled(!canSave)
+            }
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") { keyboardFocused = false }
             }
         }
         .onAppear { loadExisting() }
@@ -197,6 +209,7 @@ struct AddMeasurementView: View {
             TextField(label, value: value, format: .number.precision(.fractionLength(1)))
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
+                .focused($keyboardFocused)
         }
     }
 

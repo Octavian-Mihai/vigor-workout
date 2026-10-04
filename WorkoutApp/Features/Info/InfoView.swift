@@ -239,10 +239,13 @@ struct ExerciseCatalogBrowserView: View {
             filterBar
             List {
                 if filtered.isEmpty {
-                    Text("No exercises match your search or filters.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .listRowBackground(Color.clear)
+                    EmptyStateView(
+                        systemImage: "magnifyingglass",
+                        title: "No Results",
+                        message: "No exercises match your search or filters."
+                    )
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 } else {
                     ForEach(grouped, id: \.0) { category, items in
                         Section(category.rawValue) {
