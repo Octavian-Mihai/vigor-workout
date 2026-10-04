@@ -731,45 +731,6 @@ struct MoreStrengthPatternsView: View {
 
 // MARK: - Detail Views
 
-struct CategoryDetailView: View {
-    let category: MovementCategory
-    @ObservedObject var store: AnatomyStore
-    @Environment(AppTheme.self) private var theme
-
-    private var patterns: [MovementPattern] {
-        store.patterns(in: category)
-    }
-
-    var body: some View {
-        ArticleScreen(title: category.title) {
-            GuideArticleCard {
-                ExercisePhotoView(
-                    assetName: "guide-\(category.id)",
-                    caption: category.title,
-                    symbolName: GuideVisuals.symbol(for: category.key)
-                )
-
-                GuideEyebrow(
-                    symbolName: GuideVisuals.symbol(for: category.key),
-                    text: "Core category",
-                    accent: theme.accent
-                )
-
-                GuideArticleSection(title: "What this category is for", bodyText: category.intent)
-                GuideArticleSection(title: "Example lifts", bodyText: category.exampleLifts)
-                GuideArticleSection(title: "Coaching notes", bodyText: category.coachingNotes)
-            }
-
-            GuideRelatedLinksCard(
-                patterns: patterns,
-                patternSectionTitle: "Patterns in this category",
-                patternSubtitle: { $0.exampleExercises },
-                store: store
-            )
-        }
-    }
-}
-
 struct MovementDetailView: View {
     let pattern: MovementPattern
     @ObservedObject var store: AnatomyStore

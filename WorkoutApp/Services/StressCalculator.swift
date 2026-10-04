@@ -56,54 +56,10 @@ enum StressCalculator {
         return sets.filter { $0.timestamp >= cutoff }
     }
 
-    /// Total stress 0–100 from the last 7 days: volume load + intensity + optional run stress.
-    static func totalStress(sets: [SetLog], runStress: Double = 0, now: Date = Date()) -> Double {
-        let recent = self.sets(inLastDays: windowDays, from: sets, now: now)
-        let volume = totalVolume(from: recent)
-        let volumeScore = min(50.0, volume / 500.0)
-
-        let intensities = recent.map { max(0, 5.0 - Double(min($0.rir, 5))) / 5.0 }
-        let avgIntensity = intensities.isEmpty ? 0 : intensities.reduce(0, +) / Double(intensities.count)
-        let intensityScore = avgIntensity * 30.0
-
-        let runContribution = min(20.0, max(0, runStress) * 0.20)
-        return min(100, volumeScore + intensityScore + runContribution)
-    }
-
-    /// Recovery complementary score: 100 − total stress.
-    static func recoveryScore(totalStress: Double) -> Double {
-        max(0, 100 - totalStress)
-    }
-
     static func estimatedMaxHeartRate(dateOfBirth: Date?, now: Date = Date()) -> Double {
         guard let dateOfBirth else { return 190 }
         let age = Calendar.current.dateComponents([.year], from: dateOfBirth, to: now).year ?? 30
         return max(140, 220 - Double(age))
-    }
-
-    /// HRV and sleep adjustment applied to recovery score, in [-15, +10].
-    static func recoveryModifier(hrvSDNN: Double?, sleepHours: Double?) -> Double {
-        var modifier = 0.0
-
-        if let sleep = sleepHours {
-            switch sleep {
-            case ..<5: modifier -= 10
-            case 5..<6: modifier -= 5
-            case 7...9: break
-            case 9...: modifier += 5
-            default: break
-            }
-        }
-
-        if let hrv = hrvSDNN {
-            if hrv < 30 {
-                modifier -= 5
-            } else if hrv > 50 {
-                modifier += 5
-            }
-        }
-
-        return min(10, max(-15, modifier))
     }
 
     static func recoveryContextLabel(hrvSDNN: Double?, sleepHours: Double?) -> String? {

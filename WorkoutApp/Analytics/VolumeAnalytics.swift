@@ -58,16 +58,6 @@ enum VolumeAnalytics {
         return sets.filter { $0.timestamp >= cutoff }
     }
 
-    static func isCompound(_ name: String) -> Bool {
-        let n = name.lowercased()
-        let keys = [
-            "squat", "bench", "deadlift", "overhead press", "ohp",
-            "military press", "barbell row", "pendlay", "pull-up", "pull up",
-            "chin-up", "chin up", "dip"
-        ]
-        return keys.contains { n.contains($0) }
-    }
-
     static func weekStartContaining(_ date: Date, calendar: Calendar = Calendar.current) -> Date {
         var cal = calendar
         cal.firstWeekday = 2
