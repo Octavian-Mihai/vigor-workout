@@ -198,7 +198,9 @@ final class SetLog {
         set { secondaryMusclesCSV = MuscleCSV.encode(newValue) }
     }
 
-    var volume: Double { weight * Double(reps) }
+    var volume: Double {
+        AssistedLoad.effectiveKg(exerciseName: exerciseName, loggedKg: weight) * Double(reps)
+    }
 
     var intensityRatio: Double? {
         guard let target = targetReps, target > 0 else { return nil }
@@ -214,6 +216,7 @@ final class BodyWeightEntry {
     init(date: Date = Date(), kilograms: Double) {
         self.date = date
         self.kilograms = kilograms
+        AssistedLoad.noteBodyWeight(kilograms: kilograms, date: date)
     }
 }
 

@@ -22,7 +22,7 @@ struct LiftPersonalRecord: Identifiable {
 enum PersonalRecordTracker {
     static func bestEstimate(for exerciseName: String, in sessions: [WorkoutSession]) -> Double? {
         matchingSets(named: exerciseName, in: sessions)
-            .map { OneRM.estimate(weight: $0.weight, reps: $0.reps, rir: $0.rir) }
+            .map { OneRM.estimate(exerciseName: $0.exerciseName, weight: $0.weight, reps: $0.reps, rir: $0.rir) }
             .max()
     }
 
@@ -33,7 +33,8 @@ enum PersonalRecordTracker {
         exerciseName: String,
         sessions: [WorkoutSession]
     ) -> Bool {
-        let estimate = OneRM.estimate(weight: weightKg, reps: reps, rir: rir)
+        let estimate = OneRM.estimate(exerciseName: exerciseName, weight: weightKg, reps: reps, rir: rir)
+        guard estimate > 0 else { return false }
         guard let best = bestEstimate(for: exerciseName, in: sessions) else { return true }
         return estimate > best + 0.001
     }

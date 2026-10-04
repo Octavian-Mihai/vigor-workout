@@ -11,7 +11,8 @@ enum ProgressionHintEngine {
         previousSessionSets: [SetLog],
         currentSessionSets: [DraftSet],
         targetReps: Int?,
-        unit: WeightUnit
+        unit: WeightUnit,
+        lowerIsHarder: Bool = false
     ) -> ProgressionSuggestion? {
         let incrementKg = unit.toKg(unit == .kg ? 2.5 : 5.0)
         let resolvedTarget = targetReps
@@ -48,15 +49,16 @@ enum ProgressionHintEngine {
                 return ProgressionSuggestion(weightKg: reference.weightKg, reps: resolvedTarget)
             }
             if anyMissed {
-                let reduced = max(reference.weightKg - incrementKg, 0)
+                let eased = lowerIsHarder ? reference.weightKg + incrementKg : max(reference.weightKg - incrementKg, 0)
                 return ProgressionSuggestion(
-                    weightKg: reduced > 0 ? reduced : reference.weightKg,
+                    weightKg: eased > 0 ? eased : reference.weightKg,
                     reps: resolvedTarget
                 )
             }
             if allHitTarget {
+                let harder = lowerIsHarder ? max(reference.weightKg - incrementKg, 0) : reference.weightKg + incrementKg
                 return ProgressionSuggestion(
-                    weightKg: reference.weightKg + incrementKg,
+                    weightKg: harder,
                     reps: resolvedTarget
                 )
             }

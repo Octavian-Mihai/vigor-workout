@@ -1265,6 +1265,55 @@ enum ExerciseCatalog {
             equipment: .machine
         ),
         CatalogExercise(
+            id: "assisted-dip",
+            name: "Assisted Dip",
+            category: .push,
+            primary: [.chest, .triceps],
+            secondary: [.anteriorDelts],
+            cues: "Log the assistance, not your weight: less assistance is harder. Shoulders down, lean forward for chest, and don’t dump into the joints.",
+            equipment: .machine
+        ),
+        CatalogExercise(
+            id: "hip-internal-rotation",
+            name: "Hip Internal Rotation",
+            category: .legs,
+            primary: [.adductors],
+            secondary: [.glutes],
+            cues: "Seated or lying, knee fixed. Rotate the lower leg outward so the thigh turns in at the hip. Slow and controlled, no pelvis shift.",
+            equipment: .bodyweight,
+            pattern: .otherIsolation
+        ),
+        CatalogExercise(
+            id: "hip-external-rotation",
+            name: "Hip External Rotation",
+            category: .legs,
+            primary: [.glutes],
+            secondary: [.abductors],
+            cues: "Seated or lying, knee fixed. Rotate the lower leg inward so the thigh turns out at the hip. Keep the pelvis still.",
+            equipment: .bodyweight,
+            pattern: .otherIsolation
+        ),
+        CatalogExercise(
+            id: "shoulder-internal-rotation",
+            name: "Shoulder Internal Rotation",
+            category: .push,
+            primary: [.anteriorDelts],
+            secondary: [.lats, .chest],
+            cues: "Elbow pinned at your side, bent 90°. Rotate the forearm across the belly with light load; keep the shoulder down.",
+            equipment: .functionalTrainer,
+            pattern: .otherIsolation
+        ),
+        CatalogExercise(
+            id: "shoulder-external-rotation",
+            name: "Shoulder External Rotation",
+            category: .pull,
+            primary: [.posteriorDelts],
+            secondary: [.rhomboids],
+            cues: "Elbow pinned at your side, bent 90°. Rotate the forearm outward with light load; don’t shrug or let the elbow drift.",
+            equipment: .functionalTrainer,
+            pattern: .pullAccessory
+        ),
+        CatalogExercise(
             id: "chin-up",
             name: "Chin-Up",
             category: .pull,

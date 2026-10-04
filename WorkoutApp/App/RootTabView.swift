@@ -9,6 +9,7 @@ struct RootTabView: View {
     @Environment(AppTheme.self) private var appTheme
     @Query(sort: \WorkoutSession.startDate, order: .reverse) private var sessions: [WorkoutSession]
     @Query(sort: \Program.createdAt) private var programs: [Program]
+    @Query(sort: \BodyWeightEntry.date) private var bodyWeights: [BodyWeightEntry]
     @AppStorage("restTimerHaptics") private var restTimerHaptics = true
     @AppStorage(RunningVisibility.showTabKey) private var showRunningTab = true
     @AppStorage(RunningVisibility.showActivityKey) private var showRunningActivity = true
@@ -117,6 +118,11 @@ struct RootTabView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 56)
+            }
+        }
+        .task(id: bodyWeights.last?.date) {
+            if let latest = bodyWeights.last {
+                AssistedLoad.noteBodyWeight(kilograms: latest.kilograms, date: latest.date)
             }
         }
         .task {

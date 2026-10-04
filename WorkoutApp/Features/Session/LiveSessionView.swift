@@ -278,7 +278,7 @@ final class SessionController: ObservableObject {
         let exercise = exercises[index]
         let set = DraftSet(weightKg: weightKg, reps: reps, rir: rir)
         exercises[index].logged.append(set)
-        let estimate = OneRM.estimate(weight: weightKg, reps: reps, rir: rir)
+        let estimate = OneRM.estimate(exerciseName: exercise.name, weight: weightKg, reps: reps, rir: rir)
         let bestKey = exercise.name.lowercased()
         if let previous = PRDetector.celebratedPreviousBest(
             estimate: estimate,
@@ -298,7 +298,7 @@ final class SessionController: ObservableObject {
             prSetIDs.insert(set.id)
             prPulse += 1
             latestPRExerciseID = exerciseID
-            latestPREstimateKg = OneRM.estimate(weight: weightKg, reps: reps, rir: rir)
+            latestPREstimateKg = estimate
         }
         if let partner = nextSupersetPartner(after: exerciseID) {
             supersetCueMessage = "No rest — up next: \(partner.name)"
@@ -1202,7 +1202,8 @@ struct SessionExerciseCard: View {
                                 previousSessionSets: previousSets,
                                 currentSessionSets: live.logged,
                                 targetReps: live.targetReps,
-                                unit: unit
+                                unit: unit,
+                                lowerIsHarder: AssistedLoad.isAssisted(live.name)
                             ),
                             showSuggestion: showSuggestion,
                             isPR: controller.prSetIDs.contains(set.id),
@@ -1253,7 +1254,8 @@ struct SessionExerciseCard: View {
                     previousSessionSets: previousSets,
                     currentSessionSets: live.logged,
                     targetReps: live.targetReps,
-                    unit: unit
+                    unit: unit,
+                    lowerIsHarder: AssistedLoad.isAssisted(live.name)
                 ),
                 showSuggestion: showSuggestion,
                 isPR: false,
@@ -1441,7 +1443,7 @@ struct SessionExerciseCard: View {
                 .frame(width: 32, alignment: .center)
             Text(showSuggestion ? "Suggest" : "Last")
                 .frame(width: 88, alignment: .center)
-            Text(unit.rawValue)
+            Text(AssistedLoad.isAssisted(live.name) ? "\(unit.rawValue) assist" : unit.rawValue)
                 .frame(maxWidth: .infinity, alignment: .center)
             Text("Reps")
                 .frame(maxWidth: .infinity, alignment: .center)

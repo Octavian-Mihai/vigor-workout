@@ -23,7 +23,7 @@ enum PRDetector {
 
         for set in sessionSets where set.weight > 0 && set.reps > 0 {
             let key = set.exerciseName.lowercased()
-            let estimate = OneRM.estimate(weight: set.weight, reps: set.reps, rir: set.rir)
+            let estimate = OneRM.estimate(exerciseName: set.exerciseName, weight: set.weight, reps: set.reps, rir: set.rir)
             if let current = best[key] {
                 if estimate > current.e1RM { best[key] = (set, estimate) }
             } else {
@@ -37,7 +37,7 @@ enum PRDetector {
                 guard let top = best[key], let previous = previousBest[key], top.e1RM > previous + 0.001 else { return nil }
                 return SessionPR(
                     exerciseName: top.set.exerciseName,
-                    weightKg: top.set.weight,
+                    weightKg: AssistedLoad.effectiveKg(exerciseName: top.set.exerciseName, loggedKg: top.set.weight),
                     reps: top.set.reps,
                     newE1RMKg: top.e1RM,
                     previousE1RMKg: previous
@@ -60,7 +60,7 @@ enum PRDetector {
         var result: [String: Double] = [:]
         for set in sets where set.weight > 0 && set.reps > 0 {
             let key = set.exerciseName.lowercased()
-            let estimate = OneRM.estimate(weight: set.weight, reps: set.reps, rir: set.rir)
+            let estimate = OneRM.estimate(exerciseName: set.exerciseName, weight: set.weight, reps: set.reps, rir: set.rir)
             result[key] = max(result[key] ?? 0, estimate)
         }
         return result
