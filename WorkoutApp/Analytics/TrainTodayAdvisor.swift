@@ -39,7 +39,6 @@ struct TrainTodayAdvice: Equatable {
 
 /// Picks what to train today from per-muscle freshness (0–100, 100 = fully recovered).
 enum TrainTodayAdvisor {
-    static let readyThreshold = 60.0
     static let tiredThreshold = 45.0
     /// A different day must beat the planned one by this many points before it's suggested.
     static let switchMargin = 12.0

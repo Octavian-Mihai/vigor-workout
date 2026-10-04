@@ -22,15 +22,6 @@ enum StressBand: String {
     case high = "High — watch sleep/fatigue"
     case veryHigh = "Very high — consider backing off"
 
-    var rangeLabel: String {
-        switch self {
-        case .recovery: return "0–30"
-        case .productive: return "31–55"
-        case .high: return "56–75"
-        case .veryHigh: return "76–100"
-        }
-    }
-
     static func band(for score: Double) -> StressBand {
         switch score {
         case ..<30.5: return .recovery
@@ -63,29 +54,6 @@ enum StressCalculator {
     static func sets(inLastDays days: Double, from sets: [SetLog], now: Date = Date()) -> [SetLog] {
         let cutoff = now.addingTimeInterval(-days * 86_400)
         return sets.filter { $0.timestamp >= cutoff }
-    }
-
-    /// Central stress 0–100 from the last 7 days: heavy compounds, high % of est. 1RM, low RIR.
-    /// Normalized so roughly 12 hard compound sets in a week sit near 100.
-    static func centralStress(sets: [SetLog], now: Date = Date()) -> Double {
-        let recent = self.sets(inLastDays: windowDays, from: sets, now: now).filter { VolumeAnalytics.isCompound($0.exerciseName) }
-        guard !recent.isEmpty else { return 0 }
-
-        let entries = sets.map(SetEntry.init)
-        var points = 0.0
-        for set in recent {
-            let best = VolumeAnalytics.bestEstimated1RM(for: set.exerciseName, in: entries, now: now)
-            let pct1RM: Double
-            if best > 0 {
-                pct1RM = min(set.weight / best, 1.20)
-            } else {
-                pct1RM = 0.65
-            }
-            let rirScore = max(0, 5.0 - Double(min(set.rir, 5))) / 5.0
-            let repFactor = min(Double(set.reps), 12.0) / 6.0
-            points += (0.60 * pct1RM + 0.40 * rirScore) * repFactor
-        }
-        return min(100, (points / 12.0) * 100.0)
     }
 
     /// Total stress 0–100 from the last 7 days: volume load + intensity + optional run stress.
@@ -136,16 +104,6 @@ enum StressCalculator {
         }
 
         return min(10, max(-15, modifier))
-    }
-
-    static func adjustedRecoveryScore(
-        totalStress: Double,
-        hrvSDNN: Double?,
-        sleepHours: Double?
-    ) -> Double {
-        let base = recoveryScore(totalStress: totalStress)
-        let adjusted = base + recoveryModifier(hrvSDNN: hrvSDNN, sleepHours: sleepHours)
-        return max(0, min(100, adjusted))
     }
 
     static func recoveryContextLabel(hrvSDNN: Double?, sleepHours: Double?) -> String? {

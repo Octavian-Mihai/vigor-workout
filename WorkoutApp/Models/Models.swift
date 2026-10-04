@@ -201,11 +201,6 @@ final class SetLog {
     var volume: Double {
         AssistedLoad.effectiveKg(exerciseName: exerciseName, loggedKg: weight) * Double(reps)
     }
-
-    var intensityRatio: Double? {
-        guard let target = targetReps, target > 0 else { return nil }
-        return Double(reps) / Double(target)
-    }
 }
 
 @Model
@@ -243,26 +238,6 @@ final class BodyMeasurementEntry {
 
     init(date: Date = Date()) {
         self.date = date
-    }
-
-    var hasAnyMeasurement: Bool {
-        photoFilename != nil
-            || kilograms != nil
-            || caloriesKcal != nil
-            || heightCm != nil
-            || neckCm != nil
-            || shouldersCm != nil
-            || chestCm != nil
-            || leftBicepsCm != nil
-            || rightBicepsCm != nil
-            || leftForearmCm != nil
-            || rightForearmCm != nil
-            || waistCm != nil
-            || hipsCm != nil
-            || leftThighCm != nil
-            || rightThighCm != nil
-            || leftCalfCm != nil
-            || rightCalfCm != nil
     }
 }
 

@@ -625,64 +625,6 @@ final class AnatomyStore: ObservableObject {
 
 // MARK: - Learn destinations
 
-struct CoreMovementCategoriesView: View {
-    @ObservedObject private var store = AnatomyStore.shared
-    @Environment(AppTheme.self) private var theme
-
-    var body: some View {
-        ArticleScreen(title: "Core movement categories") {
-            ArticleCard(
-                title: "The six fundamentals",
-                bodyText: "Squat, hinge, single-leg, push, pull, and carry. These six cover how humans stand up, pick things up, split stance, press, row, and walk under load. Tap a category for intent and coaching, or a pattern for execution and example lifts."
-            )
-
-            ForEach(store.coreCategories) { category in
-                let patterns = store.patterns(in: category)
-                VStack(alignment: .leading, spacing: 12) {
-                    GuideRowLink {
-                        CategoryDetailView(category: category, store: store)
-                    } label: {
-                        HStack(alignment: .firstTextBaseline) {
-                            Image(systemName: GuideVisuals.symbol(for: category.key))
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(theme.accent)
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(category.title)
-                                    .font(.headline)
-                                    .foregroundStyle(.primary)
-                                Text(category.intent)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(2)
-                                    .multilineTextAlignment(.leading)
-                            }
-                            Spacer(minLength: 8)
-                            Image(systemName: "chevron.right")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-
-                    ForEach(patterns) { pattern in
-                        Divider()
-                        GuideRowLink {
-                            MovementDetailView(pattern: pattern, store: store)
-                        } label: {
-                            GuideNavRow(
-                                title: pattern.name,
-                                subtitle: "Primary: \(pattern.primaryMuscles)"
-                            )
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(16)
-                .opaqueCard()
-            }
-        }
-    }
-}
-
 struct KeyMuscleGroupsView: View {
     @ObservedObject private var store = AnatomyStore.shared
 

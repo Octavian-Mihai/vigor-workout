@@ -56,12 +56,6 @@ struct PaceSample: Identifiable {
     var id: Date { date }
 }
 
-struct RunRoutePoint: Identifiable {
-    let coordinate: CLLocationCoordinate2D
-    let timestamp: Date
-    var id: Date { timestamp }
-}
-
 struct RunDetailData {
     var heartRate: [HeartRateSample]
     var pace: [PaceSample]

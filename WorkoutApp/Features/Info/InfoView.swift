@@ -397,45 +397,6 @@ struct ArticleCard: View {
     }
 }
 
-struct AppUsageGuideView: View {
-    var body: some View {
-        ArticleScreen(title: "Using the app") {
-            ArticleCard(
-                title: "What this covers",
-                bodyText: "How the app works — logging, sharing, history, and settings. For movement patterns and muscle notes, open the other Learn links on the Workout tab."
-            )
-            ArticleCard(
-                title: "Stress analysis",
-                bodyText: "Settings → Stress controls whether stress scores appear on Home, Info, Running, and widgets. Turn it off if you want a cleaner view without losing your logged workouts."
-            )
-            ArticleCard(
-                title: "Plate calculator",
-                bodyText: "During a session, barbell exercises show plates per side above the weight keypad. Set your default bar weight in Settings → Equipment. Machine and functional-trainer lifts use the logged weight directly — no bar subtracted. On barbell lifts, use the +/− next to Bar to adjust for a lighter or specialty bar during that session only."
-            )
-            ArticleCard(
-                title: "Share your workout",
-                bodyText: "When you finish a session, the summary screen shows sets, top lifts with unit labels, and exercise photos. Tap Share to send a PNG card — handy for a training log or social post."
-            )
-            ArticleCard(
-                title: "Workout history",
-                bodyText: "Workout → History lists finished sessions with duration, set count, and volume in your chosen unit (lbs or kg). Open a session for the full set log. Swipe left or tap Delete to remove a workout. Sessions older than two weeks tuck into a separate folder."
-            )
-            ArticleCard(
-                title: "Custom exercises",
-                bodyText: "Workout → Custom exercises lists every exercise you created. Share one or all to the developer for catalog review, or delete exercises you no longer need — that removes them from programs and logged sets."
-            )
-            ArticleCard(
-                title: "Programs & templates",
-                bodyText: "Workout → Programs: create from a starter template, import a JSON plan, or build a blank program with rotating days. Mark one program active so Home knows what comes next."
-            )
-            ArticleCard(
-                title: "Expandable sections",
-                bodyText: "Programs, Learn, Custom exercises, History, and Info analytics remember whether you left them open or closed."
-            )
-        }
-    }
-}
-
 struct RIRGuideView: View {
     var body: some View {
         ArticleScreen(title: "RIR") {

@@ -5,8 +5,6 @@ final class ActiveSessionStore: ObservableObject {
     @Published var controller: SessionController?
     @Published var isPresented = false
 
-    var hasActiveSession: Bool { controller != nil }
-
     var isMinimized: Bool { controller != nil && !isPresented }
 
     func start(program: Program?, programDay: ProgramDay?) {

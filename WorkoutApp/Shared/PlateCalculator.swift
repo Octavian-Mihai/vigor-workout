@@ -95,10 +95,6 @@ enum EquipmentSettings {
     static let defaultBarKg: Double = 20
     static let defaultBarLb: Double = 45
 
-    static func defaultBar(for unit: WeightUnit) -> Double {
-        unit == .kg ? defaultBarKg : defaultBarLb
-    }
-
     static func barStep(for unit: WeightUnit) -> Double {
         unit == .kg ? 2.5 : 5
     }

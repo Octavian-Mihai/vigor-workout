@@ -237,11 +237,6 @@ struct StrengthAnalyticsView: View {
         }
         return recorded
     }
-    private var muscleLoads: [(name: String, tonnageKg: Double, reps: Double)] {
-        let reps = VolumeAnalytics.muscleReps(from: recent)
-        return muscleVolume.map { ($0.0, $0.1, reps[$0.0] ?? 0) }
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if showTrainingLoadEvolution {

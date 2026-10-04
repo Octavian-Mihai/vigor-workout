@@ -23,8 +23,6 @@ enum ScreenshotDefaults {
     }
 }
 
-private let _applyScreenshotDefaults: Void = ScreenshotDefaults.apply()
-
 @main
 struct WorkoutApp: App {
     @State private var appTheme: AppTheme

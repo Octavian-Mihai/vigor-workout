@@ -28,21 +28,6 @@ struct RIRSelector: View {
     }
 }
 
-struct RIRBadge: View {
-    let rir: Int
-    var accent: Color
-
-    var body: some View {
-        Text("RIR \(RIRPalette.display(rir))")
-            .font(.caption2.weight(.semibold))
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(RIRPalette.color(for: rir, accent: accent))
-            .foregroundStyle(.white)
-            .clipShape(Capsule())
-    }
-}
-
 struct RIRDot: View {
     let rir: Int
     var size: CGFloat = 14
