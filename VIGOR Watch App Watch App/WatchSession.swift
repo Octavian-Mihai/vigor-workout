@@ -56,6 +56,10 @@ final class PhoneConnectivity: NSObject, ObservableObject {
 
     override init() {
         super.init()
+        if let demo = Self.demoSnapshot() {
+            snapshot = demo
+            return
+        }
         if WCSession.isSupported() {
             WCSession.default.delegate = self
             WCSession.default.activate()
@@ -74,6 +78,34 @@ final class PhoneConnectivity: NSObject, ObservableObject {
         } else {
             session.transferUserInfo(payload)
         }
+    }
+
+    /// Sample session for README/site screenshots: launch with `-WATCH_DEMO log|rest|complete`.
+    private static func demoSnapshot() -> WatchSessionSnapshot? {
+        let args = ProcessInfo.processInfo.arguments
+        guard let flag = args.firstIndex(of: "-WATCH_DEMO"), args.indices.contains(flag + 1) else { return nil }
+        let state = args[flag + 1]
+        func exercise(_ name: String, done: Int, weight: Double, reps: Int, superset: Bool = false) -> WatchSessionSnapshot.ExerciseInfo {
+            .init(
+                id: name, name: name, targetSets: 4, targetReps: reps, completedSets: done,
+                isSupersetGroup: superset, lastWeightKg: weight, lastReps: reps, lastRIR: 2, isAssisted: false
+            )
+        }
+        let finished = state == "complete"
+        let exercises = [
+            exercise("Incline Dumbbell Press", done: finished ? 4 : 2, weight: 32.5, reps: 8),
+            exercise("Cable Fly", done: finished ? 4 : 0, weight: 15, reps: 12)
+        ]
+        return WatchSessionSnapshot(
+            isActive: true,
+            sessionLabel: "Push",
+            exercises: exercises,
+            currentExerciseIndex: 0,
+            isResting: state == "rest",
+            restEndDate: state == "rest" ? Date().addingTimeInterval(62) : nil,
+            restTotalSeconds: 90,
+            weightUnit: "kg"
+        )
     }
 
     /// Asks the phone to finish and save the session; the watch workout ends when the phone reports it inactive.

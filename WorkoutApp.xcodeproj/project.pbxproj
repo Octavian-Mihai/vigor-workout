@@ -1170,6 +1170,7 @@
 				INFOPLIST_FILE = "VIGOR-Watch-App-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "VIGOR Watch App";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "WorkoutApp needs to save your workout data to the Health app";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "VIGOR reads your heart rate during a workout";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.local.WorkoutApp;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1212,6 +1213,7 @@
 				INFOPLIST_FILE = "VIGOR-Watch-App-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "VIGOR Watch App";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "WorkoutApp needs to save your workout data to the Health app";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "VIGOR reads your heart rate during a workout";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.local.WorkoutApp;
 				LD_RUNPATH_SEARCH_PATHS = (

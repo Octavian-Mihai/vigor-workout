@@ -62,6 +62,14 @@ More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 |:---:|:---:|
 | <img src="docs/screenshots/running_page.png" alt="Cardio tab" width="270"> | <img src="website/screens/customization.png" alt="Accent and appearance customization" width="270"> |
 
+### Apple Watch
+
+A companion app follows the workout you run on your phone: turn the Digital Crown to set weight, reps and RIR, tap to log, and watch the rest ring count down. Sets are pre-filled from your last session.
+
+| Log a set | Rest timer | Finish |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/watch_log.png" alt="Logging a set on Apple Watch" width="250"> | <img src="docs/screenshots/watch_rest.png" alt="Rest timer on Apple Watch" width="250"> | <img src="docs/screenshots/watch_complete.png" alt="Workout complete on Apple Watch" width="250"> |
+
 ### Features
 
 - **Logging:** custom keypad, RIR on every set, rest timer, plate calculator, estimated 1RM, editable sets, progression suggestions
