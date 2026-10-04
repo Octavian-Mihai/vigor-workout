@@ -13,6 +13,7 @@ struct ProgramEditorView: View {
         List {
             Section("Name") {
                 TextField("Program name", text: $program.name)
+                    .submitLabel(.done)
             }
             Section {
                 Toggle("Active program", isOn: Binding(
@@ -59,6 +60,7 @@ struct ProgramEditorView: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Program")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.visible, for: .navigationBar)
@@ -145,6 +147,7 @@ struct DayEditorView: View {
         List {
             Section("Day name") {
                 TextField("Name", text: $day.name)
+                    .submitLabel(.done)
             }
             Section {
                 let ordered = day.orderedExercises
@@ -181,6 +184,7 @@ struct DayEditorView: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle(day.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.visible, for: .navigationBar)

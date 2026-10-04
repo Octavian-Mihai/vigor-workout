@@ -557,6 +557,7 @@ struct LiveSessionView: View {
     @State private var showFinishConfirm = false
     @State private var finishedSession: WorkoutSession?
     @State private var showSummary = false
+    @State private var setLoggedTick = 0
 
     private var accent: Color {
         theme.accent
@@ -736,6 +737,7 @@ struct LiveSessionView: View {
                 )
             }
         }
+        .gatedHaptic(.success, trigger: setLoggedTick)
         .sensoryFeedback(.success, trigger: restTimerHaptics ? controller.restCompletedPulse : 0)
         .sensoryFeedback(.impact(weight: .medium), trigger: restTimerHaptics ? controller.prPulse : 0)
         .sensoryFeedback(.success, trigger: restTimerHaptics ? controller.prCelebration?.id : nil)
@@ -850,6 +852,7 @@ struct LiveSessionView: View {
             rir: rir
         )
         controller.carryDraftForward(exerciseID: exerciseID, weightText: weightText, repsText: repsText, rir: rir)
+        setLoggedTick += 1
         controller.focusedField = nil
     }
 
@@ -866,6 +869,7 @@ struct LiveSessionView: View {
             rir: draft.rir
         )
         controller.loggedEdits[setID] = nil
+        setLoggedTick += 1
         controller.focusedField = nil
     }
 
@@ -874,6 +878,8 @@ struct LiveSessionView: View {
             Text(Formatters.duration(controller.restRemaining))
                 .font(.title3.monospacedDigit().weight(.bold))
                 .foregroundStyle(controller.timerRunning ? accent : .primary)
+                .contentTransition(.numericText(countsDown: true))
+                .animation(.snappy, value: controller.restRemaining)
                 .frame(minWidth: 64, alignment: .leading)
             Text("Rest")
                 .font(.subheadline)
@@ -1549,12 +1555,15 @@ private struct SetGridRow: View {
             Text(value.isEmpty ? placeholder : value)
                 .font(.body.monospacedDigit().weight(.semibold))
                 .foregroundStyle(value.isEmpty ? Color.secondary : Color.primary)
+                .contentTransition(.numericText())
+                .animation(.snappy(duration: 0.2), value: value)
                 .frame(maxWidth: .infinity, minHeight: 36)
                 .background(theme.mutedFill)
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .strokeBorder(focused ? accent : Color.clear, lineWidth: 2)
+                        .animation(.snappy(duration: 0.2), value: focused)
                 )
         }
         .buttonStyle(.borderless)
@@ -1587,6 +1596,8 @@ private struct SetGridRow: View {
         Text(repsText.isEmpty && isInput ? "—" : repsText)
             .font(.body.monospacedDigit().weight(.semibold))
             .foregroundStyle(repsText.isEmpty && isInput ? Color.secondary : Color.primary)
+            .contentTransition(.numericText())
+            .animation(.snappy(duration: 0.2), value: repsText)
             .frame(maxWidth: .infinity, minHeight: 36)
             .padding(.trailing, 12)
             .background(isInput ? (isPreview ? theme.mutedFill : theme.mutedFill.opacity(0.72)) : theme.mutedFill.opacity(0.5))
@@ -1594,6 +1605,7 @@ private struct SetGridRow: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .strokeBorder(isInput && repsFocused ? accent : Color.clear, lineWidth: 2)
+                    .animation(.snappy(duration: 0.2), value: repsFocused)
             )
     }
 }

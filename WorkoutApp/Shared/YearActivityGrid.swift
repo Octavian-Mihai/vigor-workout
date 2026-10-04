@@ -174,6 +174,7 @@ struct YearActivityGrid: View {
             .frame(height: 68)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("Year activity grid")
+            .accessibilityAddTraits(onSelect == nil ? [] : .isButton)
             .onTapGesture {
                 onSelect?(Date())
             }

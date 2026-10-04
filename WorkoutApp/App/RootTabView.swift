@@ -200,6 +200,8 @@ struct ResumeSessionPill: View {
                     if controller.timerRunning {
                         Text("Rest \(Formatters.duration(controller.restRemaining))")
                             .font(.caption.monospacedDigit())
+                            .contentTransition(.numericText(countsDown: true))
+                            .animation(.snappy, value: controller.restRemaining)
                             .foregroundStyle(.secondary)
                     } else {
                         Text("\(controller.loggedSetCount) sets · tap to resume")

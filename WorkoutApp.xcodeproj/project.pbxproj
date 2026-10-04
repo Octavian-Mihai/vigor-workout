@@ -84,6 +84,7 @@
 		A1F31FEB78B96D6BEDD03148 /* SwiftDataIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F30B8357EF05B60F41BAD10 /* SwiftDataIntegrationTests.swift */; };
 		A4345E0A5683908EE472C06D /* TrainTodayAdvisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A4E13B0EDE299B9408CFA /* TrainTodayAdvisor.swift */; };
 		A5EC5FA89BA60A158334805A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BB7618F4EEBFB393C2BBB1 /* AVFoundation.framework */; };
+		AA11BB22CC33DD44EE550001 /* PremiumUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA11BB22CC33DD44EE550002 /* PremiumUI.swift */; };
 		AD1069C883E295567BBC540E /* AppTour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969786FECA93B12FF622670D /* AppTour.swift */; };
 		ADBB1B8F228E2DBC3A48E111 /* VBTSyntheticSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521C915C58595C9AC9071F8F /* VBTSyntheticSource.swift */; };
 		B4F2655988D672CD07C4DF65 /* TrainingAdvisorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD57DB844D3ACD86162E725 /* TrainingAdvisorTests.swift */; };
@@ -251,6 +252,7 @@
 		A71F8466EF41AAAC1BB6BD49 /* RIRViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIRViews.swift; sourceTree = "<group>"; };
 		A7273A2B966C0A2C4FF8A8F0 /* PlateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateCalculator.swift; sourceTree = "<group>"; };
 		A99D54D106959C1FC29CAF35 /* NextWorkoutResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextWorkoutResolver.swift; sourceTree = "<group>"; };
+		AA11BB22CC33DD44EE550002 /* PremiumUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumUI.swift; sourceTree = "<group>"; };
 		AD11DEBA5204836C53CC31F3 /* WidgetSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSnapshot.swift; sourceTree = "<group>"; };
 		AE718A840F23F37F3B88D833 /* ProgressPhotoThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPhotoThumbnail.swift; sourceTree = "<group>"; };
 		B0256CB12EA15D9B945FE3C1 /* WorkoutWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutWidgets.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				F8169C488B212012A4AD1E51 /* RestTimerAttributes.swift */,
 				5D20C5D59A01F6E785F367D3 /* RestTimerSound.swift */,
 				A71F8466EF41AAAC1BB6BD49 /* RIRViews.swift */,
+				AA11BB22CC33DD44EE550002 /* PremiumUI.swift */,
 				E675DAC054C94F4C6C7B6BD4 /* StressLegendView.swift */,
 				AD11DEBA5204836C53CC31F3 /* WidgetSnapshot.swift */,
 				6F0D3AF107B52635A65CBF39 /* YearActivityGrid.swift */,
@@ -958,6 +961,7 @@
 				0D351B0A9654CEC1D601286F /* ProgressPhotoThumbnail.swift in Sources */,
 				B5F829C8F75B5A0DDBAB5B09 /* ProgressionHintEngine.swift in Sources */,
 				66CD1D4599CA94C1C7E11DFA /* RIRViews.swift in Sources */,
+				AA11BB22CC33DD44EE550001 /* PremiumUI.swift in Sources */,
 				0BE19823416706A55A25A6B1 /* RestTimerAttributes.swift in Sources */,
 				D710909DD8F8DA8DC7671A7E /* RestTimerService.swift in Sources */,
 				5CA748CB8C6C56348FBB1153 /* RestTimerSound.swift in Sources */,
@@ -1117,12 +1121,12 @@
 				INFOPLIST_FILE = WorkoutWidgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VIGOR;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OMihai.Vigor.VigorWidgets;
 				PRODUCT_NAME = WorkoutWidgets;
 				SDKROOT = iphoneos;
@@ -1372,12 +1376,12 @@
 				INFOPLIST_FILE = WorkoutWidgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VIGOR;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OMihai.Vigor.VigorWidgets;
 				PRODUCT_NAME = WorkoutWidgets;
 				SDKROOT = iphoneos;

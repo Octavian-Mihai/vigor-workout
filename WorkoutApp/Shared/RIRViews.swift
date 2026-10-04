@@ -22,9 +22,10 @@ struct RIRSelector: View {
                         )
                         .foregroundStyle(rir == value ? Color.white : Color.primary)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.pressable)
             }
         }
+        .gatedHaptic(.selection, trigger: rir)
     }
 }
 
