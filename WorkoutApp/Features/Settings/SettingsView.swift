@@ -132,7 +132,7 @@ struct SettingsView: View {
 
                 Section("Daily check-in") {
                     Toggle("Show check-in on Home", isOn: $showDailyCheckIn)
-                    Text("Log sleep, mood and energy in about 10 seconds. After a couple of weeks, Info → Daily check-in shows what seems to affect how you feel. Turn off to hide the card on Home; your entries stay.")
+                    Text("Log sleep, mood and energy. After a couple of weeks, Info → Daily check-in shows what seems to affect how you feel. Turn off to hide the card on Home; your entries stay.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     CheckInReminderSettingsRows()

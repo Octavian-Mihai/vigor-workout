@@ -87,7 +87,7 @@ enum CheckInReminder {
             guard !Task.isCancelled else { return }
             let content = UNMutableNotificationContent()
             content.title = "Daily check-in"
-            content.body = "How did you sleep, and how are your mood and energy? It takes about 10 seconds."
+            content.body = "How did you sleep, and how are your mood and energy?"
             content.sound = .default
             content.threadIdentifier = "checkin-reminder"
 

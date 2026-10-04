@@ -224,7 +224,7 @@ struct MuscleFreshnessCompactCard: View {
         HStack(spacing: 4) {
             Text(entry.muscle.compactName)
                 .font(.caption)
-                .foregroundStyle(Color.white)
+                .foregroundStyle(Color.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
             Spacer(minLength: 2)

@@ -58,10 +58,6 @@ struct DailyCheckInCard: View {
                     Button("Done") { isEditing = false }
                         .font(.subheadline.weight(.semibold))
                         .buttonStyle(.borderless)
-                } else {
-                    Text("10 seconds")
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
                 }
             }
             CheckInInputView(day: today, healthSleepHours: health.lastNightSleepHours)
