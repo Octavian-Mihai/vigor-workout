@@ -136,8 +136,8 @@ final class HealthKitService: ObservableObject {
     var activityRunDays: Set<Date> {
         var days = runDays
         let cal = Calendar.current
-        for run in cardioWorkouts where run.activityType == .running {
-            days.insert(cal.startOfDay(for: run.start))
+        for workout in cardioWorkouts where workout.activityType != .walking {
+            days.insert(cal.startOfDay(for: workout.start))
         }
         return days
     }
@@ -263,13 +263,12 @@ final class HealthKitService: ObservableObject {
 
     func loadRunDays() async throws {
         let cal = Calendar.current
-        let running = HKQuery.predicateForWorkouts(with: .running)
         let dates = HKQuery.predicateForSamples(
             withStart: Self.currentYearStart,
             end: Date(),
             options: .strictStartDate
         )
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [running, dates])
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [activityDayPredicate, dates])
         let workouts = try await fetchWorkouts(predicate: predicate)
         runDays = Set(workouts.map { cal.startOfDay(for: $0.startDate) })
     }
@@ -623,6 +622,17 @@ final class HealthKitService: ObservableObject {
             pace: paceSeries(from: dist),
             route: locations
         )
+    }
+
+    /// Every kind of cardio that should light up a day on the activity grid and widgets.
+    private var activityDayPredicate: NSPredicate {
+        let activityTypes: [HKWorkoutActivityType] = [
+            .running, .cycling, .hiking, .swimming, .rowing, .elliptical,
+            .stairClimbing, .highIntensityIntervalTraining, .mixedCardio, .jumpRope,
+            .cardioDance, .handCycling, .crossCountrySkiing, .paddleSports, .stepTraining
+        ]
+        let typePredicates = activityTypes.map { HKQuery.predicateForWorkouts(with: $0) }
+        return NSCompoundPredicate(orPredicateWithSubpredicates: typePredicates)
     }
 
     private var cardioActivityPredicate: NSPredicate {

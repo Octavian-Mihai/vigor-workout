@@ -104,7 +104,7 @@ struct WorkoutYearWidgetView: View {
                 HStack(spacing: 7) {
                     legend("W(\(snap.liftSessionCount))", color: WidgetChrome.weights)
                     if snap.showsRunningActivity {
-                        legend("R(\(snap.runDayStarts.count))", color: WidgetChrome.running)
+                        legend("C(\(snap.runDayStarts.count))", color: WidgetChrome.running)
                         legend("B(\(bothCount))", color: WidgetChrome.both)
                     }
                 }
@@ -246,7 +246,7 @@ struct WorkoutStressWidgetView: View {
                     HStack {
                         split("Lift", snap.todayLift)
                         if snap.showsRunningActivity {
-                            split("Run", snap.todayRun)
+                            split("Cardio", snap.todayRun)
                         }
                     }
                     .font(.caption2)

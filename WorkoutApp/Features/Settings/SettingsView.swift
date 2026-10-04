@@ -149,8 +149,8 @@ struct SettingsView: View {
 
                 Section("Running") {
                     Toggle("Show Running tab", isOn: $showRunningTab)
-                    Toggle("Show running activity", isOn: $showRunningActivity)
-                    Text("Turn off the Running tab to hide it. Turn off running activity to hide runs on Home, widgets, and Info stress. Walking, hiking, and cycling stay.")
+                    Toggle("Show cardio activity", isOn: $showRunningActivity)
+                    Text("Turn off the Running tab to hide it. Turn off cardio activity to hide runs, rides, walks and other cardio on the Home and widget activity grids.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

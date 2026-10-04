@@ -129,7 +129,7 @@ struct YearActivityGrid: View {
                 HStack(spacing: 8) {
                     legendLabel("Weights (\(workoutsThisYear))", color: YearActivityPalette.weights)
                     if showsRunningActivity {
-                        legendLabel("Running (\(runsThisYear))", color: YearActivityPalette.running)
+                        legendLabel("Cardio (\(runsThisYear))", color: YearActivityPalette.running)
                         legendLabel("Both", color: YearActivityPalette.both)
                     }
                 }
