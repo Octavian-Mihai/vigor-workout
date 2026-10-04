@@ -28,9 +28,15 @@ struct WorkoutSummaryModel {
     let exerciseCount: Int
     let displayedExercises: [WorkoutSummaryExercise]
     let hiddenExerciseCount: Int
+    /// Lifts where this session beat every earlier session's best estimated 1RM.
+    let prs: [SessionPR]
 
-    init(session: WorkoutSession) {
+    init(session: WorkoutSession, previousSessions: [WorkoutSession] = []) {
         let sets = session.orderedSets
+        prs = PRDetector.sessionPRs(
+            sessionSets: sets.map(SetEntry.init),
+            previousSets: previousSessions.flatMap(\.sets).map(SetEntry.init)
+        )
 
         dayName = session.programDayName ?? "Workout"
         date = session.startDate

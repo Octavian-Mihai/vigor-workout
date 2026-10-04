@@ -74,6 +74,8 @@ struct HomeView: View {
                                 .id(AppTourTargetID.homeTodayStress)
                         }
 
+                        TrainingCoachView()
+
                         VStack(alignment: .leading, spacing: 16) {
                             if let program = programs.first(where: \.isActive), let day = nextDay {
                                 NextWorkoutCard(program: program, day: day) {

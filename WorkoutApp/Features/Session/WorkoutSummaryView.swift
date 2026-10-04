@@ -23,6 +23,9 @@ struct WorkoutSummaryView: View {
         VStack(alignment: .leading, spacing: 20) {
             header
             overviewStats
+            if !model.prs.isEmpty {
+                prSection
+            }
             if !model.displayedExercises.isEmpty {
                 exercisesSection
             }
@@ -60,6 +63,34 @@ struct WorkoutSummaryView: View {
             statBlock(value: "\(model.exerciseCount)", label: "Exercises")
         }
         .padding(14)
+        .opaqueCard()
+    }
+
+    private var prSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label("\(model.prs.count) new PR\(model.prs.count == 1 ? "" : "s")", systemImage: "trophy.fill")
+                .font(.headline)
+                .foregroundStyle(accent)
+            VStack(spacing: 8) {
+                ForEach(model.prs.prefix(5)) { pr in
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(pr.exerciseName)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(textPrimary)
+                            .lineLimit(1)
+                        Spacer(minLength: 8)
+                        Text("\(unit.format(pr.newE1RMKg, decimals: 1)) est. 1RM")
+                            .font(.caption.monospacedDigit())
+                            .foregroundStyle(textSecondary)
+                        Text("+\(unit.format(pr.gainKg, decimals: 1))")
+                            .font(.caption.weight(.bold).monospacedDigit())
+                            .foregroundStyle(accent)
+                    }
+                }
+            }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .opaqueCard()
     }
 

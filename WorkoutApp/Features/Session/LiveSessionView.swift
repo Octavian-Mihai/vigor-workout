@@ -115,6 +115,10 @@ final class SessionController: ObservableObject {
     @Published var showSuggestionByExercise: [UUID: Bool] = [:]
     @Published var latestPRExerciseID: UUID?
     @Published var latestPREstimateKg: Double?
+    /// Set when a set beats the all-time best (and anything lifted earlier this session).
+    @Published var prCelebration: PRCelebration?
+    /// Best estimated 1RM logged so far this session, per lowercased exercise name.
+    private var sessionBestE1RM: [String: Double] = [:]
 
     let program: Program?
     let programDay: ProgramDay?
@@ -274,6 +278,16 @@ final class SessionController: ObservableObject {
         let exercise = exercises[index]
         let set = DraftSet(weightKg: weightKg, reps: reps, rir: rir)
         exercises[index].logged.append(set)
+        let estimate = OneRM.estimate(weight: weightKg, reps: reps, rir: rir)
+        let bestKey = exercise.name.lowercased()
+        if let previous = PRDetector.celebratedPreviousBest(
+            estimate: estimate,
+            pastBest: PersonalRecordTracker.bestEstimate(for: exercise.name, in: pastSessions),
+            sessionBest: sessionBestE1RM[bestKey]
+        ) {
+            prCelebration = PRCelebration(exerciseName: exercise.name, estimateKg: estimate, previousKg: previous)
+        }
+        sessionBestE1RM[bestKey] = max(sessionBestE1RM[bestKey] ?? 0, estimate)
         if PersonalRecordTracker.isNewPR(
             weightKg: weightKg,
             reps: reps,
@@ -707,7 +721,10 @@ struct LiveSessionView: View {
         .sheet(isPresented: $showSummary, onDismiss: handleSummaryDismissed) {
             if let session = finishedSession {
                 WorkoutSummarySheet(
-                    model: WorkoutSummaryModel(session: session),
+                    model: WorkoutSummaryModel(
+                        session: session,
+                        previousSessions: pastSessions.filter { $0.startDate < session.startDate && $0.endDate != nil }
+                    ),
                     accent: accent,
                     unit: unit,
                     onDone: {
@@ -719,6 +736,22 @@ struct LiveSessionView: View {
         }
         .sensoryFeedback(.success, trigger: restTimerHaptics ? controller.restCompletedPulse : 0)
         .sensoryFeedback(.impact(weight: .medium), trigger: restTimerHaptics ? controller.prPulse : 0)
+        .sensoryFeedback(.success, trigger: restTimerHaptics ? controller.prCelebration?.id : nil)
+        .overlay(alignment: .top) {
+            if let celebration = controller.prCelebration {
+                PRCelebrationBanner(celebration: celebration, unit: unit, accent: accent)
+                    .padding(.top, 6)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .task(id: celebration.id) {
+                        try? await Task.sleep(nanoseconds: 3_800_000_000)
+                        guard !Task.isCancelled else { return }
+                        withAnimation(.easeOut(duration: 0.3)) {
+                            if controller.prCelebration?.id == celebration.id { controller.prCelebration = nil }
+                        }
+                    }
+            }
+        }
+        .animation(.spring(response: 0.45, dampingFraction: 0.8), value: controller.prCelebration)
         .onChange(of: controller.restCompletedPulse) { _, pulse in
             if pulse > 0 {
                 RestTimerSound.play()
