@@ -26,7 +26,7 @@ targets:
         PRODUCT_NAME: Workout
         PRODUCT_MODULE_NAME: WorkoutApp
         MARKETING_VERSION: "1.2"
-        CURRENT_PROJECT_VERSION: "2"
+        CURRENT_PROJECT_VERSION: "3"
         CODE_SIGN_ENTITLEMENTS: WorkoutApp.entitlements
         CODE_SIGN_STYLE: Automatic
         TARGETED_DEVICE_FAMILY: "1"
