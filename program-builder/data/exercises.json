@@ -1895,5 +1895,271 @@
     "equipment": "bodyweight",
     "image": "ab-wheel.jpg",
     "cues": "Roll out only as far as you can keep a braced, slightly rounded torso."
+  },
+  {
+    "id": "pendulum-squat",
+    "name": "Pendulum Squat",
+    "category": "Legs",
+    "primary": [
+      "Quadriceps",
+      "Glutes"
+    ],
+    "secondary": [],
+    "equipment": "machine",
+    "image": "pendulum-squat.jpg",
+    "cues": "Shoulders under the pads, feet planted. Sit deep along the arc with control and drive up without locking out hard."
+  },
+  {
+    "id": "single-leg-romanian-deadlift",
+    "name": "Single Leg Romanian Deadlift",
+    "category": "Legs",
+    "primary": [
+      "Hamstrings",
+      "Glutes"
+    ],
+    "secondary": [
+      "Erectors",
+      "Core & Abs"
+    ],
+    "equipment": "dumbbell",
+    "image": "single-leg-romanian-deadlift.jpg",
+    "cues": "Hinge at the hip over one leg, trailing leg reaching back for balance. Keep the hips square and the weight close."
+  },
+  {
+    "id": "decline-bench-press",
+    "name": "Decline Bench Press",
+    "category": "Push",
+    "primary": [
+      "Chest"
+    ],
+    "secondary": [
+      "Triceps",
+      "Anterior Delts"
+    ],
+    "equipment": "barbell",
+    "image": "decline-bench-press.png",
+    "cues": "Lock the legs under the pads and lower to the lower chest. Press up and slightly back toward the rack."
+  },
+  {
+    "id": "smith-machine-bench-press",
+    "name": "Smith Machine Bench Press",
+    "category": "Push",
+    "primary": [
+      "Chest"
+    ],
+    "secondary": [
+      "Triceps",
+      "Anterior Delts"
+    ],
+    "equipment": "machine",
+    "image": "smith-machine-bench-press.jpg",
+    "cues": "Set the bar path over the nipple line. Lower under control and press without bouncing off the safety catches."
+  },
+  {
+    "id": "machine-press",
+    "name": "Machine Press",
+    "category": "Push",
+    "primary": [
+      "Chest"
+    ],
+    "secondary": [
+      "Triceps",
+      "Anterior Delts"
+    ],
+    "equipment": "machine",
+    "image": "machine-press.jpg",
+    "cues": "Set the seat so the handles line up with mid-chest. Shoulder blades back, press smoothly, and don\u2019t let the shoulders roll forward."
+  },
+  {
+    "id": "dip-machine",
+    "name": "Dip Machine",
+    "category": "Push",
+    "primary": [
+      "Chest",
+      "Triceps"
+    ],
+    "secondary": [
+      "Anterior Delts"
+    ],
+    "equipment": "machine",
+    "image": "dip-machine.jpeg",
+    "cues": "Set the seat so the handles line up under the shoulders. Lean forward for more chest; stay upright for triceps."
+  },
+  {
+    "id": "machine-row",
+    "name": "Machine Row",
+    "category": "Pull",
+    "primary": [
+      "Lats",
+      "Rhomboids"
+    ],
+    "secondary": [
+      "Biceps",
+      "Posterior Delts"
+    ],
+    "equipment": "machine",
+    "image": "machine-row.png",
+    "cues": "Chest on the pad, set the shoulder blades, then pull the handles to the ribs. Pause and control the stretch; don\u2019t yank with the lower back."
+  },
+  {
+    "id": "inverted-row",
+    "name": "Inverted Row",
+    "category": "Pull",
+    "primary": [
+      "Lats",
+      "Rhomboids"
+    ],
+    "secondary": [
+      "Biceps",
+      "Posterior Delts"
+    ],
+    "equipment": "bodyweight",
+    "image": "inverted-row.jpg",
+    "cues": "Body straight from a bar or rings, chest to the bar. Keep the hips up; don\u2019t let them sag."
+  },
+  {
+    "id": "assisted-pull-up",
+    "name": "Assisted Pull-Up",
+    "category": "Pull",
+    "primary": [
+      "Lats"
+    ],
+    "secondary": [
+      "Biceps",
+      "Rhomboids"
+    ],
+    "equipment": "machine",
+    "image": "assisted-pull-up.jpg",
+    "cues": "Set the counterweight so the last rep or two is hard, not free. Dead hang to chin over the bar."
+  },
+  {
+    "id": "assisted-dip",
+    "name": "Assisted Dip",
+    "category": "Push",
+    "primary": [
+      "Chest",
+      "Triceps"
+    ],
+    "secondary": [
+      "Anterior Delts"
+    ],
+    "equipment": "machine",
+    "image": "assisted-dip.jpg",
+    "cues": "Log the assistance, not your weight: less assistance is harder. Shoulders down, lean forward for chest, and don\u2019t dump into the joints."
+  },
+  {
+    "id": "hip-internal-rotation",
+    "name": "Hip Internal Rotation",
+    "category": "Legs",
+    "primary": [
+      "Adductors"
+    ],
+    "secondary": [
+      "Glutes"
+    ],
+    "equipment": "bodyweight",
+    "pattern": "Other Isolation",
+    "image": "hip-internal-rotation.jpg",
+    "cues": "Seated or lying, knee fixed. Rotate the lower leg outward so the thigh turns in at the hip. Slow and controlled, no pelvis shift."
+  },
+  {
+    "id": "hip-external-rotation",
+    "name": "Hip External Rotation",
+    "category": "Legs",
+    "primary": [
+      "Glutes"
+    ],
+    "secondary": [
+      "Abductors"
+    ],
+    "equipment": "bodyweight",
+    "pattern": "Other Isolation",
+    "image": "hip-external-rotation.jpg",
+    "cues": "Seated or lying, knee fixed. Rotate the lower leg inward so the thigh turns out at the hip. Keep the pelvis still."
+  },
+  {
+    "id": "shoulder-internal-rotation",
+    "name": "Shoulder Internal Rotation",
+    "category": "Push",
+    "primary": [
+      "Anterior Delts"
+    ],
+    "secondary": [
+      "Lats",
+      "Chest"
+    ],
+    "equipment": "functionalTrainer",
+    "pattern": "Other Isolation",
+    "image": "shoulder-internal-rotation.png",
+    "cues": "Elbow pinned at your side, bent 90\u00b0. Rotate the forearm across the belly with light load; keep the shoulder down."
+  },
+  {
+    "id": "shoulder-external-rotation",
+    "name": "Shoulder External Rotation",
+    "category": "Pull",
+    "primary": [
+      "Posterior Delts"
+    ],
+    "secondary": [
+      "Rhomboids"
+    ],
+    "equipment": "functionalTrainer",
+    "pattern": "Accessory",
+    "image": "shoulder-external-rotation.jpg",
+    "cues": "Elbow pinned at your side, bent 90\u00b0. Rotate the forearm outward with light load; don\u2019t shrug or let the elbow drift."
+  },
+  {
+    "id": "preacher-curl-machine",
+    "name": "Preacher Curl Machine",
+    "category": "Pull",
+    "primary": [
+      "Biceps"
+    ],
+    "secondary": [],
+    "equipment": "machine",
+    "image": "preacher-curl-machine.jpg",
+    "cues": "Upper arms pinned to the pad. Curl through a full range and lower slowly; don\u2019t hyperextend the elbows."
+  },
+  {
+    "id": "turkish-get-up",
+    "name": "Turkish Get-Up",
+    "category": "Core",
+    "primary": [
+      "Core & Abs"
+    ],
+    "secondary": [
+      "Anterior Delts",
+      "Glutes",
+      "Quadriceps"
+    ],
+    "equipment": "kettlebell",
+    "pattern": "Carry",
+    "image": "turkish-get-up.jpg",
+    "cues": "Press the bell up and keep your eyes on it through every step from floor to standing. Move slow and deliberate, not rushed."
+  },
+  {
+    "id": "ab-crunch-machine",
+    "name": "Ab Crunch Machine",
+    "category": "Core",
+    "primary": [
+      "Core & Abs"
+    ],
+    "secondary": [],
+    "equipment": "machine",
+    "image": "ab-crunch-machine.jpg",
+    "cues": "Round the spine to shorten the abs rather than just pulling the handles down. Control the return."
+  },
+  {
+    "id": "russian-twist",
+    "name": "Russian Twist",
+    "category": "Core",
+    "primary": [
+      "Core & Abs"
+    ],
+    "secondary": [],
+    "equipment": "bodyweight",
+    "pattern": "Rotation",
+    "image": "russian-twist.jpg",
+    "cues": "Lean back with feet up or grounded, rotate the torso side to side. Move slow; don\u2019t just swing the arms."
   }
 ]
