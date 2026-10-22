@@ -121,6 +121,40 @@ Assemble rotating programs from the app's exercise catalog, see muscle balance a
 
 ---
 
+## Path and purpose
+
+| Path | Purpose |
+|---|---|
+| `WorkoutApp/App/` | App entry and `RootTabView` |
+| `WorkoutApp/Features/` | Screens by area: Home, Workout, Session, Program, Measurements, Running, CheckIn, VBT (bar speed), ActivityDetail, Info, Settings |
+| `WorkoutApp/Analytics/` | Pure analytics: estimated 1RM, volume, PR detection, deload and train-today advisors, program cycle stats, check-in insights |
+| `WorkoutApp/Services/` | Rest timer, HealthKit, progression hints, stress calculator, PR tracker, Watch and widget sync, backup/export, program template import |
+| `WorkoutApp/Models/` | SwiftData models and the exercise catalog |
+| `WorkoutApp/Shared/` | Plate calculator, formatters, shared UI, and the widget snapshot / rest-timer attributes shared with extensions |
+| `WorkoutApp/Theme/` | Accent and appearance theming |
+| `VIGOR Watch App Watch App/` | watchOS companion: logging UI and `WatchSession` |
+| `WorkoutWidgets/` | Rest-timer Live Activity, StandBy and Lock Screen widgets |
+| `WorkoutAppTests/`, `WorkoutAppUITests/` | Unit tests (analytics, JSON round-trips, contract, SwiftData) and UI tests |
+| `contract/` | JSON schema and fixture for the iOS ↔ Program Builder program template |
+| `program-builder/` | Desktop static site that builds programs and exports template JSON |
+| `portal/` | Coach Portal: static JS site that analyzes an exported client file |
+| `website/` | Marketing/demo site with the app screenshots |
+| `docs/` | `ARCHITECTURE.md` and screenshots |
+| `project.yml` | XcodeGen spec |
+
+## Design patterns
+
+- **Pure analytics layer.** 1RM, volume, PRs and advisors are functions over plain values, so they are unit-tested without UI or
+  a database, and the same stress model is reimplemented for the portal so numbers match.
+- **Schema-defined contract.** Programs move between the builder and the app through `contract/program-template.schema.json`,
+  and a fixture test keeps both sides honest.
+- **Snapshot for extensions.** Widgets and the Watch receive small snapshots (`WidgetSnapshot`, `WatchSessionSync`), not the
+  SwiftData store.
+- **SwiftData as single source of truth** on the phone; the Watch does not keep a second copy.
+- **Services as seams to the system.** HealthKit, rest timer, reminders and backup sit behind service types the features call.
+- **Static, build-free web tools.** The builder and portal are vanilla JS with Chart.js and run from any static host.
+- **Local-first privacy.** Sessions stay on device unless the user turns on writing workouts to Apple Health.
+
 ## Built with
 
 SwiftUI · SwiftData · Swift Charts · MapKit · HealthKit · WidgetKit. Vanilla JS and Chart.js for the web parts.
