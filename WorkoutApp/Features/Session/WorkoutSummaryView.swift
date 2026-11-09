@@ -44,7 +44,7 @@ struct WorkoutSummaryView: View {
                 .foregroundStyle(textPrimary)
             HStack(spacing: 12) {
                 Label(Formatters.shortDate.string(from: model.date), systemImage: "calendar")
-                Label(Formatters.duration(model.durationSeconds), systemImage: "clock")
+                Label(Formatters.workoutDuration(model.durationSeconds), systemImage: "clock")
             }
             .font(.subheadline)
             .foregroundStyle(textSecondary)

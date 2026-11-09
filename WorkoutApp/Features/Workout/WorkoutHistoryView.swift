@@ -145,7 +145,7 @@ struct WorkoutSessionRow: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text(Formatters.duration(session.durationSeconds))
+                Text(Formatters.workoutDuration(session.durationSeconds))
                     .font(.subheadline.monospacedDigit())
                     .foregroundStyle(.primary)
                 Text("\(setCount) sets · \(Formatters.compactNumber(unit.fromKg(totalVolumeKg))) \(unit.rawValue)")
@@ -179,7 +179,7 @@ struct WorkoutSessionDetailView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     row("Day", model.dayName)
                     row("Date", Formatters.shortDate.string(from: model.date))
-                    row("Duration", Formatters.duration(model.durationSeconds))
+                    row("Duration", Formatters.workoutDuration(model.durationSeconds))
                     row("Sets", "\(model.totalSets)")
                     row(
                         "Volume",

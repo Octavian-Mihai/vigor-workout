@@ -107,6 +107,16 @@ struct RootTabView: View {
                 .tint(accent)
             }
         }
+        .sheet(isPresented: $sessionStore.showStalePrompt) {
+            if let controller = sessionStore.controller {
+                StaleWorkoutSheet(
+                    controller: controller,
+                    onSave: { seconds in sessionStore.saveStale(context: modelContext, durationSeconds: seconds) },
+                    onContinue: { sessionStore.continueStale() },
+                    onDiscard: { sessionStore.discard() }
+                )
+            }
+        }
         .overlay(alignment: .bottom) {
             if sessionStore.isMinimized, let controller = sessionStore.controller {
                 ResumeSessionPill(
@@ -126,13 +136,20 @@ struct RootTabView: View {
             }
         }
         .task {
+            sessionStore.restoreIfNeeded(context: modelContext)
+        }
+        .task {
             if health.isAvailable {
                 await health.requestAndLoad()
             }
             refreshWidgetSnapshot()
         }
         .onChange(of: scenePhase) { _, phase in
+            if phase == .background {
+                sessionStore.controller?.persistNow()
+            }
             if phase == .active {
+                sessionStore.checkStale()
                 refreshWidgetSnapshot()
                 if let controller = sessionStore.controller, controller.timerRunning {
                     if RestTimerService.shared.syncFromWallClock() {
