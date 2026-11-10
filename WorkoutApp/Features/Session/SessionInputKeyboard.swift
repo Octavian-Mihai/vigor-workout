@@ -184,7 +184,10 @@ struct SessionInputKeyboard: View {
                     .background(theme.mutedFill)
                     .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
                     .foregroundStyle(.primary)
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
             }
+            .accessibilityLabel("Delete")
             .buttonStyle(.pressable)
             .frame(maxWidth: .infinity)
             .frame(height: rowHeight)
@@ -251,7 +254,11 @@ struct SessionInputKeyboard: View {
                             .frame(width: 24, height: 24)
                             .background(theme.mutedFill)
                             .clipShape(Circle())
+                            .padding(10)
+                            .contentShape(Rectangle())
+                            .padding(-10)
                     }
+                    .accessibilityLabel("Decrease bar weight")
                     .buttonStyle(.pressable)
                     Text("Bar \(Formatters.trimmedNumber(baseWeight))")
                         .font(.caption2.monospacedDigit().weight(.semibold))
@@ -265,7 +272,11 @@ struct SessionInputKeyboard: View {
                             .frame(width: 24, height: 24)
                             .background(theme.mutedFill)
                             .clipShape(Circle())
+                            .padding(10)
+                            .contentShape(Rectangle())
+                            .padding(-10)
                     }
+                    .accessibilityLabel("Increase bar weight")
                     .buttonStyle(.pressable)
                 }
             }

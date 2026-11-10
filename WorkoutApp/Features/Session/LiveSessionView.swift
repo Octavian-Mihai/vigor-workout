@@ -1173,6 +1173,9 @@ struct SessionExerciseCard: View {
                                 .frame(width: 32, height: 32)
                                 .background(accent.opacity(0.12))
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .padding(6)
+                                .contentShape(Rectangle())
+                                .padding(-6)
                         }
                         .buttonStyle(.plain)
                         .layoutPriority(1)
@@ -1217,6 +1220,9 @@ struct SessionExerciseCard: View {
                                 .frame(width: 32, height: 32)
                                 .background(accent.opacity(0.12))
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .padding(6)
+                                .contentShape(Rectangle())
+                                .padding(-6)
                         }
                         .layoutPriority(1)
                         .accessibilityLabel("Exercise actions")
@@ -1550,7 +1556,7 @@ private struct SetGridRow: View {
                     .clipShape(Circle())
                 if isPR {
                     Text("PR")
-                        .font(.system(size: 8, weight: .bold))
+                        .font(.caption2.weight(.bold))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 4)
                         .padding(.vertical, 2)
