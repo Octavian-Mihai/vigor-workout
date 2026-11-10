@@ -105,7 +105,10 @@ struct FilterInputKeyboard: View {
                     .background(theme.mutedFill)
                     .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
                     .foregroundStyle(.primary)
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
             }
+            .accessibilityLabel("Delete")
             .buttonStyle(.pressable)
             .frame(maxWidth: .infinity)
             .frame(height: rowHeight)

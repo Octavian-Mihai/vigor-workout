@@ -30,8 +30,9 @@ struct TrendsDetailView: View {
     }
 
     private var averageDuration: Int {
-        guard !finished.isEmpty else { return 0 }
-        return finished.reduce(0) { $0 + $1.durationSeconds } / finished.count
+        let timed = finished.filter { $0.durationSeconds > 0 }
+        guard !timed.isEmpty else { return 0 }
+        return timed.reduce(0) { $0 + $1.durationSeconds } / timed.count
     }
 
     private var streak: Int {

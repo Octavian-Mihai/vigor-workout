@@ -3,7 +3,7 @@ import SwiftData
 import Combine
 import UIKit
 
-struct DraftExercise: Identifiable {
+struct DraftExercise: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String
     var primaryMuscles: [String]
@@ -40,17 +40,19 @@ struct DraftExercise: Identifiable {
     }
 }
 
-struct DraftSet: Identifiable {
+struct DraftSet: Identifiable, Codable, Equatable {
     let id: UUID
     var weightKg: Double
     var reps: Int
     var rir: Int
+    var loggedAt: Date
 
-    init(id: UUID = UUID(), weightKg: Double, reps: Int, rir: Int) {
+    init(id: UUID = UUID(), weightKg: Double, reps: Int, rir: Int, loggedAt: Date = Date()) {
         self.id = id
         self.weightKg = weightKg
         self.reps = reps
         self.rir = rir
+        self.loggedAt = loggedAt
     }
 }
 
@@ -84,7 +86,7 @@ enum SessionField: Hashable {
     }
 }
 
-struct ExerciseDraft: Equatable {
+struct ExerciseDraft: Equatable, Codable {
     var weightText: String = ""
     var repsText: String = "8"
     var rir: Int = 3
@@ -167,6 +169,7 @@ final class SessionController: ObservableObject {
             self.exercises = []
             self.drafts = [:]
         }
+        startAutosave()
     }
 
     init(from session: WorkoutSession, defaultRest: Int = 90, restTimer: RestTimerService? = nil) {
@@ -203,6 +206,78 @@ final class SessionController: ObservableObject {
         }
         self.exercises = list
         self.drafts = Dictionary(uniqueKeysWithValues: list.map { ($0.id, ExerciseDraft()) })
+        startAutosave()
+    }
+
+    /// Rebuilds a controller from a snapshot saved by a previous app run.
+    init(restoring snapshot: ActiveWorkoutSnapshot, program: Program?, programDay: ProgramDay?, restTimer: RestTimerService? = nil) {
+        self.program = program
+        self.programDay = programDay
+        self.isEmpty = snapshot.isEmpty
+        self.originalNames = snapshot.originalNames
+        self.restTimer = restTimer ?? RestTimerService.shared
+        self.restDuration = snapshot.restDuration
+        self.restRemaining = snapshot.restDuration
+        self.startedAt = snapshot.startedAt
+        self.focusedField = nil
+        self.exercises = snapshot.exercises
+        self.drafts = snapshot.drafts
+        self.barWeightOverrides = snapshot.barWeightOverrides
+        self.prSetIDs = snapshot.prSetIDs
+        self.lastActivityAt = snapshot.lastActivityAt
+        self.lastSavedContent = ActiveWorkoutSnapshot.Content(exercises: snapshot.exercises, drafts: snapshot.drafts)
+        startAutosave()
+    }
+
+    /// Last time the user changed anything in the workout (sets, exercises, inputs).
+    private(set) var lastActivityAt = Date()
+    private var lastSavedContent: ActiveWorkoutSnapshot.Content?
+    private var autosaveCancellable: AnyCancellable?
+
+    func startAutosave() {
+        autosaveCancellable = objectWillChange
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+            .sink { [weak self] _ in self?.persistNow() }
+        persistNow()
+    }
+
+    /// Writes the workout to disk. Only bumps `lastActivityAt` when the content really changed,
+    /// so the ticking rest timer neither counts as activity nor rewrites the file.
+    func persistNow() {
+        let content = ActiveWorkoutSnapshot.Content(exercises: exercises, drafts: drafts)
+        guard content != lastSavedContent else { return }
+        if lastSavedContent != nil { lastActivityAt = Date() }
+        lastSavedContent = content
+        ActiveWorkoutPersistence.save(snapshot())
+    }
+
+    func snapshot() -> ActiveWorkoutSnapshot {
+        ActiveWorkoutSnapshot(
+            startedAt: startedAt,
+            lastActivityAt: lastActivityAt,
+            programUUID: program?.uuid,
+            programDayUUID: programDay?.uuid,
+            isEmpty: isEmpty,
+            originalNames: originalNames,
+            restDuration: restDuration,
+            exercises: exercises,
+            drafts: drafts,
+            barWeightOverrides: barWeightOverrides,
+            prSetIDs: prSetIDs
+        )
+    }
+
+    /// Stops autosaving and removes the saved copy (the workout was saved or discarded).
+    func endPersistence() {
+        autosaveCancellable = nil
+        ActiveWorkoutPersistence.clear()
+    }
+
+    /// Restarts the workout clock from now (used when continuing a forgotten workout).
+    func restartClock() {
+        startedAt = Date()
+        lastActivityAt = Date()
+        ActiveWorkoutPersistence.save(snapshot())
     }
 
     var loggedSetCount: Int {
@@ -934,35 +1009,14 @@ struct LiveSessionView: View {
     }
 
     private func finish() {
-        let session = WorkoutSession(
-            startDate: controller.startedAt,
-            source: controller.isEmpty ? SessionSource.empty : SessionSource.programmed,
-            programUUID: controller.program?.uuid,
-            programDayIndex: controller.programDay.map { day in
-                controller.program?.orderedDays.firstIndex(where: { $0.uuid == day.uuid })
-            } ?? nil,
-            programDayName: controller.programDay?.name
+        let now = Date()
+        let session = WorkoutSaver.save(
+            controller: controller,
+            context: modelContext,
+            durationSeconds: max(Int(now.timeIntervalSince(controller.startedAt)), 1),
+            endDate: now
         )
-        session.endDate = Date()
-        session.durationSeconds = max(Int(Date().timeIntervalSince(controller.startedAt)), 1)
-        modelContext.insert(session)
-
-        for exercise in controller.exercises {
-            for set in exercise.logged {
-                let log = SetLog(
-                    exerciseName: exercise.name,
-                    primaryMuscles: exercise.primaryMuscles,
-                    secondaryMuscles: exercise.secondaryMuscles,
-                    weight: set.weightKg,
-                    reps: set.reps,
-                    rir: set.rir,
-                    targetReps: exercise.targetReps
-                )
-                log.session = session
-                modelContext.insert(log)
-            }
-        }
-        try? modelContext.save()
+        controller.endPersistence()
 
         if writeStrengthToHealthKit {
             let start = session.startDate
@@ -1119,6 +1173,9 @@ struct SessionExerciseCard: View {
                                 .frame(width: 32, height: 32)
                                 .background(accent.opacity(0.12))
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .padding(6)
+                                .contentShape(Rectangle())
+                                .padding(-6)
                         }
                         .buttonStyle(.plain)
                         .layoutPriority(1)
@@ -1163,6 +1220,9 @@ struct SessionExerciseCard: View {
                                 .frame(width: 32, height: 32)
                                 .background(accent.opacity(0.12))
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                .padding(6)
+                                .contentShape(Rectangle())
+                                .padding(-6)
                         }
                         .layoutPriority(1)
                         .accessibilityLabel("Exercise actions")
@@ -1496,7 +1556,7 @@ private struct SetGridRow: View {
                     .clipShape(Circle())
                 if isPR {
                     Text("PR")
-                        .font(.system(size: 8, weight: .bold))
+                        .font(.caption2.weight(.bold))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 4)
                         .padding(.vertical, 2)

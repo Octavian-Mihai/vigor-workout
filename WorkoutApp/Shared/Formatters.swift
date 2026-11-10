@@ -37,6 +37,11 @@ enum Formatters {
         return String(format: "%d:%02d", m, sec)
     }
 
+    /// Like `duration`, but shows an em dash when the length is unknown (0).
+    static func workoutDuration(_ seconds: Int) -> String {
+        seconds > 0 ? duration(seconds) : "—"
+    }
+
     static func duration(_ interval: TimeInterval) -> String {
         duration(Int(interval.rounded()))
     }

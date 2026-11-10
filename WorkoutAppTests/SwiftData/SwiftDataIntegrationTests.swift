@@ -370,3 +370,39 @@ struct SwiftDataIntegrationTests {
         #expect(days == [calendar.startOfDay(for: lifted.startDate)])
     }
 }
+
+@Suite("Active workout persistence", .serialized)
+@MainActor
+struct ActiveWorkoutPersistenceTests {
+    @Test("an in-progress workout survives a restart and is saved without a duration")
+    func restoreAndSaveForgottenWorkout() throws {
+        ActiveWorkoutPersistence.clear()
+        defer { ActiveWorkoutPersistence.clear() }
+        let context = try makeInMemoryContext()
+
+        let original = SessionController(program: nil, programDay: nil)
+        original.exercises = [DraftExercise(name: "Squat", primaryMuscles: ["Quads"], secondaryMuscles: [])]
+        original.logSet(exerciseID: original.exercises[0].id, weightKg: 100, reps: 5, rir: 2)
+        original.persistNow()
+
+        let snapshot = try #require(ActiveWorkoutPersistence.load())
+        #expect(snapshot.exercises.first?.logged.count == 1)
+
+        // Pretend it was forgotten for two days.
+        var old = snapshot
+        old.startedAt = Date().addingTimeInterval(-48 * 3600)
+        old.lastActivityAt = old.startedAt
+        #expect(ActiveWorkoutPolicy.isStale(lastActivity: old.lastActivityAt))
+        #expect(!ActiveWorkoutPolicy.isStale(lastActivity: Date().addingTimeInterval(-3600)))
+
+        let restored = SessionController(restoring: old, program: nil, programDay: nil)
+        #expect(restored.loggedSetCount == 1)
+        let session = WorkoutSaver.save(controller: restored, context: context, durationSeconds: 0, endDate: nil)
+        #expect(session.durationSeconds == 0)
+        #expect(session.endDate == old.startedAt)
+        #expect(session.startDate == old.startedAt)
+        #expect(session.sets.count == 1)
+        restored.endPersistence()
+        #expect(ActiveWorkoutPersistence.load() == nil)
+    }
+}
